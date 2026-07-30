@@ -1,0 +1,57 @@
+name: 📖 Terim düzeltmesi
+description: Bir terim yanlış, eksik veya yanıltıcı anlatılmış
+title: "[Terim] "
+labels: ["terim", "düzeltme"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Bu, rootline'ın alabileceği en değerli geri bildirim. Yanlış öğretilen
+        bir terim, hiç öğretilmemiş olmaktan kötüdür.
+
+  - type: input
+    id: terim
+    attributes:
+      label: Hangi terim?
+      placeholder: "Anycast DNS"
+    validations:
+      required: true
+
+  - type: textarea
+    id: mevcut
+    attributes:
+      label: Şu an ne yazıyor?
+      description: İlgili cümleyi olduğu gibi kopyalayın.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tur
+    attributes:
+      label: Sorun ne?
+      options:
+        - Teknik olarak yanlış
+        - Doğru ama eksik / yarım anlatılmış
+        - Doğru ama yanıltıcı bir izlenim bırakıyor
+        - Örnek gerçek hayatla uyuşmuyor
+        - Yazım veya dil hatası
+    validations:
+      required: true
+
+  - type: textarea
+    id: dogrusu
+    attributes:
+      label: Doğrusu ne olmalı?
+      description: Mümkünse önerdiğiniz metni yazın.
+    validations:
+      required: true
+
+  - type: textarea
+    id: kaynak
+    attributes:
+      label: Kaynak
+      description: >-
+        RFC, satıcı belgesi, standart metni veya sahadaki deneyiminiz — hangisi
+        varsa. Zorunlu değil, ama düzeltmeyi hızlandırır.
+    validations:
+      required: false

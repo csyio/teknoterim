@@ -1,0 +1,57 @@
+name: ➕ Terim önerisi
+description: Sahada karşınıza çıkan ama rootline'da olmayan bir terim
+title: "[Yeni terim] "
+labels: ["terim", "öneri"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        rootline'ın kapsamı: MSP/MSSP, hosting, alan adı/DNS ve ağ güvenliği.
+        Bu alanlarda çalışan birinin karşısına çıkan her terim adaydır.
+
+  - type: input
+    id: terim
+    attributes:
+      label: Terim
+      placeholder: "BIMI"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kategori
+    attributes:
+      label: Hangi kategoriye girer?
+      options:
+        - Alan adı / DNS
+        - Hosting / sunucu
+        - Ağ
+        - Güvenlik
+        - E-posta
+        - Sertifika / PKI
+        - MSP / iş süreçleri
+        - Emin değilim
+    validations:
+      required: true
+
+  - type: textarea
+    id: nerede
+    attributes:
+      label: Nerede karşınıza çıktı?
+      description: >-
+        Bir müşteri görüşmesinde mi, bir panelde mi, bir hata mesajında mı?
+        Terimin hangi işte karşınıza çıktığı, açıklamanın nasıl yazılacağını
+        belirler.
+      placeholder: >-
+        Bir müşterinin e-postaları Gmail'de spam'e düşüyordu, çözüm ararken
+        DMARC'ın yanında sürekli bununla karşılaştım ama ne olduğunu
+        anlamamıştım.
+    validations:
+      required: true
+
+  - type: textarea
+    id: bildiginiz
+    attributes:
+      label: Terim hakkında bildikleriniz
+      description: Bilmiyorsanız boş bırakabilirsiniz — önermeniz yeterli.
+    validations:
+      required: false

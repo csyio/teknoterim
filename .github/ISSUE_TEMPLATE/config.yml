@@ -1,0 +1,15 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 🌐 rootline'ı aç
+    url: https://rootline.cansoykanyilmaz.com
+    about: Uygulamanın kendisi burada — kurulum veya kayıt gerekmez.
+
+  - name: 🔒 Güvenlik açığı bildirimi
+    url: https://github.com/csyio/rootline/security/advisories/new
+    about: >-
+      Güvenlik açığı için issue AÇMAYIN. Bu özel bildirim akışını kullanın;
+      bildiriminiz yalnızca depo sahibi tarafından görülür.
+
+  - name: 💬 Genel soru
+    url: mailto:info@cansoykanyilmaz.com
+    about: Şablonlara uymayan bir sorunuz varsa e-posta yazabilirsiniz.

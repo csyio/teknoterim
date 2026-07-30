@@ -11,6 +11,10 @@
   <a href="https://rootline.cansoykanyilmaz.com"><b>rootline.cansoykanyilmaz.com &nbsp;→</b></a>
 </p>
 
+<p align="center">
+  <b>Türkçe</b> · <a href="README.en.md">English</a>
+</p>
+
 <br>
 
 ## Nedir?
@@ -84,6 +88,34 @@ rootline sadeliği ve gizliliği bir ilke olarak benimser:
 
 Bu depo yalnızca **tanıtım ve kullanım** amaçlıdır; uygulamanın kaynak kodunu
 içermez. Kaynak kod özeldir ve halka açık değildir.
+
+<br>
+
+## Katkı ve geri bildirim
+
+Kaynak kod burada olmadığı için kod pull request'i açılamaz. Ama rootline'ın
+değeri tam olarak içeriğinin doğruluğunda, ve orada yardıma ihtiyaç var:
+
+| | |
+| :-- | :-- |
+| **Bir terim yanlış anlatılmış** | [Issue açın](../../issues/new/choose). Bu, alabileceğim en değerli geri bildirimdir — yanlış öğretilen bir terim, hiç öğretilmemiş olmaktan kötüdür. |
+| **Eksik bir terim var** | Terim önerisi şablonunu kullanın. Sahada karşınıza çıkıp da burada olmayan her terim bir eksiktir. |
+| **Bir haber özeti hatalı** | Issue açın; kaynak bağlantısını da ekleyin. |
+| **Arayüzde bir hata** | Issue açın: tarayıcı, cihaz ve ne yaptığınız yeterli. |
+
+Erişilebilirlik sorunları öncelikli ele alınır — klavye tuzağı, ekran okuyucuda
+okunmayan bir alan veya yetersiz kontrast gördüyseniz lütfen bildirin.
+
+<br>
+
+## Lisans
+
+Telif hakkı © 2026 Can Soykan Yılmaz. Tüm hakları saklıdır.
+
+rootline'ı tarayıcınızdan ücretsiz kullanabilirsiniz; terim açıklamalarını
+kendi öğrenme sürecinizde ve ekibinizi eğitirken kaynak göstererek
+kullanabilirsiniz. İçeriğin toplu kopyalanması, marka kullanımı ve yapay zekâ
+eğitimi için toplu çekim izne tabidir. Ayrıntılar: [LICENSE](LICENSE).
 
 <br>
 

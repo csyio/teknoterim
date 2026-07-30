@@ -1,0 +1,67 @@
+name: 🐞 Arayüz hatası / erişilebilirlik
+description: Uygulama beklendiği gibi çalışmıyor ya da erişilemiyor
+title: "[Hata] "
+labels: ["hata"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Erişilebilirlik sorunları öncelikli ele alınır: klavye tuzağı, ekran
+        okuyucuda okunmayan bir alan, yetersiz kontrast, `prefers-reduced-motion`
+        yok sayılması.
+
+        Bu bir **güvenlik açığı** ise bu formu kullanmayın →
+        [özel bildirim](https://github.com/csyio/rootline/security/advisories/new).
+
+  - type: dropdown
+    id: tur
+    attributes:
+      label: Sorunun türü
+      options:
+        - Arayüz hatası (bir şey çalışmıyor / bozuk görünüyor)
+        - Erişilebilirlik (klavye, ekran okuyucu, kontrast, hareket)
+        - Yanlış veri (döviz kuru, haber bağlantısı)
+        - Performans (yavaşlık, donma)
+    validations:
+      required: true
+
+  - type: input
+    id: sekme
+    attributes:
+      label: Hangi bölümde?
+      placeholder: "terimler / gündem / döviz"
+    validations:
+      required: true
+
+  - type: input
+    id: tarayici
+    attributes:
+      label: Tarayıcı ve sürüm
+      placeholder: "Safari 18.5"
+    validations:
+      required: true
+
+  - type: input
+    id: cihaz
+    attributes:
+      label: Cihaz ve işletim sistemi
+      placeholder: "iPhone 15, iOS 18.5 · veya · MacBook Air M2, macOS 15.5"
+    validations:
+      required: true
+
+  - type: textarea
+    id: adimlar
+    attributes:
+      label: Ne yaptınız, ne oldu?
+      description: Beklediğinizle olan arasındaki farkı yazın.
+    validations:
+      required: true
+
+  - type: input
+    id: yardimci-teknoloji
+    attributes:
+      label: Yardımcı teknoloji kullanıyorsanız
+      description: Erişilebilirlik bildirimlerinde yardımcı olur.
+      placeholder: "VoiceOver / NVDA / JAWS / yalnızca klavye"
+    validations:
+      required: false
