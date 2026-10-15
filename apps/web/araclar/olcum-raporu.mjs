@@ -7,7 +7,7 @@
  *   node araclar/olcum-raporu.mjs data/analytics.db 30
  *
  * Sunucuda:
- *   cd /opt/rootline && node araclar/olcum-raporu.mjs
+ *   cd /opt/teknoterim && node araclar/olcum-raporu.mjs
  *
  * Neden kendi kendine yeten bir dosya: sunucuya yalnızca derlenmiş çıktı
  * kopyalanır, TypeScript kaynakları orada bulunmaz. Bu yüzden sorgular burada
@@ -33,7 +33,7 @@ function gunMetni(an) {
   return `${yil}-${ay}-${gun}`;
 }
 
-const dbYolu = process.argv[2] ?? process.env.ROOTLINE_OLCUM_DB ?? "data/analytics.db";
+const dbYolu = process.argv[2] ?? process.env.TEKNOTERIM_OLCUM_DB ?? "data/analytics.db";
 const gunSayisi = Number.parseInt(process.argv[3] ?? "7", 10);
 
 if (!Number.isFinite(gunSayisi) || gunSayisi < 1) {

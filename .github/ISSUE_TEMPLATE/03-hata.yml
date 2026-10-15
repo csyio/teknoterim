@@ -11,7 +11,7 @@ body:
         yok sayılması.
 
         Bu bir **güvenlik açığı** ise bu formu kullanmayın →
-        [özel bildirim](https://github.com/csyio/rootline/security/advisories/new).
+        [özel bildirim](https://github.com/csyio/teknoterim/security/advisories/new).
 
   - type: dropdown
     id: tur

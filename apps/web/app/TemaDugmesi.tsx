@@ -14,7 +14,7 @@ export function TemaDugmesi() {
     const yeni = kok.getAttribute("data-tema") === "acik" ? "koyu" : "acik";
     kok.setAttribute("data-tema", yeni);
     try {
-      localStorage.setItem("rootline-tema", yeni);
+      localStorage.setItem("teknoterim-tema", yeni);
     } catch {
       /* gizli sekmede yazılamayabilir; sorun değil */
     }

@@ -19,8 +19,8 @@ import { YENI_DURUM } from "./srs";
 
 export type Ilerleme = Record<string, Durum>;
 
-const ANAHTAR = "rootline-ilerleme";
-const OLAY = "rootline-ilerleme-degisti";
+const ANAHTAR = "teknoterim-ilerleme";
+const OLAY = "teknoterim-ilerleme-degisti";
 
 /** Sunucuda ve ilk hidrasyonda kullanılan sabit boş nesne. */
 const BOS: Ilerleme = Object.freeze({}) as Ilerleme;

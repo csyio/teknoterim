@@ -85,10 +85,10 @@ jobs:
             --exclude '*.db' --exclude '*.db-wal' --exclude '*.db-shm' \
             --exclude '.git' \
             .next/standalone/ \
-            "${{ secrets.SSH_KULLANICI }}@${{ secrets.SSH_SUNUCU }}:/opt/rootline/"
+            "${{ secrets.SSH_KULLANICI }}@${{ secrets.SSH_SUNUCU }}:/opt/teknoterim/"
 
       - name: Servisi yeniden başlat
         if: steps.kontrol.outputs.hazir == 'true'
         run: |
           ssh "${{ secrets.SSH_KULLANICI }}@${{ secrets.SSH_SUNUCU }}" \
-            'sudo systemctl restart rootline.service'
+            'sudo systemctl restart teknoterim.service'

@@ -1,10 +1,11 @@
 # Katkı rehberi
 
-Bu depo rootline'ın **kaynak kodunu içermez**; uygulamanın kodu özel bir
-depoda tutulur. Yani buraya kod pull request'i açamazsınız.
+Tekno Terim'in hem kodu hem içeriği bu depodadır ve ikisine de katkı
+açabilirsiniz. Uygulama: `apps/web/`, terim içeriği:
+`apps/web/content/terimler/`.
 
-Ama rootline'ın değeri koddan çok içeriğinde: 49 terimin doğru, anlaşılır ve
-sahadaki gerçekle uyumlu anlatılmasında. Orada yardıma ihtiyaç var.
+Ama projenin değeri koddan çok içeriğinde: 153 terimin doğru, anlaşılır ve
+sahadaki gerçekle uyumlu anlatılmasında.
 
 ## En değerli katkı: yanlış bir terim
 
@@ -19,16 +20,42 @@ gireceğini belirler.
 
 ## Eksik terim
 
-Bu alanlarda çalışırken karşınıza çıkıp da rootline'da olmayan her terim bir
-eksiktir: MSP/MSSP, hosting, alan adı/DNS, ağ güvenliği.
+Bu alanlarda çalışırken karşınıza çıkıp da Tekno Terim'de olmayan her terim bir
+eksiktir: MSP/MSSP, sunucu/hosting, alan adı/DNS, ağ güvenliği, müşteri/iş.
 
 Terim önerisi şablonunda "nerede karşınıza çıktı?" diye soruluyor. Bu alan
-merak değil: rootline'da her terim dört katmanda anlatılıyor —
-*nedir* → *ne amaçla kullanılır* → *hangi işte karşına çıkar* → *somut örnek*.
+merak değil: Tekno Terim'de her terim dört katmanda anlatılıyor —
+*nedir* → *ne amaçla kullanılır* → *hangi işte karşınıza çıkar* → *somut örnek*.
 Üçüncü katmanı ancak sizin cevabınızla yazabilirim.
 
 Terimi bilmiyor olmanız öneriyi geçersiz kılmaz. Zaten bilmediğiniz için
 öneriyorsunuz.
+
+## İçeriğe doğrudan katkı
+
+Her terim tek bir dosyadır: `apps/web/content/terimler/<slug>.md`. Bu yüzden bir
+terimi düzeltmek, tek bir dosyada küçük ve gözden geçirilebilir bir değişiklik
+olarak açılabilir — issue açmadan da doğrudan PR gönderebilirsiniz.
+
+Alanların anlamı ve kurallar (zorunlu `slug`, kategori listesi, dosya adı
+eşleşmesi) [README](../README.md#terim-eklemek) içinde.
+
+## Kod katkısı
+
+Kod da bu depoda. Küçük ve tek amaçlı değişiklikler tercih edilir:
+bir düzeltme ya da bir özellik, karışık değil.
+
+```bash
+cd apps/web
+npm install
+npm test         # birim testleri
+npm run lint
+npm run build
+```
+
+Bir değişikliğin **test, lint ve derlemeden** geçmesi beklenir; CI zaten bunları
+koşar. Yeni bir davranış ekliyorsanız yanına testini de getirin — bu projede
+testler gerçek davranışı ölçer, kapsam yüzdesini kovalamaz.
 
 ## Erişilebilirlik
 
@@ -43,19 +70,14 @@ hangi yardımcı teknolojiyi kullandığınızı da yazarsanız çok yardımcı 
 yazılır ve her kayıt orijinal habere bağlanır. Bir özetin kaynağı yanlış
 anlattığını fark ederseniz issue açın; kaynak bağlantısını da ekleyin.
 
-## Belge düzeltmesi
-
-Bu depodaki `.md` dosyalarına pull request açabilirsiniz — yazım hatası, bozuk
-bağlantı, yanlış anlaşılan bir anlatım.
-
 ## Çeviri
 
-rootline'ın Türkçe olması bilinçli bir karardır: bu alanın söz dağarcığı
+Tekno Terim'in Türkçe olması bilinçli bir karardır: bu alanın söz dağarcığı
 ezici biçimde İngilizcedir ve Türkiye'de bu işi yapanlar terimleri anlayarak
-değil, sindirerek öğrenir. rootline tam olarak o boşluğu kapatmak için var.
+değil, sindirerek öğrenir. Tekno Terim tam olarak o boşluğu kapatmak için var.
 Bu yüzden uygulamanın İngilizce sürümü planlanmıyor.
 
 ## Yanıt süresi
 
-rootline tek kişilik bir projedir; söz verilmiş bir yanıt süresi yoktur. Ama
+Tekno Terim tek kişilik bir projedir; söz verilmiş bir yanıt süresi yoktur. Ama
 her issue okunur.

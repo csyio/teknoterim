@@ -1,21 +1,16 @@
-<p align="center">
-  <img src="docs/marka/hero.svg" alt="rootline — MSP, hosting ve sunucu dünyasının terimleri" width="100%">
-</p>
+# Tekno Terim
 
-<p align="center">
-  <b>Türkçe</b> · <a href="README.en.md">English</a>
-</p>
+**Tekno Terim**, MSP/MSSP, sunucu/hosting, alan adı/DNS ve ağ güvenliği
+alanlarının terimlerini Türkçe öğreten bir uygulamadır.
 
-# rootline
+Bu sektörde çalışan biri için terimler, haberler ve araçlar dağınık kaynaklara
+yayılmıştır. Tekno Terim bunları sade, hızlı ve reklamsız tek bir yerde toplar
+— kurulum yok, hesap yok.
 
-**rootline**, MSP/MSSP, hosting, alan adı/DNS ve ağ güvenliği alanlarının
-terimlerini öğreten Türkçe bir uygulamadır.
-
-Bu sektörde çalışan biri için terimler dağınık kaynaklara yayılmıştır. rootline
-bunları sade, hızlı ve reklamsız tek bir yerde toplar — kurulum yok, hesap yok.
-
-> **Durum:** yeniden geliştirme sürecinde. Sözlük çalışıyor; gündem ve araçlar
-> sırada.
+> **Durum:** yeniden geliştirme sürecinde. Sözlük ve alıştırma bölümü çalışıyor;
+> gündem, döviz dönüştürücü ve yeni görünüm paketi sırada. Eski sürüm
+> `rootline.cansoykanyilmaz.com` adresinde duruyor ve yeni sürüm hazır olunca
+> oraya yönlendirilecek.
 
 ## Terimler nasıl anlatılır
 
@@ -31,15 +26,30 @@ Her terim dört katmanda yazılır. Bu, projenin en önemli kuralıdır:
 Yanlış öğretilen bir terim, hiç öğretilmemiş olmaktan kötüdür. Bir terim
 eksikse ya da hatalıysa bu bir **hata**, tercih değil.
 
+## Ne var içinde
+
+| | |
+| :-- | :-- |
+| **`/sozluk`** | 153 terim. Aksan duyarsız arama ve kategori süzgeci. Her terim dört katmanda anlatılır. |
+| **`/calis`** | Öğrendiklerini sınayan alıştırma. Sorular içerikten otomatik üretilir; yanlış cevap terimi geri getirir (aralıklı tekrar). İlerleme yalnızca tarayıcıda tutulur. |
+
+Kategori dağılımı: Ağ/Güvenlik 42, Sunucu/Hosting 32, MSP/MSSP 29,
+Domain/DNS 29, Müşteri/İş 21.
+
+Planlanan: **gündem** (kaynaktan kopyalanmayan, özgün Türkçe özetli haber akışı)
+ve **döviz dönüştürücü** (kurlar kendi sunucumuz üzerinden TCMB'den alınır).
+
 ## Depo yapısı
 
 ```
-apps/web/           Next.js uygulaması
-  content/terimler/ Terim içeriği (kaynağı budur)
-  app/ lib/         Sayfalar ve veri yükleyici
-infra/              Sunucu kurulumu, systemd, Caddy, dağıtım
-scripts/            İçerik göç araçları
-docs/marka/         Marka görselleri
+apps/web/               Next.js uygulaması
+  app/                  Sayfalar, API uçları, tasarım sistemi
+  content/terimler/     Terim içeriği (kaynağı budur) — 153 .md dosyası
+  lib/                  İçerik yükleyici, alıştırma, ilerleme, ölçüm
+  araclar/              Sunucuda çalışan yardımcı betikler
+infra/                  Sunucu kurulumu, systemd, Caddy, dağıtım
+scripts/                İçerik göç araçları
+docs/                   İçerik planı ve marka çalışmaları
 ```
 
 İçerik **koddan ayrıdır**: terim eklemek için uygulama koduna dokunmak
@@ -88,8 +98,12 @@ Node 22 gerekir (`.nvmrc`).
 cd apps/web
 npm install
 npm run dev      # http://localhost:3000
+npm test         # birim testleri
+npm run lint
 npm run build    # üretim derlemesi
 ```
+
+Ayrıntılar: [apps/web/README.md](apps/web/README.md).
 
 ## Yayınlama
 
@@ -99,6 +113,8 @@ Derleme GitHub Actions'ta yapılır, çıktı sunucuya kopyalanır ve servis yen
 başlatılır. Sunucuda derleme yapılmaz.
 
 ## Katkı
+
+Hem kod hem içerik katkısına açıktır: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 Sözlüğün değeri içeriğinin doğruluğundadır; en değerli katkı buradadır.
 

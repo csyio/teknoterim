@@ -1,15 +1,15 @@
 # Sunucu kurulumu
 
-Rootline, `tigin` VPS'inde (89.252.132.96) **kendi kullanıcısı** ve **kendi
+Tekno Terim, `tigin` VPS'inde (89.252.132.96) **kendi kullanıcısı** ve **kendi
 systemd servisi** ile çalışır; mevcut `csystudio.com.tr` ve
 `tigin.csystudio.com.tr` kurulumlarına dokunmaz.
 
 Sunucudaki deseni izler:
 
 ```
-/opt/rootline            → uygulama dizini (rootline kullanıcısına ait)
-rootline.service         → 127.0.0.1:8767 dinler
-Caddy                    → rootline.com.tr'yi o porta proxy'ler, SSL otomatik
+/opt/teknoterim            → uygulama dizini (teknoterim kullanıcısına ait)
+teknoterim.service         → 127.0.0.1:8767 dinler
+Caddy                    → teknoterim.com.tr'yi o porta proxy'ler, SSL otomatik
 ```
 
 Sunucuda **derleme yapılmaz** (2 GB RAM, iki canlı proje var). Derleme GitHub
@@ -19,7 +19,7 @@ Actions'ta yapılır, çıktı buraya kopyalanır.
 
 ## 1. Alan adı
 
-`rootline.com.tr` kaydını yapın ve A kaydını **89.252.132.96**'ya yönlendirin.
+`teknoterim.com.tr` kaydını yapın ve A kaydını **89.252.132.96**'ya yönlendirin.
 Caddy, DNS yayıldıktan sonra Let's Encrypt sertifikasını kendiliğinden alır.
 
 ## 2. Sunucu kurulumu (bir kez)
@@ -34,9 +34,9 @@ Betiğin yaptıkları:
 
 | | |
 |---|---|
-| `rootline` sistem kullanıcısı | `/opt/rootline` ev dizini, giriş kabuğu yok |
-| `/opt/rootline` | `2775`, setgid — dağıtım kullanıcısı yazabilir |
-| `rootline.service` | kurulur ve `enable` edilir |
+| `teknoterim` sistem kullanıcısı | `/opt/teknoterim` ev dizini, giriş kabuğu yok |
+| `/opt/teknoterim` | `2775`, setgid — dağıtım kullanıcısı yazabilir |
+| `teknoterim.service` | kurulur ve `enable` edilir |
 | `sudoers` kuralı | `codex` yalnızca bu servisi `restart/start/stop/status` edebilir |
 | Caddy bloğu | eklenir, `caddy validate` ile doğrulanır, geri alınabilir şekilde |
 
@@ -50,8 +50,8 @@ CI'nın sunucuya yazabilmesi için ayrı bir anahtar üretin (kişisel anahtarı
 kullanmayın):
 
 ```bash
-ssh-keygen -t ed25519 -C "rootline-cı-dağıtım" -f ~/.ssh/rootline_dagitim -N ""
-cat ~/.ssh/rootline_dagitim.pub   # bu satırı sunucudaki codex kullanıcısına ekleyin
+ssh-keygen -t ed25519 -C "teknoterim-cı-dağıtım" -f ~/.ssh/teknoterim_dagitim -N ""
+cat ~/.ssh/teknoterim_dagitim.pub   # bu satırı sunucudaki codex kullanıcısına ekleyin
 ```
 
 Sunucuda (`codex` kullanıcısı olarak):
@@ -70,7 +70,7 @@ Depo → Settings → Secrets and variables → Actions:
 |---|---|
 | `SSH_SUNUCU` | `89.252.132.96` |
 | `SSH_KULLANICI` | `codex` |
-| `SSH_ANAHTAR` | `~/.ssh/rootline_dagitim` **özel** anahtarının tamamı |
+| `SSH_ANAHTAR` | `~/.ssh/teknoterim_dagitim` **özel** anahtarının tamamı |
 
 ## 5. İlk yayın
 
@@ -79,10 +79,10 @@ Depo → Settings → Secrets and variables → Actions:
 Doğrulama:
 
 ```bash
-curl -I https://rootline.com.tr                 # 200 ve geçerli sertifika
-ssh tigin-codex 'systemctl status rootline'     # aktif (running)
-ssh tigin-codex 'journalctl -u rootline -n 30'  # son kayıtlar
-curl -s https://rootline.com.tr/sitemap.xml | grep -c '<url>'   # 51
+curl -I https://teknoterim.com.tr                 # 200 ve geçerli sertifika
+ssh tigin-codex 'systemctl status teknoterim'     # aktif (running)
+ssh tigin-codex 'journalctl -u teknoterim -n 30'  # son kayıtlar
+curl -s https://teknoterim.com.tr/sitemap.xml | grep -c '<url>'   # 51
 ```
 
 ---

@@ -6,7 +6,7 @@
  * İkisini aynı veritabanında tutmak, içeriği "veri" sayma eğilimi doğurur.
  *
  * Dizin: varsayılan olarak çalışma dizini altındaki `data/`. Sunucuda
- * `/opt/rootline/data` olur — CI dağıtımı bu dizini bilinçli olarak korur
+ * `/opt/teknoterim/data` olur — CI dağıtımı bu dizini bilinçli olarak korur
  * (bkz. .github/workflows/yayinla.yml). Yerel geliştirmede de aynı yol geçerli.
  */
 
@@ -21,7 +21,7 @@ import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { gunMetni, konukAnahtari } from "./olcum";
 
 const VERI_DIZINI =
-  process.env.ROOTLINE_VERI ?? path.join(process.cwd(), "data");
+  process.env.TEKNOTERIM_VERI ?? path.join(process.cwd(), "data");
 
 /** Tek satır = bir sayfa görüntülemesi. Kişiyi tanımlayan hiçbir alan yok. */
 export const olay = sqliteTable(

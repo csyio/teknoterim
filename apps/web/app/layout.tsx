@@ -26,7 +26,7 @@ export const metadata: Metadata = {
  * Tema tercihini ilk boyamadan önce uygular. Aksi halde koyu tema seçmiş
  * kullanıcı bir an aydınlık sayfa görür ("tema sıçraması").
  */
-const TEMA_KOMUTU = `(function(){try{var t=localStorage.getItem('rootline-tema');if(t==='acik'||t==='koyu'){document.documentElement.setAttribute('data-tema',t)}}catch(e){}})();`;
+const TEMA_KOMUTU = `(function(){try{var t=localStorage.getItem('teknoterim-tema');if(t==='acik'||t==='koyu'){document.documentElement.setAttribute('data-tema',t)}}catch(e){}})();`;
 
 /**
  * Telif yılı. `new Date()` prerender sırasında "değişken değer" sayılır;

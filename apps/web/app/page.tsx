@@ -40,7 +40,7 @@ export default function AnaSayfa() {
         <h1>Sektörün terimleri, tek yerde.</h1>
         <p className="giris-aciklama">
           Bu alanda çalışan biri için terimler, haberler ve araçlar dağınık kaynaklara
-          yayılmıştır. rootline bunları sade, hızlı ve reklamsız tek bir yerde
+          yayılmıştır. Tekno Terim bunları sade, hızlı ve reklamsız tek bir yerde
           toplar — kurulum yok, hesap yok.
         </p>
         <Link className="dugme" href="/sozluk">

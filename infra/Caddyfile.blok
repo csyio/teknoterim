@@ -1,4 +1,4 @@
-# rootline — Caddy site bloğu
+# teknoterim — Caddy site bloğu
 #
 # /etc/caddy/Caddyfile dosyasının SONUNA eklenir. Mevcut csystudio.com.tr ve
 # tigin.csystudio.com.tr bloklarına dokunulmaz.
@@ -11,8 +11,8 @@
 # Alan adının A kaydı 89.252.132.96'yı göstermeye başlayınca Caddy
 # Let's Encrypt sertifikasını kendiliğinden alır.
 
-# rootline — Türkçe MSP/hosting/DNS sözlüğü (127.0.0.1:8767)
-rootline.com.tr {
+# teknoterim — Türkçe MSP/hosting/DNS sözlüğü (127.0.0.1:8767)
+teknoterim.com.tr {
 	encode zstd gzip
 	reverse_proxy 127.0.0.1:8767
 	header -Server

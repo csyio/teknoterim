@@ -21,7 +21,7 @@ import {
   yolGecerliMi,
 } from "./olcum.ts";
 
-const SITE = "https://rootline.com.tr";
+const SITE = "https://teknoterim.com.tr";
 
 test("gün Türkiye saatine göre hesaplanır", () => {
   // 2026-10-15 00:30 TR = 2026-10-14 21:30 UTC → hâlâ 15'i
@@ -57,11 +57,11 @@ test("yol doğrulaması yalnızca site içi adresleri kabul eder", () => {
 });
 
 test("kendi alan adımız kaynak sayılmaz", () => {
-  assert.equal(icGezinmeMi("rootline.com.tr", SITE), true);
-  assert.equal(icGezinmeMi("www.rootline.com.tr", SITE), true);
+  assert.equal(icGezinmeMi("teknoterim.com.tr", SITE), true);
+  assert.equal(icGezinmeMi("www.teknoterim.com.tr", SITE), true);
   assert.equal(icGezinmeMi("google.com", SITE), false);
   assert.equal(
-    icGezinmeMi("rootline.com.tr.example.com", SITE),
+    icGezinmeMi("teknoterim.com.tr.example.com", SITE),
     false,
     "alan adı benzerliği yeterli değil: son ek kontrolü şart"
   );
@@ -70,7 +70,7 @@ test("kendi alan adımız kaynak sayılmaz", () => {
 test("kaynak yalnızca alan adı olarak saklanır", () => {
   assert.equal(kaynakAlani("", SITE), null);
   assert.equal(kaynakAlani("bozuk-adres", SITE), null);
-  assert.equal(kaynakAlani("https://rootline.com.tr/sozluk", SITE), null, "iç gezinme");
+  assert.equal(kaynakAlani("https://teknoterim.com.tr/sozluk", SITE), null, "iç gezinme");
   assert.equal(kaynakAlani("javascript:alert(1)", SITE), null);
 
   // Arama sorgusu kişisel veri taşıyabilir; saklanan yalnızca alan adıdır.

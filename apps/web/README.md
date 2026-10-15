@@ -1,4 +1,4 @@
-# rootline — web uygulaması
+# Tekno Terim — web uygulaması
 
 Next.js 16 (App Router, TypeScript) ile yazılmıştır. İçerik `content/terimler/`
 altındaki Markdown dosyalarından okunur ve derleme zamanında statik sayfalara
@@ -54,7 +54,7 @@ npm run olcum              # son 7 gün
 npm run olcum -- 30        # son 30 gün
 ```
 
-Sunucuda: `cd /opt/rootline && node araclar/olcum-raporu.mjs`.
+Sunucuda: `cd /opt/teknoterim && node araclar/olcum-raporu.mjs`.
 
 Rapor aracı bilinçli olarak kendi kendine yeten bir dosyadır: sunucuya yalnızca
 derlenmiş çıktı kopyalanır, TypeScript kaynakları orada bulunmaz.

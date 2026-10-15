@@ -1,24 +1,24 @@
 #!/usr/bin/env bash
 #
-# rootline — sunucu kurulum betiği (bir kez çalıştırılır)
+# teknoterim — sunucu kurulum betiği (bir kez çalıştırılır)
 #
 #   sudo bash infra/kur.sh
 #
 # Yaptıkları:
-#   1. "rootline" sistem kullanıcısı + /opt/rootline dizini
-#   2. systemd birimi (rootline.service)
+#   1. "teknoterim" sistem kullanıcısı + /opt/teknoterim dizini
+#   2. systemd birimi (teknoterim.service)
 #   3. codex kullanıcısına sınırlı dağıtım yetkisi (rsync için grup, restart için sudo)
-#   4. Caddy'ye rootline.com.tr bloğu (doğrulayıp yeniden yükler)
+#   4. Caddy'ye teknoterim.com.tr bloğu (doğrulayıp yeniden yükler)
 #
 # Mevcut csystudio.com.tr ve tigin.csystudio.com.tr kurulumlarına dokunmaz.
 # Tekrar çalıştırılabilir; var olanı bozmaz.
 
 set -euo pipefail
 
-UYGULAMA_KULLANICI=rootline
-UYGULAMA_DIZIN=/opt/rootline
+UYGULAMA_KULLANICI=teknoterim
+UYGULAMA_DIZIN=/opt/teknoterim
 DAGITIM_KULLANICI=codex
-BIRIM=rootline.service
+BIRIM=teknoterim.service
 CADDYFILE=/etc/caddy/Caddyfile
 BETIK_DIZINI="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -60,9 +60,9 @@ echo "  $BIRIM kuruldu ve etkinleştirildi."
 
 # --------------------------------------------------- 3. dağıtım yetkisi (sudo)
 adim "Dağıtım için sınırlı sudo yetkisi"
-SUDOERS=/etc/sudoers.d/rootline-dagitim
+SUDOERS=/etc/sudoers.d/teknoterim-dagitim
 cat > "$SUDOERS" <<EOF
-# rootline dağıtımı: $DAGITIM_KULLANICI yalnızca bu servisi yönetebilir.
+# teknoterim dağıtımı: $DAGITIM_KULLANICI yalnızca bu servisi yönetebilir.
 $DAGITIM_KULLANICI ALL=(root) NOPASSWD: /usr/bin/systemctl restart $BIRIM, /usr/bin/systemctl start $BIRIM, /usr/bin/systemctl stop $BIRIM, /usr/bin/systemctl is-active $BIRIM, /usr/bin/systemctl status $BIRIM
 EOF
 chmod 0440 "$SUDOERS"
@@ -75,8 +75,8 @@ fi
 
 # ------------------------------------------------------------------- 4. Caddy
 adim "Caddy site bloğu"
-if grep -q '^rootline.com.tr' "$CADDYFILE" 2>/dev/null; then
-  echo "  rootline.com.tr bloğu zaten var, atlanıyor."
+if grep -q '^teknoterim.com.tr' "$CADDYFILE" 2>/dev/null; then
+  echo "  teknoterim.com.tr bloğu zaten var, atlanıyor."
 else
   cp -a "$CADDYFILE" "$CADDYFILE.yedek-$(date +%Y%m%d-%H%M%S)"
   echo "  Mevcut dosya yedeklendi."
@@ -106,7 +106,7 @@ fi
 cat <<'NOT'
 
 Sıradaki adımlar
-  1. rootline.com.tr için A kaydını 89.252.132.96'ya yönlendirin.
+  1. teknoterim.com.tr için A kaydını 89.252.132.96'ya yönlendirin.
   2. GitHub deposuna dağıtım anahtarını ekleyin (bkz. infra/README.md).
-  3. İlk dağıtımı çalıştırın; sonra: curl -I https://rootline.com.tr
+  3. İlk dağıtımı çalıştırın; sonra: curl -I https://teknoterim.com.tr
 NOT

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * rootline — sözlük içeriği içe aktarma aracı
+ * teknoterim — sözlük içeriği içe aktarma aracı
  *
- * Canlı rootline uygulamasının (/sozluk) HTML çıktısını okuyup her terimi
+ * Canlı teknoterim uygulamasının (/sozluk) HTML çıktısını okuyup her terimi
  * şemalı bir Markdown dosyasına dönüştürür. Tek seferlik bir göç aracıdır;
  * bir kez çalıştırılır, sonrasında içeriğin kaynağı repo içindeki dosyalardır.
  *
