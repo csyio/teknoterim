@@ -6,7 +6,16 @@ import { SITE } from "@/lib/site";
 import { terimBul, tumTerimler } from "@/lib/terms";
 import { OgrenmeDugmesi } from "./OgrenmeDugmesi";
 
-/** Terim sayfaları derleme zamanında üretilir (her terim kendi URL'si = SEO). */
+/**
+ * Tanımlı slug dışındaki adresler `notFound()` ile karşılanıyor.
+ *
+ * Burada klasik çözüm `export const dynamicParams = false` olurdu, ama
+ * `cacheComponents` açıkken bu ayar derlemeyi kırıyor (Next 16 kısıtı).
+ * Kısmi prerender'da kabuk 200 ile gönderildiği için bilinmeyen adres
+ * "yumuşak 404" üretiyor; Next bunun yerine yanıta
+ * `<meta name="robots" content="noindex">` ekliyor, yani arama motorları
+ * bu sayfayı indekslemiyor. Aşağıdaki `notFound()` bu yüzden doğru çağrı.
+ */
 export function generateStaticParams() {
   return tumTerimler().map((t) => ({ slug: t.slug }));
 }
