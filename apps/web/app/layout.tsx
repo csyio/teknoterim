@@ -3,6 +3,7 @@ import Link from "next/link";
 import { cacheLife } from "next/cache";
 import { SITE } from "@/lib/site";
 import { TemaDugmesi } from "./TemaDugmesi";
+import { Olcum } from "./Olcum";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -72,6 +73,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </span>
           <span>Terimler Türkçe yazılmıştır ve kaynak gösterilerek kullanılabilir.</span>
         </footer>
+
+        <Olcum />
       </body>
     </html>
   );

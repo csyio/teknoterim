@@ -13,3 +13,7 @@ node_modules/
 *.db
 *.db-wal
 *.db-shm
+
+# Ölçüm verisi ve tuzu (çalışma anında oluşur, depoya girmez)
+data/
+olcum-tuz

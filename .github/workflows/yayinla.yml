@@ -48,9 +48,12 @@ jobs:
         run: npm run build
 
       # standalone çıktısı public/ ve .next/static'i kendiliğinden içermez.
+      # araclar/ da kopyalanır: sunucuda TypeScript kaynağı yok, ölçüm raporu
+      # bu yüzden kendi kendine yeten bir dosya olarak taşınır.
       - name: Çıktıyı tamamla
         run: |
           cp -r public .next/standalone/public
+          cp -r araclar .next/standalone/araclar
           mkdir -p .next/standalone/.next
           cp -r .next/static .next/standalone/.next/static
 
