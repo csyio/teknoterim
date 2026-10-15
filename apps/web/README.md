@@ -29,6 +29,9 @@ Node 22 gerekir (bkz. `.nvmrc`).
 | `lib/srs.ts`, `lib/sorular.ts`, `lib/ilerleme.ts` | Öğrenme katmanı (aralıklı tekrar, sorular, ilerleme) |
 | `lib/olcum.ts`, `lib/olcum-db.ts` | Ölçüm toplayıcısı (aşağıya bakın) |
 | `app/api/olcum/` | Ölçüm uç noktası (`POST`, her zaman 204 döner) |
+| `ds/` | Görünüm paketi: tokenlar, taban, bileşenler — [ds/OKUBENI.md](ds/OKUBENI.md) |
+| `public/fonts/` | Kendi sunucumuzda barındırılan yazı tipleri — [OKUBENI.md](public/fonts/OKUBENI.md) |
+| `app/globals.css` | Bilinçli olarak boş; yalnızca `ds/index.css`'i içe alır |
 | `araclar/` | Sunucuda da çalışan küçük araçlar (rapor) |
 
 ## Ölçüm

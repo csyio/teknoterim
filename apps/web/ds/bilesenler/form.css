@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / form
+   ========================================================================== */
+
+/* Sözlükteki arama alanı. Etiketi görünmez (`.gizli`), yer tutucusu örnek
+   verir; alan tek başına durur ve tüm genişliği kaplar. */
+.arama {
+  width: 100%;
+  margin-bottom: var(--b-4);
+  padding: var(--b-3) var(--b-4);
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r);
+  background: var(--yuzey);
+  color: var(--parlak);
+  font-family: var(--metin-font);
+  font-size: var(--yazi-base);
+  transition: border-color var(--hiz) var(--egri), background var(--hiz) var(--egri);
+}
+
+.arama:hover {
+  border-color: var(--cizgi-guclu);
+}
+
+.arama:focus {
+  border-color: var(--fosfor-kenar);
+  background: var(--yuzey2);
+}

@@ -1,0 +1,123 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / içerik (terim sayfası ve metin katmanları)
+   --------------------------------------------------------------------------
+   Terim sayfası bir sözlük maddesidir: başlık, kategori, dört katman.
+   Katman gövdeleri Markdown'dan gelir (p, ul, a, strong, code...), bu yüzden
+   burada yalnızca `.katman` içinde geçerli bir "düz metin" dili kurulur.
+   ========================================================================== */
+
+.terim-detay {
+  max-width: var(--genislik-icerik);
+  padding-bottom: var(--b-11);
+}
+
+.geri {
+  display: inline-block;
+  margin: var(--b-8) 0 var(--b-7);
+  font-family: var(--mono);
+  font-size: var(--yazi-xs);
+  letter-spacing: var(--harf-genis);
+  color: var(--soluk);
+}
+
+.geri:hover {
+  color: var(--fosfor);
+}
+
+.terim-detay h1 {
+  font-size: var(--yazi-3xl);
+}
+
+.terim-detay .kat {
+  display: inline-block;
+  margin-top: var(--b-3);
+}
+
+/* --------------------------------------------------------------- katmanlar */
+
+.katman {
+  margin-top: var(--b-7);
+}
+
+.katman-baslik {
+  display: block;
+  margin-bottom: var(--b-2);
+  font-family: var(--mono);
+  font-size: var(--yazi-xs);
+  letter-spacing: var(--harf-cok-genis);
+  text-transform: uppercase;
+  color: var(--fosfor);
+}
+
+/* "Örnek" katmanı ayrı durur: okurken göz buraya geri döner. */
+.katman.isaret {
+  padding: var(--b-5) var(--b-6);
+  background: var(--yuzey);
+  border: 1px solid var(--cizgi);
+  border-left: 2px solid var(--fosfor-kenar);
+  border-radius: var(--r);
+}
+
+/* Katman gövdesindeki Markdown çıktısı. */
+
+.katman p {
+  max-width: var(--olcu);
+  font-size: var(--yazi-lg);
+}
+
+.katman p + p,
+.katman p + ul,
+.katman p + ol,
+.katman ul + p,
+.katman ol + p {
+  margin-top: var(--b-3);
+}
+
+.katman ul,
+.katman ol {
+  margin-top: var(--b-3);
+  padding-left: var(--b-5);
+}
+
+.katman ul {
+  list-style: disc;
+}
+
+.katman ol {
+  list-style: decimal;
+}
+
+.katman li + li {
+  margin-top: var(--b-1);
+}
+
+.katman a {
+  color: var(--fosfor);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+.katman a:hover {
+  color: var(--fosfor-vurgu);
+}
+
+.katman code {
+  padding: 1px 6px;
+  border-radius: var(--r-sm);
+  background: var(--yuzey3);
+  font-family: var(--mono);
+  font-size: .92em;
+}
+
+.katman blockquote {
+  margin-top: var(--b-4);
+  padding-left: var(--b-4);
+  border-left: 2px solid var(--cizgi-guclu);
+  color: var(--soluk);
+}
+
+/* Katman içindeki rozet dizisi (iş etiketleri) başlığa yapışmasın. */
+.katman .rozetler {
+  margin-top: 0;
+}

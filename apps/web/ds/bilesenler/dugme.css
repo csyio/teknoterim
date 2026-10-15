@@ -1,0 +1,87 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / düğmeler
+   --------------------------------------------------------------------------
+   İki ağırlık var:
+     .dugme           belirgin eylem (halka, vurgu renginde)
+     .baglanti-dugme  ikincil eylem (sessiz, kenarlıklı)
+   Üçüncü bir dolu düğme bilinçli olarak yok: arayüz sakin kalmalı.
+   ========================================================================== */
+
+.dugme {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--b-2);
+  padding: var(--b-3) var(--b-6);
+  border: 1px solid var(--fosfor-kenar);
+  border-radius: var(--r-tam);
+  background: var(--fosfor-zemin);
+  color: var(--fosfor);
+  font-size: var(--yazi-md);
+  font-weight: 600;
+  /* `gap` de geçişe dâhil: içindeki ok, düğme büyümeden yer değiştirir. */
+  transition: gap var(--hiz) var(--egri), border-color var(--hiz) var(--egri),
+    background var(--hiz) var(--egri);
+}
+
+.dugme:hover {
+  gap: var(--b-3);
+  border-color: var(--fosfor);
+}
+
+.dugme:active {
+  background: var(--fosfor-kenar);
+}
+
+.dugme:disabled,
+.dugme[aria-disabled="true"] {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------ ikincil */
+
+.baglanti-dugme {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--b-2);
+  padding: var(--b-3) var(--b-5);
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r-tam);
+  background: transparent;
+  color: var(--soluk);
+  font-size: var(--yazi-md);
+  transition: color var(--hiz), border-color var(--hiz), background var(--hiz);
+}
+
+.baglanti-dugme:hover {
+  color: var(--parlak);
+  border-color: var(--cizgi-guclu);
+  background: var(--yuzey);
+}
+
+.baglanti-dugme:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------- düğme dizisi ve bağı */
+
+.dugme-sirasi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--b-3);
+  margin-top: var(--b-6);
+}
+
+/* Mono bağlantı: "Terimin tamamını gör →" gibi metin içi yönlendirmeler. */
+.tamami {
+  font-family: var(--mono);
+  font-size: var(--yazi-xs);
+  letter-spacing: var(--harf-genis);
+  color: var(--fosfor);
+}
+
+.tamami:hover {
+  color: var(--fosfor-vurgu);
+}

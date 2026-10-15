@@ -1,0 +1,134 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / yazı tipleri
+   --------------------------------------------------------------------------
+   Üç aile, üç iş:
+     Newsreader      başlıklar (serif, editöryel)
+     Inter           gövde metni
+     JetBrains Mono  etiketler, sayılar, teknik künye
+
+   Hepsi kendi sunucumuzda barındırılır; hiçbir üçüncü tarafa bağlanılmaz.
+   Üçü de SIL Open Font License 1.1 ile dağıtılır; kaynak ve lisans bilgisi
+   `public/fonts/OKUBENI.md` dosyasındadır.
+
+   Dosya adlarındaki `latin` ve `latin-ext` Google Fonts'un alt küme
+   bölünmesidir: temel harfler `latin`, Türkçeye özel ç/ğ/ı/İ/ö/ş/ü ve
+   benzeri `latin-ext` içindedir. `unicode-range` sayesinde tarayıcı yalnızca
+   gereken alt kümeyi indirir; Türkçe metin ikisini birlikte kullanır.
+
+   Yalnızca gerçekten var olan ağırlıklar bildirilir. Kullanılmayan bir
+   ağırlık indirilmez, bu yüzden geniş bildirmenin bedeli yoktur.
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ Mono */
+
+@font-face {
+  font-family: "Mono";
+  src: url("/fonts/mono-latin.woff2") format("woff2");
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+20AC, U+2122, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Mono";
+  src: url("/fonts/mono-latin-ext.woff2") format("woff2");
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ----------------------------------------------------------------- Inter */
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+20AC, U+2122, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-latin-ext.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* --------------------------------------------------------------- Gazete */
+
+/* Newsreader'ın optik boyutu sabitlenmiş (16pt) kırpımları. Üç ağırlık var;
+   hangisi kullanılmazsa tarayıcı onu indirmez. */
+
+@font-face {
+  font-family: "Gazete";
+  src: url("/fonts/gazete-latin-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+20AC, U+2122,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Gazete";
+  src: url("/fonts/gazete-latin-ext-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Gazete";
+  src: url("/fonts/gazete-latin-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+20AC, U+2122,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Gazete";
+  src: url("/fonts/gazete-latin-ext-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Gazete";
+  src: url("/fonts/gazete-latin-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+20AC, U+2122,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Gazete";
+  src: url("/fonts/gazete-latin-ext-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
+}

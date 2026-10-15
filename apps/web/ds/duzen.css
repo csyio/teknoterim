@@ -1,0 +1,121 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / sayfa düzeni
+   --------------------------------------------------------------------------
+   Kabuk, bölüm ritmi ve ızgaralar. Bileşenler kendi iç boşluklarını bilir;
+   sayfada nasıl aralandıkları burada karara bağlanır.
+   ========================================================================== */
+
+/* Alt bar kısa sayfalarda yukarı kaymasın: gövde bir sütun, `main` kalan
+   yüksekliği doldurur. */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+main {
+  flex: 1 1 auto;
+}
+
+/* İçerik sütunu. Tüm sayfalar bu kabuğun içinde yaşar. */
+.kabuk {
+  width: 100%;
+  max-width: var(--genislik);
+  margin: 0 auto;
+  padding: 0 var(--b-5);
+}
+
+/* ---------------------------------------------------------------- giriş sayfası */
+
+.giris {
+  max-width: var(--genislik-metin);
+  padding: var(--b-10) 0 var(--b-9);
+}
+
+.giris h1 {
+  font-size: var(--yazi-4xl);
+  margin-top: var(--b-3);
+}
+
+.giris-aciklama {
+  max-width: var(--olcu);
+  margin: var(--b-5) 0 var(--b-7);
+  color: var(--soluk);
+  font-size: var(--yazi-lg);
+}
+
+/* Alt sayfaların başlık alanı (Sözlük, Çalış). */
+.baslik-alani {
+  padding: var(--b-9) 0 var(--b-6);
+}
+
+.baslik-alani h1 {
+  font-size: var(--yazi-3xl);
+}
+
+.baslik-alani p {
+  max-width: var(--olcu);
+  margin-top: var(--b-3);
+  color: var(--soluk);
+}
+
+/* ------------------------------------------------------------------- ızgaralar */
+
+/* Ana sayfadaki bölüm kartları: sığdığı kadar sütun, en az 260px. */
+.sutunlar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--b-4);
+  margin-bottom: var(--b-10);
+}
+
+.sutun {
+  display: flex;
+  flex-direction: column;
+  background: var(--yuzey);
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r-lg);
+  padding: var(--b-6);
+}
+
+.sutun-ust {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--b-3);
+}
+
+.sutun h2 {
+  font-size: var(--yazi-xl);
+}
+
+.sutun p {
+  margin-top: var(--b-3);
+  color: var(--soluk);
+  font-size: var(--yazi-md);
+}
+
+.sutun-baglanti {
+  align-self: flex-start;
+  margin-top: var(--b-4);
+  font-family: var(--mono);
+  font-size: var(--yazi-xs);
+  letter-spacing: var(--harf-genis);
+  color: var(--fosfor);
+}
+
+.sutun-baglanti:hover {
+  color: var(--fosfor-vurgu);
+}
+
+/* --------------------------------------------------------------- bölüm başlığı */
+
+.ornekler {
+  padding-bottom: var(--b-8);
+}
+
+.ornekler-baslik {
+  margin-bottom: var(--b-6);
+  font-size: var(--yazi-2xl);
+}

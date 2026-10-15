@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / kartlar
+   ========================================================================== */
+
+/* Terim ızgarası. Kart genişliği 310px'in altına inmez; ekran genişledikçe
+   sabit sütun sayısı dayatmak yerine kendiliğinden çoğalır. */
+.kartlar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: var(--b-4);
+  padding-bottom: var(--b-10);
+}
+
+.kart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--b-3);
+  padding: var(--b-5);
+  background: var(--yuzey);
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r-lg);
+  transition: border-color var(--hiz) var(--egri), background var(--hiz) var(--egri);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kart {
+    transition: border-color var(--hiz) var(--egri), background var(--hiz) var(--egri),
+      transform var(--hiz) var(--egri);
+  }
+
+  .kart:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.kart:hover {
+  border-color: var(--fosfor-kenar);
+  background: var(--yuzey2);
+}
+
+.kart-ust {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--b-3);
+}
+
+.kart-ust h2 {
+  font-size: var(--yazi-xl);
+}
+
+.ozet {
+  font-size: var(--yazi-md);
+  color: var(--metin);
+}
+
+/* Süzgeç sonucu sayacı: "12 / 153 terim". `role="status"` ile ekran okuyucu
+   sonucu kendiliğinden duyurur. */
+.sayac {
+  margin-bottom: var(--b-5);
+  color: var(--soluk);
+  font-size: var(--yazi-sm);
+}
