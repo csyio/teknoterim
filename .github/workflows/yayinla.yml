@@ -3,18 +3,24 @@ name: Yayınla
 # Derleme CI'da yapılır (sunucuda değil): VPS'te 2 GB RAM var ve orada iki
 # canlı proje çalışıyor. Ayrıca derleme çıktısı sunucunun mimarisiyle (linux x64)
 # ve Node sürümüyle uyumlu olmak zorunda — bu yüzden runner'ı da 22'ye sabitledik.
+#
+# Derleme her zaman çalışır (push eden her değişiklik doğrulanır). Dağıtım
+# adımları ise yalnızca SSH sırları tanımlıysa çalışır; aksi hâlde uyarı verip
+# atlanır. Sırların kurulumu: infra/README.md
 
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
-  group: yayin
+  group: yayin-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  yayinla:
+  derle-ve-yayinla:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -32,6 +38,9 @@ jobs:
       - name: Bağımlılıkları kur
         run: npm ci
 
+      - name: Kod denetimi
+        run: npm run lint
+
       - name: Derle
         run: npm run build
 
@@ -42,7 +51,18 @@ jobs:
           mkdir -p .next/standalone/.next
           cp -r .next/static .next/standalone/.next/static
 
+      - name: Dağıtım sırları tanımlı mı?
+        id: kontrol
+        run: |
+          if [ "${{ github.event_name }}" != "push" ] || [ -z "${{ secrets.SSH_SUNUCU }}" ]; then
+            echo "hazir=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::SSH sırları tanımlı değil ya da bu bir pull request. Dağıtım atlandı — bkz. infra/README.md"
+          else
+            echo "hazir=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: SSH anahtarını hazırla
+        if: steps.kontrol.outputs.hazir == 'true'
         run: |
           mkdir -p ~/.ssh
           printf '%s\n' "${{ secrets.SSH_ANAHTAR }}" > ~/.ssh/id_ed25519
@@ -51,6 +71,7 @@ jobs:
 
       # --delete kullanılıyor ama veri ve sır dosyaları korunuyor.
       - name: Sunucuya kopyala
+        if: steps.kontrol.outputs.hazir == 'true'
         run: |
           rsync -az --delete \
             --exclude '.env*' \
@@ -61,6 +82,7 @@ jobs:
             "${{ secrets.SSH_KULLANICI }}@${{ secrets.SSH_SUNUCU }}:/opt/rootline/"
 
       - name: Servisi yeniden başlat
+        if: steps.kontrol.outputs.hazir == 'true'
         run: |
           ssh "${{ secrets.SSH_KULLANICI }}@${{ secrets.SSH_SUNUCU }}" \
             'sudo systemctl restart rootline.service'
