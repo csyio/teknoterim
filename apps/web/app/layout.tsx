@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cacheLife } from "next/cache";
 import { SITE } from "@/lib/site";
+import { Gezinme } from "./Gezinme";
 import { TemaDugmesi } from "./TemaDugmesi";
 import { Olcum } from "./Olcum";
 import "./globals.css";
@@ -52,15 +53,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <header className="ust">
           <div className="kabuk ust-ic">
             <Link className="marka" href="/" aria-label={`${SITE.ad} ana sayfa`}>
-              <span className="marka-isaret" aria-hidden="true">
-                ┄
-              </span>
+              <span className="marka-isaret" aria-hidden="true" />
               {SITE.ad}
             </Link>
-            <nav className="gezinme" aria-label="Ana gezinme">
-              <Link href="/sozluk">Sözlük</Link>
-              <Link href="/calis">Çalış</Link>
-            </nav>
+            <Gezinme />
             <TemaDugmesi />
           </div>
         </header>

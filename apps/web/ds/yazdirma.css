@@ -5,8 +5,8 @@
    okunur çıkmalı. Ekran kimliği koyu tema; kâğıt beyazdır, bu yüzden burada
    tokenların tamamı açık değerlere çevrilir ve geri kalan her şey aynı kalır.
 
-   Yazdırmada gövde metni koyu, vurgu rengi koyu yeşil olur; ekrandaki fosfor
-   yeşili beyaz kâğıtta okunmaz.
+   Yazdırmada vurgu rengi koyu maviye döner; ekrandaki açık mavi beyaz
+   kâğıtta okunmaz.
    ========================================================================== */
 
 @page {
@@ -32,20 +32,20 @@
     --soluk: #454545;
     --soluk2: #6A6A6A;
 
-    --fosfor: #1F4D2C;
-    --fosfor-vurgu: #1F4D2C;
-    --fosfor-zemin: transparent;
-    --fosfor-kenar: #1F4D2C;
+    --vurgu: #12379B;
+    --vurgu-parlak: #12379B;
+    --vurgu-metin: #fff;
+    --vurgu-zemin: transparent;
+    --vurgu-kenar: #12379B;
 
     --kehribar: #6A4A00;
     --mercan: #8A2A1A;
     --gok: #104A5C;
 
     --golge: none;
-    --golge-ust: none;
   }
 
-  /* Gezinme, tema düğmesi, ayraç ve etkileşimli denetimler kâğıtta işe
+  /* Gezinme, tema düğmesi, süzgeç ve etkileşimli denetimler kâğıtta işe
      yaramaz; yalnızca içerik kalır. */
   .ust,
   .alt,
@@ -61,7 +61,10 @@
   .sayac,
   .secenekler,
   .aciklama,
-  .tema-btn {
+  .tema-btn,
+  .bolum-sag,
+  .dizin-kat,
+  .dizin-isler {
     display: none !important;
   }
 
@@ -78,23 +81,35 @@
   }
 
   .terim-detay,
-  .baslik-alani {
+  .baslik-alani,
+  .giris {
     max-width: none;
     padding: 0;
+    border-bottom: 0;
+  }
+
+  /* Katmanlar kâğıtta iki kolona sıkışmasın: etiket başlığa döner. */
+  .katman,
+  .katman.isaret {
+    display: block;
+    margin-top: 12pt;
+    padding-top: 8pt;
+  }
+
+  .katman-baslik {
+    display: block;
+    margin-bottom: 3pt;
+  }
+
+  .katman.isaret .katman-govde {
+    padding-left: 10pt;
+    border-left: 2pt solid var(--vurgu-kenar);
   }
 
   /* Bir katman sayfa sonunda ortadan bölünmesin. */
   .katman {
     break-inside: avoid;
     page-break-inside: avoid;
-  }
-
-  .katman.isaret {
-    background: none;
-    border: 0;
-    border-left: 2pt solid var(--fosfor-kenar);
-    border-radius: 0;
-    padding: 0 0 0 10pt;
   }
 
   h1,

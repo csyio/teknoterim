@@ -5,7 +5,8 @@
 /* Sonuç yok, tekrar edilecek terim yok gibi durumlar. Bir hata değil,
    beklenen bir hâl: bu yüzden kırmızı değil, sakin bir soluk metin. */
 .bos {
-  padding: var(--b-8) 0;
   max-width: var(--olcu);
+  padding: var(--b-8) 0;
+  border-top: 1px solid var(--cizgi);
   color: var(--soluk);
 }

@@ -83,23 +83,17 @@ export function TerimListesi({
           kaldırın.
         </p>
       ) : (
-        <div className="kartlar">
+        <div className="dizin">
           {sonuclar.map((t) => (
-            <Link key={t.slug} className="kart" href={`/sozluk/${t.slug}`}>
-              <div className="kart-ust">
-                <h2>{t.baslik}</h2>
-                <span className="kat">{t.kategori}</span>
-              </div>
-              <p className="ozet">{t.ozet}</p>
-              {t.isler.length > 0 && (
-                <div className="rozetler">
-                  {t.isler.map((i) => (
-                    <span key={i} className="rozet">
-                      {i}
-                    </span>
-                  ))}
-                </div>
-              )}
+            <Link key={t.slug} className="dizin-satir" href={`/sozluk/${t.slug}`}>
+              <span className="dizin-ad">{t.baslik}</span>
+              <span className="dizin-ozet">
+                {t.ozet}
+                {t.isler.length > 0 && (
+                  <span className="dizin-isler">{t.isler.join(" · ")}</span>
+                )}
+              </span>
+              <span className="dizin-kat">{t.kategori}</span>
             </Link>
           ))}
         </div>

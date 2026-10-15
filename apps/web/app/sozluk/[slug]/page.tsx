@@ -66,32 +66,38 @@ export default async function TerimSayfasi(props: PageProps<"/sozluk/[slug]">) {
           ← Sözlük
         </Link>
 
-        <h1>{terim.baslik}</h1>
-        <span className="kat">{terim.kategori}</span>
+        <header className="terim-ust">
+          <h1>{terim.baslik}</h1>
+          <span className="kat">{terim.kategori}</span>
+        </header>
 
         <OgrenmeDugmesi slug={terim.slug} />
 
         <div className="katman">
           <span className="katman-baslik">Nedir</span>
-          <p>{terim.ozet}</p>
+          <div className="katman-govde">
+            <p>{terim.ozet}</p>
+          </div>
         </div>
 
         <div
           className="katman"
           dangerouslySetInnerHTML={{
-            __html: `<span class="katman-baslik">Ne amaçla kullanılır</span>${markdown(terim.amac)}`,
+            __html: `<span class="katman-baslik">Ne amaçla kullanılır</span><div class="katman-govde">${markdown(terim.amac)}</div>`,
           }}
         />
 
         {terim.isler.length > 0 && (
           <div className="katman">
             <span className="katman-baslik">Hangi işte karşınıza çıkar</span>
-            <div className="rozetler">
-              {terim.isler.map((i) => (
-                <span key={i} className="rozet">
-                  {i}
-                </span>
-              ))}
+            <div className="katman-govde">
+              <div className="rozetler">
+                {terim.isler.map((i) => (
+                  <span key={i} className="rozet">
+                    {i}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -99,7 +105,7 @@ export default async function TerimSayfasi(props: PageProps<"/sozluk/[slug]">) {
         <div
           className="katman isaret"
           dangerouslySetInnerHTML={{
-            __html: `<span class="katman-baslik">Örnek</span>${markdown(terim.ornek)}`,
+            __html: `<span class="katman-baslik">Örnek</span><div class="katman-govde">${markdown(terim.ornek)}</div>`,
           }}
         />
       </article>

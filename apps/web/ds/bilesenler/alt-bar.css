@@ -6,10 +6,13 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--b-2) var(--b-5);
-  margin-top: var(--b-5);
-  padding: var(--b-6) 0 var(--b-8);
-  border-top: 1px solid var(--cizgi);
+  justify-content: space-between;
+  gap: var(--b-2) var(--b-6);
+  padding: var(--b-7) 0 var(--b-8);
+  border-top: 1px solid var(--cizgi-guclu);
+  font-family: var(--mono);
+  font-size: var(--yazi-2xs);
+  letter-spacing: var(--harf-genis);
+  text-transform: uppercase;
   color: var(--soluk2);
-  font-size: var(--yazi-sm);
 }

@@ -1,29 +1,23 @@
 /* ==========================================================================
    Tekno Terim — görünüm paketi / üst bar
+   --------------------------------------------------------------------------
+   Düz, saydam olmayan bir şerit. Buzlu cam ve hap biçimli bağlantılar
+   bırakıldı: gezinme artık mono, büyük harf ve alt çizgiyle işaretlenen
+   teknik bir dizin.
    ========================================================================== */
 
 .ust {
   position: sticky;
   top: 0;
   z-index: var(--kat-yapiskan);
-  border-bottom: 1px solid var(--cizgi);
-  /* Yarı saydam zemin: sayfa altından akarken içerik hafifçe görünür.
-     `backdrop-filter` desteklenmezse düz zemin devreye girer. */
   background: var(--zemin);
-}
-
-@supports (backdrop-filter: blur(1px)) {
-  .ust {
-    background: color-mix(in srgb, var(--zemin) 86%, transparent);
-    -webkit-backdrop-filter: blur(10px) saturate(1.1);
-    backdrop-filter: blur(10px) saturate(1.1);
-  }
+  border-bottom: 1px solid var(--cizgi-guclu);
 }
 
 .ust-ic {
   display: flex;
   align-items: center;
-  gap: var(--b-5);
+  gap: var(--b-6);
   min-height: var(--ust-yukseklik);
 }
 
@@ -32,16 +26,20 @@
 .marka {
   display: inline-flex;
   align-items: center;
-  gap: var(--b-2);
-  font-family: var(--mono);
+  gap: var(--b-3);
   font-size: var(--yazi-md);
-  font-weight: 700;
-  letter-spacing: var(--harf-genis);
+  font-weight: 600;
+  letter-spacing: var(--harf-sik);
   color: var(--parlak);
 }
 
+/* Geçici marka işareti: düz vurgu karesi. Logo son fazda gelecek. */
 .marka-isaret {
-  color: var(--fosfor);
+  flex: none;
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  background: var(--vurgu);
 }
 
 /* ----------------------------------------------------------------- gezinme */
@@ -49,26 +47,44 @@
 .gezinme {
   display: flex;
   align-items: center;
-  gap: var(--b-1);
+  gap: var(--b-5);
   margin-left: auto;
 }
 
 .gezinme a {
-  padding: var(--b-2) var(--b-3);
-  border-radius: var(--r-tam);
-  font-size: var(--yazi-md);
+  position: relative;
+  padding: var(--b-2) 0;
+  font-family: var(--mono);
+  font-size: var(--yazi-xs);
+  letter-spacing: var(--harf-genis);
+  text-transform: uppercase;
   color: var(--soluk);
-  transition: color var(--hiz) var(--egri), background var(--hiz) var(--egri);
+  transition: color var(--hiz) var(--egri);
+}
+
+/* Alt çizgi her zaman vardır, yalnızca rengi değişir: satır yüksekliği
+   durum değişince oynamasın. */
+.gezinme a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: transparent;
+  transition: background var(--hiz) var(--egri);
 }
 
 .gezinme a:hover {
   color: var(--parlak);
-  background: var(--yuzey2);
 }
 
 .gezinme a[aria-current="page"] {
-  color: var(--fosfor);
-  background: var(--fosfor-zemin);
+  color: var(--vurgu);
+}
+
+.gezinme a[aria-current="page"]::after {
+  background: var(--vurgu);
 }
 
 /* --------------------------------------------------------------- tema düğmesi */
@@ -77,19 +93,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
   border: 1px solid var(--cizgi);
-  border-radius: var(--r-tam);
-  background: var(--yuzey);
+  border-radius: var(--r-sm);
+  background: transparent;
   color: var(--soluk);
+  font-size: var(--yazi-md);
   transition: color var(--hiz), border-color var(--hiz), background var(--hiz);
 }
 
 .tema-btn:hover {
   color: var(--parlak);
   border-color: var(--cizgi-guclu);
-  background: var(--yuzey2);
+  background: var(--yuzey);
 }
 
 /* Koyu temada güneş, açık temada ay görünür: düğme her zaman geçilecek

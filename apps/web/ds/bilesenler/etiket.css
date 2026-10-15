@@ -5,6 +5,8 @@
      .kat      kategori künyesi (sadece metin, tıklanmaz)
      .rozet    iş etiketi (kart altındaki maddeler)
      .cip      süzgeç düğmesi (tıklanır, seçili durumu `aria-pressed`)
+
+   Hepsi keskin köşeli ve mono: bunlar süs değil, künye satırı.
    ========================================================================== */
 
 /* ------------------------------------------------------------------ kategori */
@@ -13,6 +15,7 @@
   font-family: var(--mono);
   font-size: var(--yazi-2xs);
   letter-spacing: var(--harf-genis);
+  text-transform: uppercase;
   color: var(--soluk2);
   white-space: nowrap;
 }
@@ -28,7 +31,7 @@
 
 .rozet {
   padding: 3px var(--b-2);
-  border-radius: var(--r-tam);
+  border-radius: var(--r-sm);
   background: var(--yuzey3);
   color: var(--soluk);
   font-family: var(--mono);
@@ -41,8 +44,8 @@
 /* Durum etiketi: "hazır" / "hazırlanıyor". */
 .etiket {
   padding: 3px var(--b-2);
-  border-radius: var(--r-tam);
-  background: var(--yuzey3);
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r-sm);
   color: var(--soluk2);
   font-family: var(--mono);
   font-size: var(--yazi-2xs);
@@ -52,8 +55,9 @@
 }
 
 .etiket.hazir {
-  background: var(--fosfor-zemin);
-  color: var(--fosfor);
+  border-color: var(--vurgu-kenar);
+  background: var(--vurgu-zemin);
+  color: var(--vurgu);
 }
 
 /* --------------------------------------------------------------------- çipler */
@@ -62,14 +66,14 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--b-2);
-  margin-bottom: var(--b-7);
+  margin-bottom: var(--b-5);
 }
 
 .cip {
   padding: 6px var(--b-3);
   border: 1px solid var(--cizgi);
-  border-radius: var(--r-tam);
-  background: var(--yuzey);
+  border-radius: var(--r-sm);
+  background: transparent;
   color: var(--soluk);
   font-family: var(--mono);
   font-size: var(--yazi-xs);
@@ -81,12 +85,13 @@
 .cip:hover {
   color: var(--parlak);
   border-color: var(--cizgi-guclu);
+  background: var(--yuzey);
 }
 
 /* Seçili çip vurgu rengini alır. Durum `aria-pressed` ile taşınır:
    ekran okuyucu da seçimi görür, görünüm tek bir öznitelikten okur. */
 .cip[aria-pressed="true"] {
-  background: var(--fosfor-zemin);
-  border-color: var(--fosfor-kenar);
-  color: var(--fosfor);
+  background: var(--vurgu-zemin);
+  border-color: var(--vurgu-kenar);
+  color: var(--vurgu);
 }

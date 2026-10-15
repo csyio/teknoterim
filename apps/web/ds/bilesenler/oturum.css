@@ -13,7 +13,7 @@
 
 .oturum-son {
   max-width: var(--genislik-form);
-  padding: var(--b-2) 0 var(--b-10);
+  padding-bottom: var(--b-10);
 }
 
 .oturum-son h2 {
@@ -22,10 +22,12 @@
 
 /* -------------------------------------------------------- başlangıç sayaçları */
 
+/* Üç kutu, tek çerçeve: bölmeli bir gösterge paneli. Ayrı ayrı yüzen
+   kartlardan kasıtlı olarak ayrılıyor. */
 .sayac-kutusu {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: var(--b-3);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--cizgi);
   margin-bottom: var(--b-6);
 }
 
@@ -33,16 +35,36 @@
   display: flex;
   flex-direction: column;
   gap: var(--b-1);
-  padding: var(--b-4);
-  background: var(--yuzey);
-  border: 1px solid var(--cizgi);
-  border-radius: var(--r-lg);
+  padding: var(--b-5);
+  border-left: 1px solid var(--cizgi);
+}
+
+.sayac-oge:first-child {
+  border-left: 0;
+}
+
+@media (max-width: 560px) {
+  .sayac-kutusu {
+    grid-template-columns: 1fr;
+  }
+
+  .sayac-oge {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    border-left: 0;
+    border-top: 1px solid var(--cizgi);
+  }
+
+  .sayac-oge:first-child {
+    border-top: 0;
+  }
 }
 
 .sayac-sayi {
   font-family: var(--serif);
-  font-size: 1.9rem;
-  line-height: 1.1;
+  font-size: 2rem;
+  line-height: 1.05;
   color: var(--parlak);
   font-variant-numeric: tabular-nums;
 }
@@ -59,8 +81,8 @@
 .buyuk-sayi {
   margin: var(--b-2) 0 var(--b-4);
   font-family: var(--serif);
-  font-size: 2.1rem;
-  color: var(--fosfor);
+  font-size: 2.3rem;
+  color: var(--vurgu);
   font-variant-numeric: tabular-nums;
 }
 
@@ -73,7 +95,7 @@
   gap: var(--b-4);
   margin-bottom: var(--b-6);
   padding-bottom: var(--b-4);
-  border-bottom: 1px solid var(--cizgi);
+  border-bottom: 1px solid var(--cizgi-guclu);
 }
 
 .soru-tur {
@@ -82,7 +104,7 @@
   font-size: var(--yazi-xs);
   letter-spacing: var(--harf-genis);
   text-transform: uppercase;
-  color: var(--fosfor);
+  color: var(--vurgu);
 }
 
 .soru-metni {
@@ -94,27 +116,30 @@
 
 .secenekler {
   display: grid;
-  gap: var(--b-2);
+  border-top: 1px solid var(--cizgi);
   margin-top: var(--b-6);
 }
 
 .secenek {
   width: 100%;
-  padding: var(--b-4) var(--b-5);
-  border: 1px solid var(--cizgi);
-  border-radius: var(--r);
-  background: var(--yuzey);
+  padding: var(--b-4) var(--b-4) var(--b-4) var(--b-5);
+  border: 0;
+  border-bottom: 1px solid var(--cizgi);
+  border-left: 2px solid transparent;
+  background: transparent;
   color: var(--metin);
   font-family: var(--metin-font);
   font-size: var(--yazi-md);
   line-height: 1.5;
   text-align: left;
-  transition: border-color var(--hiz) var(--egri), background var(--hiz) var(--egri);
+  transition: background var(--hiz) var(--egri), border-left-color var(--hiz) var(--egri),
+    color var(--hiz) var(--egri);
 }
 
 .secenek:hover:not(:disabled) {
-  border-color: var(--fosfor-kenar);
-  background: var(--yuzey2);
+  background: var(--yuzey);
+  border-left-color: var(--vurgu);
+  color: var(--parlak);
 }
 
 .secenek:disabled {
@@ -125,13 +150,13 @@
    döner, kalanlar geri çekilir. Renk tek başına anlam taşımaz — `aciklama`
    metni de sonucu yazar. */
 .secenek.dogru {
-  border-color: var(--fosfor);
-  background: var(--fosfor-zemin);
+  border-left-color: var(--vurgu);
+  background: var(--vurgu-zemin);
   color: var(--parlak);
 }
 
 .secenek.yanlis {
-  border-color: var(--mercan);
+  border-left-color: var(--mercan);
   background: color-mix(in srgb, var(--mercan) 10%, transparent);
 }
 
@@ -144,9 +169,10 @@
 .aciklama {
   margin-top: var(--b-7);
   padding: var(--b-6);
-  background: var(--yuzey);
   border: 1px solid var(--cizgi);
-  border-radius: var(--r-lg);
+  border-top: 2px solid var(--vurgu);
+  border-radius: var(--r-sm);
+  background: var(--yuzey);
 }
 
 .aciklama h3 {
@@ -154,7 +180,7 @@
 }
 
 .aciklama h3 a:hover {
-  color: var(--fosfor);
+  color: var(--vurgu);
 }
 
 .aciklama > p {
@@ -173,7 +199,7 @@
 }
 
 .geri-bildirim.dogru {
-  color: var(--fosfor);
+  color: var(--vurgu);
 }
 
 .geri-bildirim.yanlis {

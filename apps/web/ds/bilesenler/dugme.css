@@ -2,34 +2,32 @@
    Tekno Terim — görünüm paketi / düğmeler
    --------------------------------------------------------------------------
    İki ağırlık var:
-     .dugme           belirgin eylem (halka, vurgu renginde)
-     .baglanti-dugme  ikincil eylem (sessiz, kenarlıklı)
-   Üçüncü bir dolu düğme bilinçli olarak yok: arayüz sakin kalmalı.
+     .dugme           belirgin eylem — dolu, keskin köşeli
+     .baglanti-dugme  ikincil eylem — yalnızca çizgi
+   Dolu düğme artık vurgu rengini kullanır (eskiden yalnızca kenarlıktı):
+   sayfada tek bir "ağır" öğe olsun, göz nereye gideceğini bilsin.
    ========================================================================== */
 
 .dugme {
   display: inline-flex;
   align-items: center;
   gap: var(--b-2);
-  padding: var(--b-3) var(--b-6);
-  border: 1px solid var(--fosfor-kenar);
-  border-radius: var(--r-tam);
-  background: var(--fosfor-zemin);
-  color: var(--fosfor);
+  padding: var(--b-3) var(--b-5);
+  border: 1px solid var(--vurgu);
+  border-radius: var(--r-sm);
+  background: var(--vurgu);
+  color: var(--vurgu-metin);
   font-size: var(--yazi-md);
   font-weight: 600;
   /* `gap` de geçişe dâhil: içindeki ok, düğme büyümeden yer değiştirir. */
-  transition: gap var(--hiz) var(--egri), border-color var(--hiz) var(--egri),
-    background var(--hiz) var(--egri);
+  transition: gap var(--hiz) var(--egri), background var(--hiz) var(--egri),
+    border-color var(--hiz) var(--egri);
 }
 
 .dugme:hover {
   gap: var(--b-3);
-  border-color: var(--fosfor);
-}
-
-.dugme:active {
-  background: var(--fosfor-kenar);
+  background: var(--vurgu-parlak);
+  border-color: var(--vurgu-parlak);
 }
 
 .dugme:disabled,
@@ -45,8 +43,8 @@
   align-items: center;
   gap: var(--b-2);
   padding: var(--b-3) var(--b-5);
-  border: 1px solid var(--cizgi);
-  border-radius: var(--r-tam);
+  border: 1px solid var(--cizgi-guclu);
+  border-radius: var(--r-sm);
   background: transparent;
   color: var(--soluk);
   font-size: var(--yazi-md);
@@ -55,8 +53,8 @@
 
 .baglanti-dugme:hover {
   color: var(--parlak);
-  border-color: var(--cizgi-guclu);
-  background: var(--yuzey);
+  border-color: var(--vurgu-kenar);
+  background: var(--vurgu-zemin);
 }
 
 .baglanti-dugme:disabled {
@@ -79,9 +77,11 @@
   font-family: var(--mono);
   font-size: var(--yazi-xs);
   letter-spacing: var(--harf-genis);
-  color: var(--fosfor);
+  text-transform: uppercase;
+  color: var(--vurgu);
+  white-space: nowrap;
 }
 
 .tamami:hover {
-  color: var(--fosfor-vurgu);
+  color: var(--vurgu-parlak);
 }

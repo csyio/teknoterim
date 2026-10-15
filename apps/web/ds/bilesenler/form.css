@@ -3,13 +3,16 @@
    ========================================================================== */
 
 /* Sözlükteki arama alanı. Etiketi görünmez (`.gizli`), yer tutucusu örnek
-   verir; alan tek başına durur ve tüm genişliği kaplar. */
+   verir; alan tek başına durur ve tüm genişliği kaplar.
+
+   Odakta dış halka çıkmaz: alanın kendi kenarlığı vurguya döner. Böylece
+   yazmaya başlarken sayfa "zıplamaz". */
 .arama {
   width: 100%;
   margin-bottom: var(--b-4);
   padding: var(--b-3) var(--b-4);
   border: 1px solid var(--cizgi);
-  border-radius: var(--r);
+  border-radius: var(--r-sm);
   background: var(--yuzey);
   color: var(--parlak);
   font-family: var(--metin-font);
@@ -22,6 +25,7 @@
 }
 
 .arama:focus {
-  border-color: var(--fosfor-kenar);
+  border-color: var(--vurgu);
   background: var(--yuzey2);
+  outline: none;
 }

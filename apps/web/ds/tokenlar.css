@@ -1,14 +1,22 @@
 /* ==========================================================================
    Tekno Terim — görünüm paketi / tokenlar
    --------------------------------------------------------------------------
-   Paketin tek karar kaynağı. Bileşenler ham değer yazmaz; yalnızca buradaki
-   değişkenleri kullanır. Bir rengi, boşluğu ya da yarıçapı değiştirmek için
-   gereken dosya burasıdır.
+   Tek karar kaynağı. Bileşenler ham değer yazmaz; yalnızca buradaki
+   değişkenleri kullanır.
+
+   YENİ DİL (sıfırdan):
+     · Soğuk, nötr koyu zemin — sıcak kâğıt tonları bırakıldı.
+     · Tek vurgu: iyon mavisi. Yeşil "fosfor" kimliği terk edildi; tokenlar
+       artık `--vurgu*` adını taşıyor.
+     · Biçim dili keskin: yarıçaplar 2-4px, gölge yok, yapıyı 1px çizgiler
+       kurar. Yumuşak kart estetiği yerine "künye/teknik belge" düzeni.
+     · Yazı rolleri tersine çevrildi: başlıklar sans (Inter), serif yalnızca
+       örnek metinlerinde kalır.
 
    Adlandırma:
-     --zemin, --yuzey*   yüzeyler (açıktan koyuya doğru katman)
+     --zemin, --yuzey*   yüzeyler (katman sırası)
      --metin*            metin tonları
-     --fosfor*           marka vurgusu (fosfor yeşili)
+     --vurgu*            marka vurgusu
      --b-*               boşluk ölçeği (4px tabanı)
      --yazi-*            yazı boyutu ölçeği
      --r-*               yarıçaplar
@@ -19,30 +27,31 @@
 :root {
   color-scheme: dark;
 
-  --zemin: #16140E;
-  --yuzey: #1D1A12;
-  --yuzey2: #242017;
-  --yuzey3: #2D281C;
+  --zemin: #0C0E11;
+  --yuzey: #13161A;
+  --yuzey2: #191D22;
+  --yuzey3: #22272E;
 
-  --cizgi: rgba(240, 235, 220, .10);
-  --cizgi-guclu: rgba(240, 235, 220, .22);
+  --cizgi: rgba(255, 255, 255, .09);
+  --cizgi-guclu: rgba(255, 255, 255, .20);
 
-  --parlak: #F0EBDC;
-  --metin: #CFC9B7;
-  --soluk: #9A927D;
-  --soluk2: #7E7663;
+  --parlak: #F2F5F8;
+  --metin: #B8C0CA;
+  --soluk: #868F9B;
+  --soluk2: #757E8A;
 
-  --fosfor: #86C58E;
-  --fosfor-vurgu: #A6D9AC;
-  --fosfor-zemin: rgba(134, 197, 142, .10);
-  --fosfor-kenar: rgba(134, 197, 142, .30);
+  --vurgu: #4D8DF7;
+  --vurgu-parlak: #7FAFFA;
+  --vurgu-metin: #06101E;
+  --vurgu-zemin: rgba(77, 141, 247, .12);
+  --vurgu-kenar: rgba(77, 141, 247, .34);
 
-  --kehribar: #D9A93F;
-  --mercan: #E07A6B;
-  --gok: #6FB9CE;
+  --kehribar: #E0A43C;
+  --mercan: #E8735F;
+  --gok: #56B6CE;
 
-  --golge: 0 1px 2px rgba(0, 0, 0, .45), 0 12px 30px -14px rgba(0, 0, 0, .75);
-  --golge-ust: 0 2px 4px rgba(0, 0, 0, .5), 0 18px 40px -18px rgba(0, 0, 0, .8);
+  /* Biçim dili gölge kullanmaz; yapıyı çizgiler kurar. */
+  --golge: none;
 }
 
 /* ------------------------------------------------------------- renk: açık tema */
@@ -50,72 +59,69 @@
 :root[data-tema="acik"] {
   color-scheme: light;
 
-  --zemin: #F9F6EF;
-  --yuzey: #F2EEE2;
-  --yuzey2: #EAE4D3;
-  --yuzey3: #DFD8C3;
+  --zemin: #FBFBFD;
+  --yuzey: #F4F5F8;
+  --yuzey2: #ECEEF3;
+  --yuzey3: #E1E4EB;
 
-  --cizgi: rgba(34, 31, 24, .13);
-  --cizgi-guclu: rgba(34, 31, 24, .26);
+  --cizgi: rgba(12, 14, 17, .12);
+  --cizgi-guclu: rgba(12, 14, 17, .26);
 
-  --parlak: #221F18;
-  --metin: #3B372C;
-  --soluk: #655F51;
-  --soluk2: #7E7767;
+  --parlak: #0C0E11;
+  --metin: #333A44;
+  --soluk: #4E5560;
+  --soluk2: #6B737E;
 
-  --fosfor: #2F6B3F;
-  --fosfor-vurgu: #24542F;
-  --fosfor-zemin: rgba(47, 107, 63, .10);
-  --fosfor-kenar: rgba(47, 107, 63, .32);
+  --vurgu: #1B4FD8;
+  --vurgu-parlak: #12379B;
+  --vurgu-metin: #FFFFFF;
+  --vurgu-zemin: rgba(27, 79, 216, .08);
+  --vurgu-kenar: rgba(27, 79, 216, .28);
 
-  --kehribar: #8A6205;
-  --mercan: #B23A2A;
-  --gok: #14657E;
-
-  --golge: 0 1px 2px rgba(34, 31, 24, .06), 0 10px 28px -14px rgba(34, 31, 24, .22);
-  --golge-ust: 0 2px 4px rgba(34, 31, 24, .08), 0 18px 38px -18px rgba(34, 31, 24, .28);
+  --kehribar: #8A5A00;
+  --mercan: #B33524;
+  --gok: #0F6383;
 }
 
 /* ------------------------------------------------------------- temadan bağımsız */
 
 :root {
-  /* Odak halkası tek renkten gelir; her bileşen aynı halkayı kullanır. */
-  --odak: var(--fosfor);
+  --odak: var(--vurgu);
 
   /* ------------------------------------------------------------------ yazı */
 
-  --serif: "Gazete", Georgia, "Times New Roman", serif;
+  --mono: "Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --metin-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Arial, sans-serif;
-  --mono: "Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  /* Ölçek: en küçük mono etiketten en büyük başlığa. Başlıklar akışkan;
-     ekran genişliğiyle birlikte büyür, sabit sıçrama yapmaz. */
-  --yazi-2xs: .62rem;
+  /* Başlıklar artık sans. Serif yalnızca örnek metinlerinde ve büyük
+     sayılarda kalıyor: sözlük maddesinin "alıntı" hissi oradan geliyor. */
+  --baslik-font: var(--metin-font);
+  --serif: "Gazete", Georgia, "Times New Roman", serif;
+
+  --yazi-2xs: .64rem;
   --yazi-xs: .72rem;
   --yazi-sm: .82rem;
   --yazi-md: .92rem;
   --yazi-base: 1rem;
   --yazi-lg: 1.06rem;
-  --yazi-xl: 1.22rem;
-  --yazi-2xl: clamp(1.45rem, 2.6vw, 1.75rem);
-  --yazi-3xl: clamp(1.9rem, 4.4vw, 2.6rem);
-  --yazi-4xl: clamp(2.2rem, 6vw, 3.4rem);
+  --yazi-xl: 1.28rem;
+  --yazi-2xl: clamp(1.5rem, 2.6vw, 1.85rem);
+  --yazi-3xl: clamp(2rem, 4.4vw, 2.85rem);
+  --yazi-4xl: clamp(2.4rem, 6.4vw, 4rem);
 
-  --satir-sik: 1.25;
-  --satir-normal: 1.65;
+  --satir-sik: 1.2;
+  --satir-normal: 1.6;
   --satir-gevsek: 1.75;
 
-  --harf-sik: -.011em;
-  --harf-genis: .04em;
-  --harf-cok-genis: .09em;
+  --harf-sik: -.02em;
+  --harf-genis: .06em;
+  --harf-cok-genis: .11em;
 
-  /* Okunabilir satır uzunluğu. Metin blokları bu ölçüyü aşmaz. */
-  --olcu: 68ch;
+  --olcu: 70ch;
 
   /* --------------------------------------------------------------- boşluk */
 
-  /* 4px tabanı. Ara değer uydurulmaz; ölçekten seçilir. */
   --b-1: 4px;
   --b-2: 8px;
   --b-3: 12px;
@@ -130,23 +136,24 @@
 
   /* -------------------------------------------------------------- ölçüler */
 
-  --genislik: 1080px;
-  --genislik-metin: 46rem;
-  --genislik-icerik: 720px;
-  --genislik-form: 620px;
-  --ust-yukseklik: 60px;
+  --genislik: 1160px;
+  --genislik-metin: 44rem;
+  --genislik-icerik: 760px;
+  --genislik-form: 640px;
+  --ust-yukseklik: 58px;
 
   /* ------------------------------------------------------------- yarıçaplar */
 
-  --r-sm: 6px;
-  --r: 10px;
-  --r-lg: 14px;
-  --r-tam: 999px;
+  /* Keskin biçim dili: hap (pill) yok, yumuşak köşe yok. */
+  --r-sm: 2px;
+  --r: 3px;
+  --r-lg: 4px;
+  --r-tam: 2px;
 
   /* ---------------------------------------------------------------- hareket */
 
-  --hiz: .16s;
-  --hiz-yavas: .28s;
+  --hiz: .14s;
+  --hiz-yavas: .26s;
   --egri: cubic-bezier(.2, .6, .3, 1);
 
   /* ----------------------------------------------------------------- katman */

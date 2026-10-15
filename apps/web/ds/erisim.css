@@ -21,10 +21,17 @@
 
 /* Yüksek kontrast modu (Windows). Renkler sistem tarafından değiştirilir;
    bizim yapmamız gereken, anlamı yalnızca renkle taşımamak ve kenarlıkları
-   sistem rengine bırakmak. */
+   sistem rengine bırakmak.
+
+   Dizinde satırın solundaki vurgu şeridi tek başına anlam taşımasın diye
+   hover'da zemin de değişir (yukarıda); burada yalnızca çizgiler sabitlenir. */
 @media (forced-colors: active) {
-  .kart,
-  .sutun,
+  .dizin,
+  .dizin-satir,
+  .bolumler,
+  .bolum,
+  .sayac-kutusu,
+  .sayac-oge,
   .arama,
   .secenek,
   .baglanti-dugme,
@@ -32,9 +39,9 @@
   .cip,
   .etiket,
   .rozet,
-  .sayac-oge,
   .aciklama,
-  .katman.isaret {
+  .katman,
+  .katman.isaret .katman-govde {
     border-color: CanvasText;
   }
 
@@ -45,6 +52,11 @@
   .cip[aria-pressed="true"],
   .secenek.dogru {
     border-color: Highlight;
+  }
+
+  .dizin-satir:hover,
+  .bolum:hover {
+    border-left-color: Highlight;
   }
 
   .secenek.solgun {

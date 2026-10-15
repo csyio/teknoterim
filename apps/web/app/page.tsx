@@ -36,47 +36,67 @@ export default function AnaSayfa() {
   return (
     <div className="kabuk">
       <section className="giris">
-        <p className="mono">MSP · hosting · DNS · ağ güvenliği</p>
-        <h1>Sektörün terimleri, tek yerde.</h1>
-        <p className="giris-aciklama">
-          Bu alanda çalışan biri için terimler, haberler ve araçlar dağınık kaynaklara
-          yayılmıştır. Tekno Terim bunları sade, hızlı ve reklamsız tek bir yerde
-          toplar — kurulum yok, hesap yok.
-        </p>
-        <Link className="dugme" href="/sozluk">
-          Sözlüğe göz at <span aria-hidden="true">→</span>
-        </Link>
+        <div className="giris-sol">
+          <p className="mono">MSP · hosting · DNS · ağ güvenliği</p>
+          <h1>Sektörün terimleri, tek yerde.</h1>
+        </div>
+
+        <div className="giris-sag">
+          <p className="giris-aciklama">
+            Bu alanda çalışan biri için terimler, haberler ve araçlar dağınık kaynaklara
+            yayılmıştır. Tekno Terim bunları sade, hızlı ve reklamsız tek bir yerde
+            toplar — kurulum yok, hesap yok.
+          </p>
+          <div className="dugme-sirasi">
+            <Link className="dugme" href="/sozluk">
+              Sözlüğe göz at <span aria-hidden="true">→</span>
+            </Link>
+            <Link className="baglanti-dugme" href="/calis">
+              Çalış
+            </Link>
+          </div>
+        </div>
       </section>
 
-      <section className="sutunlar" aria-label="Bölümler">
-        {SUTUNLAR.map((s) => (
-          <div className="sutun" key={s.ad}>
-            <div className="sutun-ust">
+      <section className="bolumler" aria-label="Bölümler">
+        {SUTUNLAR.map((s, i) => (
+          <article className="bolum" key={s.ad}>
+            <span className="bolum-no" aria-hidden="true">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <div className="bolum-govde">
               <h2>{s.ad}</h2>
+              <p>{s.aciklama}</p>
+            </div>
+            <div className="bolum-sag">
               <span className={s.durum === "hazır" ? "etiket hazir" : "etiket"}>
                 {s.durum}
               </span>
+              {s.href && (
+                <Link className="tamami" href={s.href}>
+                  {terimler.length} terim →
+                </Link>
+              )}
             </div>
-            <p>{s.aciklama}</p>
-            {s.href && (
-              <Link className="sutun-baglanti" href={s.href}>
-                {terimler.length} terim →
-              </Link>
-            )}
-          </div>
+          </article>
         ))}
       </section>
 
-      <section className="ornekler">
-        <h2 className="ornekler-baslik">Nereden başlamalı</h2>
-        <div className="kartlar">
+      <section className="one-cikanlar" aria-labelledby="nereden-baslamali">
+        <div className="bolum-baslik">
+          <h2 id="nereden-baslamali">Nereden başlamalı</h2>
+        </div>
+        <div className="dizin">
           {oneCikan.map((t) => (
-            <Link key={t.slug} className="kart" href={`/sozluk/${t.slug}`}>
-              <div className="kart-ust">
-                <h2>{t.baslik}</h2>
-                <span className="kat">{t.kategori}</span>
-              </div>
-              <p className="ozet">{t.ozet}</p>
+            <Link key={t.slug} className="dizin-satir" href={`/sozluk/${t.slug}`}>
+              <span className="dizin-ad">{t.baslik}</span>
+              <span className="dizin-ozet">
+                {t.ozet}
+                {t.isler.length > 0 && (
+                  <span className="dizin-isler">{t.isler.join(" · ")}</span>
+                )}
+              </span>
+              <span className="dizin-kat">{t.kategori}</span>
             </Link>
           ))}
         </div>

@@ -49,12 +49,14 @@ pre {
   margin: 0;
 }
 
+/* Yeni dilde başlıklar sans ve yarı kalın: teknik belge hissi seriften değil,
+   sıkı harf aralığından ve dikey ritimden geliyor. */
 h1,
 h2,
 h3,
 h4 {
-  font-family: var(--serif);
-  font-weight: 400;
+  font-family: var(--baslik-font);
+  font-weight: 600;
   color: var(--parlak);
   line-height: var(--satir-sik);
   letter-spacing: var(--harf-sik);
@@ -117,7 +119,7 @@ textarea::placeholder {
 }
 
 ::selection {
-  background: var(--fosfor-kenar);
+  background: var(--vurgu-kenar);
   color: var(--parlak);
 }
 
@@ -153,10 +155,9 @@ textarea::placeholder {
   left: -9999px;
   top: 0;
   z-index: var(--kat-atla);
-  background: var(--fosfor);
-  color: var(--zemin);
+  background: var(--vurgu);
+  color: var(--vurgu-metin);
   padding: var(--b-3) var(--b-4);
-  border-radius: 0 0 var(--r-sm) 0;
   font-weight: 600;
 }
 
