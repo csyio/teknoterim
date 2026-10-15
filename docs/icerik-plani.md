@@ -29,6 +29,8 @@ yapılmış (bkz. `fidye-yazilimi.md`).
 
 ## Mevcut durum
 
+Bu bölüm, plan yazıldığı andaki durumu (devralınan 49 terim) gösterir.
+
 | Kategori | Terim |
 |---|---|
 | Sunucu/Hosting | 12 |
@@ -37,6 +39,8 @@ yapılmış (bkz. `fidye-yazilimi.md`).
 | MSP/MSSP | 9 |
 | Müşteri/İş | 6 |
 | **Toplam** | **49** |
+
+Plan tamamlandıktan sonraki durum için "Parti planı" bölümünün sonuna bakın.
 
 ## Boşluk analizi
 
@@ -206,18 +210,22 @@ Saldırı türleri, ağ temelleri ve uyum:
 İnceleme yükünü dağıtmak için içerik partiler hâlinde yazılır. Her parti ayrı
 bir değişikliktir; gözden geçirilmesi kolaydır ve tek başına yayınlanabilir.
 
-| Parti | İçerik | Terim |
-|---|---|---|
-| **P0** | Pilot — ses ve kalite kalibrasyonu | 16 |
-| P1 | DNS kayıt tipleri ve alan adı yaşam döngüsü | 14 |
-| P2 | Sunucu/hosting altyapı kavramları | 20 |
-| P3 | Saldırı türleri ve ağ temelleri | 20 |
-| P4 | Uyum, şifreleme ve olay yönetimi | 11 |
-| P5 | MSP iş modeli ve süreç | 20 |
-| P6 | Müşteri/iş | 15 |
+| Parti | İçerik | Yazılan | Not |
+|---|---|---|---|
+| **P0** | Pilot — ses ve kalite kalibrasyonu | 16 | Birden fazla listede geçen terimler |
+| **P1** | DNS kayıt tipleri ve alan adı yaşam döngüsü | 14 | |
+| **P2** | Sunucu/hosting altyapı kavramları | 17 | Sanallaştırma, HA ve Veri Merkezi P0'da yazıldı |
+| **P3** | Saldırı türleri ve ağ temelleri | 20 | |
+| **P4** | Uyum, şifreleme ve olay yönetimi | 7 | VPN, Ağ Segmentasyonu, IPv4/IPv6, Olay Müdahalesi P0'da yazıldı |
+| **P5** | MSP iş modeli ve süreç | 17 | MRR, Bilgi Tabanı ve RCA P0'da yazıldı |
+| **P6** | Müşteri/iş | 13 | Bulut Maliyeti ve Hizmet Durumu Sayfası P0'da yazıldı |
 
-**P0 şimdi yazıldı** (`content/terimler/`), geri kalanı onayınıza ve
-inceleme hızınıza bağlı.
+**P2–P6 yazıldı.** Önerilen 104 terimin tamamı tamamlandı; sözlük 49'dan
+**153 terime** çıktı. Kategori dağılımı: Ağ/Güvenlik 42, Sunucu/Hosting 32,
+MSP/MSSP 29, Domain/DNS 29, Müşteri/İş 21.
+
+Yeni terimler `yeniden-gelistirme` dalında, parti parti commit edilmiş hâlde
+duruyor. İnceleme sonrası `main`'e alınacak.
 
 ## İnceleme akışı
 
