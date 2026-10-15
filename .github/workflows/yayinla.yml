@@ -1,0 +1,66 @@
+name: Yayınla
+
+# Derleme CI'da yapılır (sunucuda değil): VPS'te 2 GB RAM var ve orada iki
+# canlı proje çalışıyor. Ayrıca derleme çıktısı sunucunun mimarisiyle (linux x64)
+# ve Node sürümüyle uyumlu olmak zorunda — bu yüzden runner'ı da 22'ye sabitledik.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: yayin
+  cancel-in-progress: false
+
+jobs:
+  yayinla:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: apps/web/.nvmrc
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Bağımlılıkları kur
+        run: npm ci
+
+      - name: Derle
+        run: npm run build
+
+      # standalone çıktısı public/ ve .next/static'i kendiliğinden içermez.
+      - name: Çıktıyı tamamla
+        run: |
+          cp -r public .next/standalone/public
+          mkdir -p .next/standalone/.next
+          cp -r .next/static .next/standalone/.next/static
+
+      - name: SSH anahtarını hazırla
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.SSH_ANAHTAR }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.SSH_SUNUCU }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      # --delete kullanılıyor ama veri ve sır dosyaları korunuyor.
+      - name: Sunucuya kopyala
+        run: |
+          rsync -az --delete \
+            --exclude '.env*' \
+            --exclude 'data/' \
+            --exclude '*.db' --exclude '*.db-wal' --exclude '*.db-shm' \
+            --exclude '.git' \
+            .next/standalone/ \
+            "${{ secrets.SSH_KULLANICI }}@${{ secrets.SSH_SUNUCU }}:/opt/rootline/"
+
+      - name: Servisi yeniden başlat
+        run: |
+          ssh "${{ secrets.SSH_KULLANICI }}@${{ secrets.SSH_SUNUCU }}" \
+            'sudo systemctl restart rootline.service'

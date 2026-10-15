@@ -1,0 +1,19 @@
+# rootline — Caddy site bloğu
+#
+# /etc/caddy/Caddyfile dosyasının SONUNA eklenir. Mevcut csystudio.com.tr ve
+# tigin.csystudio.com.tr bloklarına dokunulmaz.
+#
+# Uygulama:  sudo cp /etc/caddy/Caddyfile /etc/caddy/Caddyfile.yedek
+#            sudo $EDITOR /etc/caddy/Caddyfile
+#            sudo caddy validate --config /etc/caddy/Caddyfile
+#            sudo systemctl reload caddy
+#
+# Alan adının A kaydı 89.252.132.96'yı göstermeye başlayınca Caddy
+# Let's Encrypt sertifikasını kendiliğinden alır.
+
+# rootline — Türkçe MSP/hosting/DNS sözlüğü (127.0.0.1:8767)
+rootline.com.tr {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:8767
+	header -Server
+}

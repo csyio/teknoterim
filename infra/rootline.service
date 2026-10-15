@@ -1,0 +1,54 @@
+# rootline — systemd birim dosyası
+#
+# Kurulum:  sudo cp infra/rootline.service /etc/systemd/system/
+#           sudo systemctl daemon-reload
+#           sudo systemctl enable --now rootline
+#
+# Uygulama /opt/rootline altında, "rootline" sistem kullanıcısı olarak çalışır.
+# Caddy 127.0.0.1:8767'ye proxy'ler; port dışarıya açılmaz.
+
+[Unit]
+Description=rootline — MSP, hosting, DNS ve ağ güvenliği sözlüğü
+Documentation=https://github.com/csyio/rootline
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=rootline
+Group=rootline
+WorkingDirectory=/opt/rootline
+
+# Sunucuda derleme yapılmaz; çıktı CI'da üretilir ve buraya kopyalanır.
+ExecStart=/usr/bin/node server.js
+
+Environment=NODE_ENV=production
+Environment=PORT=8767
+# Yalnızca yerel arayüzü dinle: trafik mutlaka Caddy üzerinden geçsin.
+Environment=HOSTNAME=127.0.0.1
+
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+# --- Sıkılaştırma: kutuda başka canlı projeler var, izolasyon önemli ---
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+# Next.js ISR önbelleğini ve SQLite dosyasını bu dizine yazar.
+ReadWritePaths=/opt/rootline
+# 2 GB RAM'li paylaşımlı kutuda tavan koyuyoruz.
+MemoryMax=512M
+
+[Install]
+WantedBy=multi-user.target
