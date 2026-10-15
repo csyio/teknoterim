@@ -352,6 +352,89 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center;
 }
 
+/* ---------------------------------------- çalışma ------------------------------- */
+
+.ogrenme {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  margin-top: 20px; padding-bottom: 4px;
+}
+.ogrenme .mono { font-size: .68rem; }
+.tamami {
+  margin-left: auto;
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .05em;
+  color: var(--fosfor);
+}
+.tamami:hover { color: var(--fosfor-vurgu); }
+
+.calisma-giris, .oturum { padding-bottom: 72px; max-width: 720px; }
+
+.sayac-kutusu {
+  display: grid; gap: 12px; margin-bottom: 22px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.sayac-oge {
+  background: var(--yuzey); border: 1px solid var(--cizgi);
+  border-radius: var(--r-lg); padding: 16px 18px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.sayac-sayi { font-family: var(--serif); font-size: 1.9rem; color: var(--parlak); line-height: 1.1; }
+
+.soluk-metin { color: var(--soluk); font-size: .93rem; margin: 0 0 22px; max-width: 62ch; }
+.buyuk-sayi { font-family: var(--serif); font-size: 2.1rem; color: var(--fosfor); margin: 8px 0 14px; }
+
+.oturum-ust {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 18px; border-bottom: 1px solid var(--cizgi); margin-bottom: 26px;
+}
+.soru-tur {
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--fosfor); margin: 0 0 10px;
+}
+.soru-metni { font-size: clamp(1.3rem, 3.2vw, 1.75rem); margin-bottom: 10px; }
+
+.secenekler { display: grid; gap: 10px; margin-top: 26px; }
+.secenek {
+  text-align: left; width: 100%;
+  padding: 15px 18px; border-radius: var(--r);
+  background: var(--yuzey); border: 1px solid var(--cizgi);
+  color: var(--metin); font-family: var(--metin-font); font-size: .98rem; line-height: 1.5;
+  cursor: pointer;
+  transition: border-color var(--hiz) var(--egri), background var(--hiz) var(--egri);
+}
+.secenek:hover:not(:disabled) { border-color: var(--fosfor-kenar); background: var(--yuzey2); }
+.secenek:disabled { cursor: default; }
+.secenek.dogru { border-color: var(--fosfor); background: var(--fosfor-zemin); color: var(--parlak); }
+.secenek.yanlis { border-color: var(--mercan); background: color-mix(in srgb, var(--mercan) 10%, transparent); }
+.secenek.solgun { opacity: .45; }
+
+.aciklama {
+  margin-top: 28px; padding: 22px;
+  background: var(--yuzey); border: 1px solid var(--cizgi); border-radius: var(--r-lg);
+}
+.aciklama h3 { font-size: 1.25rem; }
+.aciklama h3 a:hover { color: var(--fosfor); }
+.aciklama > p { margin: 10px 0 0; }
+.aciklama .rozetler { margin-top: 12px; }
+
+.geri-bildirim { font-family: var(--mono); font-size: .75rem; letter-spacing: .05em; text-transform: uppercase; }
+.geri-bildirim.dogru { color: var(--fosfor); }
+.geri-bildirim.yanlis { color: var(--mercan); }
+
+.dugme-sirasi { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 22px; }
+.dugme-sirasi .dugme, .dugme-sirasi .baglanti-dugme { margin: 0; }
+
+.baglanti-dugme {
+  display: inline-flex; align-items: center;
+  padding: 13px 20px; border-radius: var(--r-tam);
+  background: transparent; border: 1px solid var(--cizgi);
+  color: var(--soluk); font-family: var(--metin-font); font-size: .9rem; cursor: pointer;
+  transition: color var(--hiz), border-color var(--hiz);
+}
+.baglanti-dugme:hover { color: var(--parlak); border-color: var(--cizgi-guclu); }
+
+.oturum-son { padding: 20px 0 72px; max-width: 620px; }
+.oturum-son h2 { font-size: 1.7rem; }
+
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }

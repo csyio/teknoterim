@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { markdown } from "@/lib/md";
 import { SITE } from "@/lib/site";
 import { terimBul, tumTerimler } from "@/lib/terms";
+import { OgrenmeDugmesi } from "./OgrenmeDugmesi";
 
 /** Terim sayfaları derleme zamanında üretilir (her terim kendi URL'si = SEO). */
 export function generateStaticParams() {
@@ -58,6 +59,8 @@ export default async function TerimSayfasi(props: PageProps<"/sozluk/[slug]">) {
 
         <h1>{terim.baslik}</h1>
         <span className="kat">{terim.kategori}</span>
+
+        <OgrenmeDugmesi slug={terim.slug} />
 
         <div className="katman">
           <span className="katman-baslik">Nedir</span>

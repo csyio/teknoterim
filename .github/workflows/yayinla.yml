@@ -41,6 +41,9 @@ jobs:
       - name: Kod denetimi
         run: npm run lint
 
+      - name: Testler
+        run: npm test
+
       - name: Derle
         run: npm run build
 

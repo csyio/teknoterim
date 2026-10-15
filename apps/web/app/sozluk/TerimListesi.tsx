@@ -2,14 +2,9 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import type { TerimOzeti } from "@/lib/sorular";
 
-export type TerimOzeti = {
-  slug: string;
-  baslik: string;
-  kategori: string;
-  ozet: string;
-  isler: string[];
-};
+export type { TerimOzeti };
 
 /** Türkçe harfleri sadeleştirir ki "oltalama" araması "Oltalama"yı da bulsun. */
 function sade(s: string): string {

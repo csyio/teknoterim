@@ -58,6 +58,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </Link>
             <nav className="gezinme" aria-label="Ana gezinme">
               <Link href="/sozluk">Sözlük</Link>
+              <Link href="/calis">Çalış</Link>
             </nav>
             <TemaDugmesi />
           </div>
