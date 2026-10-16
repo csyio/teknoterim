@@ -1,0 +1,16 @@
+# teknoterim-gundem — saatlik zamanlayıcı
+#
+# Kurulum infra/kur.sh içinde. Durum:  systemctl list-timers teknoterim-gundem
+
+[Unit]
+Description=teknoterim — gündem toplayıcısını saatte bir çalıştır
+
+[Timer]
+OnCalendar=hourly
+# Kaynaklara tam saat başında herkesle aynı anda gitmeyelim.
+RandomizedDelaySec=10min
+# Sunucu kapalıyken kaçan çalışma, açılınca bir kez yapılır.
+Persistent=true
+
+[Install]
+WantedBy=timers.target

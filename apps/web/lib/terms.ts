@@ -109,6 +109,14 @@ export function tumTerimler(): Terim[] {
   return onbellek;
 }
 
+let slugKumesi: ReadonlySet<string> | null = null;
+
+/** Sözlükteki tüm slug'lar (gündem özetindeki bağlantıları denetlemek için). */
+export function terimSluglari(): ReadonlySet<string> {
+  slugKumesi ??= new Set(tumTerimler().map((t) => t.slug));
+  return slugKumesi;
+}
+
 export function terimBul(slug: string): Terim | undefined {
   return tumTerimler().find((t) => t.slug === slug);
 }

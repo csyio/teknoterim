@@ -37,6 +37,8 @@ Betiğin yaptıkları:
 | `teknoterim` sistem kullanıcısı | `/opt/teknoterim` ev dizini, giriş kabuğu yok |
 | `/opt/teknoterim` | `2775`, setgid — dağıtım kullanıcısı yazabilir |
 | `teknoterim.service` | kurulur ve `enable` edilir |
+| `teknoterim-gundem.timer` | gündem toplayıcısı saatte bir çalışır (`enable --now`) |
+| `/etc/teknoterim/` | `web.env` ve `gundem.env` boş sır dosyaları (`0640 root:teknoterim`); var olana dokunulmaz |
 | `sudoers` kuralı | `codex` yalnızca bu servisi `restart/start/stop/status` edebilir |
 | Caddy bloğu | eklenir, `caddy validate` ile doğrulanır, geri alınabilir şekilde |
 
@@ -110,8 +112,69 @@ Doğrulama:
 curl -I https://teknoterim.com.tr                 # 200 ve geçerli sertifika
 ssh tigin-codex 'systemctl status teknoterim'     # aktif (running)
 ssh tigin-codex 'journalctl -u teknoterim -n 30'  # son kayıtlar
-curl -s https://teknoterim.com.tr/sitemap.xml | grep -c '<url>'   # 157 (/, /sozluk, /calis, /doviz + 153 terim)
+curl -s https://teknoterim.com.tr/sitemap.xml | grep -c '<url>'   # 158 (/, /sozluk, /gundem, /calis, /doviz + 153 terim)
 ```
+
+---
+
+## Gündem
+
+Gündem iki parçadır: site (`/gundem` yayını, `/yonetim` onayı) ve saatte bir
+çalışan **toplayıcı** (`teknoterim-gundem.service` + `.timer`). Toplayıcı
+siteden ayrı bir süreçtir; Claude API anahtarını yalnızca o görür.
+
+### Sırlar
+
+Sırlar depoda ve CI'da **değil**, sunucuda `/etc/teknoterim/` altındadır
+(`kur.sh` boş dosyaları oluşturur). Düzenlemek için:
+
+```bash
+sudo nano /etc/teknoterim/web.env      # site
+sudo nano /etc/teknoterim/gundem.env   # toplayıcı
+```
+
+`web.env`:
+
+```
+YONETIM_SIFRE_OZETI=scrypt:...
+```
+
+Özeti **kendi bilgisayarınızda** üretin (şifre ekrana yazılmaz, hiçbir yere
+kaydedilmez), çıkan satırı dosyaya yapıştırın, sonra
+`sudo systemctl restart teknoterim`:
+
+```bash
+cd apps/web && npm run sifre-ozeti
+```
+
+Özet tanımlı değilse `/yonetim` kapalıdır ("Yönetim kapalı" yazar). Şifreyi
+değiştirmek tüm oturumları kapatmaz; kapatmak için
+`sqlite3 /opt/teknoterim/data/analytics.db 'DELETE FROM yonetim_oturum'`.
+
+`gundem.env`:
+
+```
+ANTHROPIC_API_KEY=...
+GUNDEM_ESIK=4             # 1–5, bu puanın altı taslağa dönüşmez
+GUNDEM_GUNLUK_TAVAN=20    # günde en fazla taslak
+```
+
+Anahtar yoksa toplayıcı **sahte kipte** çalışır: kaynaklar okunur ama Claude
+çağrılmaz; taslaklar `[SAHTE]` işaretlidir ve editör kendi metnini yazmadan
+yayınlanamaz. Anahtar eklendikten sonra yeniden başlatma gerekmez; bir sonraki
+saatlik çalışma onu okur.
+
+### Denetim
+
+```bash
+systemctl list-timers teknoterim-gundem      # sıradaki çalışma
+sudo systemctl start teknoterim-gundem       # hemen bir kez çalıştır
+journalctl -u teknoterim-gundem -n 50        # son çalışmanın kaydı
+```
+
+Toplayıcı paketi (`araclar/gundem.mjs`) CI'da üretilir ve her dağıtımla
+gelir; zamanlayıcı bir sonraki çalışmada yeni sürümü kullanır, servisi
+yeniden başlatmak gerekmez.
 
 ---
 

@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Gündem toplayıcısının paketlenmiş çıktısı (npm run gundem:paketle).
+    "araclar/gundem.mjs",
   ]),
 ]);
 

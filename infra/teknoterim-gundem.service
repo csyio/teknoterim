@@ -1,0 +1,53 @@
+# teknoterim-gundem — gündem toplayıcısı (tek seferlik iş)
+#
+# Kendi başına çalıştırılmaz; teknoterim-gundem.timer saatte bir tetikler.
+# Elle denemek için:  sudo systemctl start teknoterim-gundem
+# Kayıtlar:           journalctl -u teknoterim-gundem -n 50
+#
+# Site sürecinden ayrıdır: API anahtarı yalnızca bu işe verilir, sitenin
+# kendisi anahtarı hiç görmez. Önceki çalışma sürerken systemd yenisini
+# başlatmaz (aynı birim zaten etkin).
+
+[Unit]
+Description=teknoterim — gündem toplayıcısı (RSS → ayıklama → taslak)
+Documentation=https://github.com/csyio/teknoterim/blob/main/infra/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=teknoterim
+Group=teknoterim
+WorkingDirectory=/opt/teknoterim
+
+# Paket CI'da üretilir (npm run gundem:paketle) ve dağıtımla gelir.
+ExecStart=/usr/bin/node araclar/gundem.mjs
+
+Environment=NODE_ENV=production
+# ANTHROPIC_API_KEY, GUNDEM_ESIK, GUNDEM_GUNLUK_TAVAN burada; dosya depoda
+# değil, sunucuda elle oluşturulur (bkz. infra/README.md → Gündem). Dosya
+# yoksa iş yine çalışır ama sahte kipte (taslaklar [SAHTE] işaretli).
+EnvironmentFile=-/etc/teknoterim/gundem.env
+
+# 20 taslak × birkaç dakika: bir saatlik pencereyi aşmasın.
+TimeoutStartSec=45min
+Nice=10
+StandardOutput=journal
+StandardError=journal
+
+# --- Sıkılaştırma (teknoterim.service ile aynı) ---
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+# Yalnızca veritabanı dizinine yazar.
+ReadWritePaths=/opt/teknoterim/data
+MemoryMax=256M
