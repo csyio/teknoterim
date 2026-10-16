@@ -1,0 +1,268 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / çalışma oturumu
+   --------------------------------------------------------------------------
+   Üç ekran: başlangıç (sayaçlar), soru akışı, oturum sonu. Hepsi aynı
+   ölçüleri kullanır; ekran değişince sayfa zıplamaz.
+   ========================================================================== */
+
+.calisma-giris,
+.oturum {
+  max-width: var(--genislik-icerik);
+  padding-bottom: var(--b-10);
+}
+
+.oturum-son {
+  max-width: var(--genislik-form);
+  padding-bottom: var(--b-10);
+}
+
+.oturum-son h2 {
+  font-size: var(--yazi-2xl);
+}
+
+/* -------------------------------------------------------- başlangıç sayaçları */
+
+/* Üç bölmeli tek panel: gösterge şeridi. */
+.sayac-kutusu {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: var(--b-6);
+}
+
+.sayac-oge {
+  display: flex;
+  flex-direction: column;
+  gap: var(--b-1);
+  padding: var(--b-5);
+  border-left: 1px solid var(--cizgi);
+}
+
+.sayac-oge:first-child {
+  border-left: 0;
+}
+
+@media (max-width: 560px) {
+  .sayac-kutusu {
+    grid-template-columns: 1fr;
+  }
+
+  .sayac-oge {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    border-left: 0;
+    border-top: 1px solid var(--cizgi);
+  }
+
+  .sayac-oge:first-child {
+    border-top: 0;
+  }
+}
+
+.sayac-sayi {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: var(--harf-sik);
+  color: var(--parlak);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------ ortak metinler */
+
+.soluk-metin {
+  max-width: var(--olcu);
+  margin: 0 0 var(--b-6);
+  color: var(--soluk);
+  font-size: var(--yazi-md);
+}
+
+.buyuk-sayi {
+  margin: var(--b-2) 0 var(--b-4);
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: var(--harf-cok-sik);
+  color: var(--vurgu-yazi);
+  font-variant-numeric: tabular-nums;
+}
+
+/* -------------------------------------------------------------- soru akışı */
+
+.oturum-ust {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--b-4);
+  margin-bottom: var(--b-3);
+}
+
+/* İlerleme çubuğu. Görsel bir tekrar; sayısal karşılığı yanında yazılıdır. */
+.ilerleme-cubuk {
+  height: 4px;
+  margin-bottom: var(--b-6);
+  border-radius: var(--r-tam);
+  background: var(--yuzey3);
+  overflow: hidden;
+}
+
+.ilerleme-cubuk span {
+  display: block;
+  height: 100%;
+  border-radius: var(--r-tam);
+  background: var(--vurgu);
+  transition: width var(--hiz-yavas) var(--egri);
+}
+
+.soru-kart {
+  padding: var(--b-6);
+}
+
+.soru-tur {
+  margin-bottom: var(--b-2);
+  font-size: var(--yazi-xs);
+  color: var(--soluk);
+}
+
+.soru-metni {
+  margin-bottom: var(--b-3);
+  font-size: var(--yazi-xl);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -.01em;
+}
+
+/* ----------------------------------------------------------------- seçenekler */
+
+.secenekler {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--b-2);
+  margin-top: var(--b-5);
+}
+
+@media (max-width: 640px) {
+  .secenekler {
+    grid-template-columns: 1fr;
+  }
+}
+
+.secenek {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: var(--b-3);
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r);
+  background: var(--yuzey);
+  color: var(--metin);
+  font-size: var(--yazi-md);
+  line-height: 1.45;
+  text-align: left;
+  transition: background var(--hiz) var(--egri), border-color var(--hiz) var(--egri),
+    color var(--hiz) var(--egri);
+}
+
+.secenek-harf {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r-sm);
+  font-family: var(--mono);
+  font-size: var(--yazi-2xs);
+  color: var(--soluk);
+}
+
+.secenek:hover:not(:disabled) {
+  border-color: var(--vurgu-kenar);
+  background: var(--yuzey2);
+  color: var(--parlak);
+}
+
+.secenek:disabled {
+  cursor: default;
+}
+
+/* Cevap verildikten sonra: doğru şık yeşile, seçilen yanlış şık kırmızıya
+   döner, kalanlar geri çekilir. Renk tek başına anlam taşımaz —
+   `geri-bildirim` metni de sonucu yazar. */
+.secenek.dogru {
+  border-color: var(--basari-kenar);
+  background: var(--basari-zemin);
+  color: var(--parlak);
+  font-weight: 500;
+}
+
+.secenek.dogru .secenek-harf {
+  border-color: var(--basari);
+  background: var(--basari);
+  color: var(--zemin);
+}
+
+.secenek.yanlis {
+  border-color: var(--hata-kenar);
+  background: var(--hata-zemin);
+  color: var(--parlak);
+}
+
+.secenek.yanlis .secenek-harf {
+  border-color: var(--hata);
+  background: var(--hata);
+  color: var(--zemin);
+}
+
+.secenek.solgun {
+  opacity: .5;
+}
+
+/* ---------------------------------------------------------------- cevap paneli */
+
+.aciklama {
+  margin-top: var(--b-4);
+  padding: var(--b-6);
+}
+
+.aciklama h3 {
+  margin-top: var(--b-3);
+  font-size: var(--yazi-xl);
+}
+
+.aciklama h3 a:hover {
+  color: var(--vurgu-yazi);
+}
+
+.aciklama > p:not(.geri-bildirim) {
+  margin-top: var(--b-1);
+  color: var(--metin);
+}
+
+.aciklama .rozetler {
+  margin: var(--b-3) 0;
+}
+
+.geri-bildirim {
+  display: flex;
+  align-items: center;
+  gap: var(--b-2);
+  font-size: var(--yazi-sm);
+  font-weight: 500;
+}
+
+.geri-bildirim svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.geri-bildirim.dogru {
+  color: var(--basari);
+}
+
+.geri-bildirim.yanlis {
+  color: var(--hata);
+}

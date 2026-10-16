@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi
+   --------------------------------------------------------------------------
+   Tek giriş noktası. Sıra önemlidir ve bilinçlidir:
+
+     1. tokenlar   kararlar (renk, boşluk, yazı ölçeği)
+     2. yazıtipleri @font-face bildirimleri
+     3. taban      sıfırlama ve öğe varsayılanları
+     4. düzen      kabuk ve sayfa ritmi
+     5. bileşenler sırayla; sonraki öncekini ezebilir
+     6. yazdırma   kâğıt için son söz
+     7. erişim     hareket ve kontrast tercihleri en son okunur
+
+   Yeni bir bileşen eklerken dosyasını `bilesenler/` altına koyup buraya
+   eklemek yeterlidir; hiçbir bileşen başka bir bileşenin dosyasına yazmaz.
+
+   Sistemin kendini anlatması: aynı klasördeki OKUBENI.md.
+   ========================================================================== */
+
+@import "./tokenlar.css";
+@import "./yazitipi.css";
+@import "./taban.css";
+@import "./duzen.css";
+
+@import "./bilesenler/ust-bar.css";
+@import "./bilesenler/dugme.css";
+@import "./bilesenler/etiket.css";
+@import "./bilesenler/form.css";
+@import "./bilesenler/dizin.css";
+@import "./bilesenler/icerik.css";
+@import "./bilesenler/oturum.css";
+@import "./bilesenler/doviz.css";
+@import "./bilesenler/gundem.css";
+@import "./bilesenler/yonetim.css";
+@import "./bilesenler/durum.css";
+@import "./bilesenler/alt-bar.css";
+
+@import "./yazdirma.css";
+@import "./erisim.css";

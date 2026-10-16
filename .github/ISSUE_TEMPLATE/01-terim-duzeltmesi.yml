@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Bu, rootline'ın alabileceği en değerli geri bildirim. Yanlış öğretilen
+        Bu, Tekno Terim'in alabileceği en değerli geri bildirim. Yanlış öğretilen
         bir terim, hiç öğretilmemiş olmaktan kötüdür.
 
   - type: input

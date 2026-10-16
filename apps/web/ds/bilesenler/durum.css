@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / boş ve bilgi durumları
+   ========================================================================== */
+
+/* Sonuç yok, tekrar edilecek terim yok gibi durumlar. Bir hata değil,
+   beklenen bir hâl: bu yüzden kırmızı değil, kesik çizgili sakin bir kutu. */
+.bos {
+  max-width: var(--genislik-icerik);
+  padding: var(--b-7) var(--b-6);
+  border: 1px dashed var(--cizgi-guclu);
+  border-radius: var(--r-lg);
+  color: var(--soluk);
+  text-align: center;
+}
+
+/* 404 sayfası. */
+.bulunamadi {
+  max-width: var(--genislik-form);
+  padding: var(--b-11) 0;
+}
+
+.bulunamadi h1 {
+  margin-top: var(--b-3);
+  font-size: var(--yazi-3xl);
+  letter-spacing: var(--harf-cok-sik);
+}
+
+.bulunamadi p:not(.mono) {
+  margin-top: var(--b-3);
+  color: var(--soluk);
+}

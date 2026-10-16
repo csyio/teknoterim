@@ -1,0 +1,98 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / erişilebilirlik katmanı
+   --------------------------------------------------------------------------
+   Hareket ve kontrast tercihlerine saygı. Bu dosya en sonda okunur ki
+   bileşenlerin kararlarını geçersiz kılabilsin.
+   ========================================================================== */
+
+/* Hareketten rahatsız olan kullanıcı: geçiş ve animasyon fiilen kapanır,
+   kaydırma sıçraması devre dışı kalır. `!important` bilinçlidir — bileşen
+   bazında tek tek unutmak yerine tek noktadan garanti veriyoruz. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Yüksek kontrast modu (Windows). Renkler sistem tarafından değiştirilir;
+   bizim yapmamız gereken, anlamı yalnızca renkle taşımamak ve kenarlıkları
+   sistem rengine bırakmak.
+
+   Hover'da zemin değişimi sistem renklerinde görünmez; yerine ince bir
+   çerçeve çıkar. */
+@media (forced-colors: active) {
+  .panel,
+  .dizin-satir,
+  .bolum,
+  .sayac-oge,
+  .arama,
+  .secenek,
+  .secenek-harf,
+  .dugme,
+  .baglanti-dugme,
+  .doviz-girdi,
+  .doviz-secim,
+  .doviz-degistir,
+  .tema-btn,
+  .cip,
+  .kat,
+  .etiket,
+  .rozet,
+  .katman,
+  .gundem-oge,
+  .yonetim-girdi,
+  .yonetim-uyari {
+    border-color: CanvasText;
+  }
+
+  .yonetim-girdi:focus {
+    outline-color: Highlight;
+  }
+
+  /* Hap ve kutular kenarlıksız kalınca sistem renginde kaybolur. */
+  .kat,
+  .doviz-sonuc {
+    border: 1px solid CanvasText;
+  }
+
+  :focus-visible {
+    outline-color: Highlight;
+  }
+
+  .cip[aria-pressed="true"],
+  .dugme[aria-pressed="true"],
+  .secenek.dogru {
+    border-color: Highlight;
+  }
+
+  /* Bulunulan sayfa yalnızca zeminle ayrılıyordu; sistem renklerinde zemin
+     kaybolur, bu yüzden altı çizilir. */
+  .gezinme a[aria-current="page"] {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .arama:focus {
+    outline-color: Highlight;
+  }
+
+  .dizin-satir:hover,
+  .bolum:hover {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+
+  .secenek.solgun {
+    opacity: 1;
+  }
+
+  .geri-bildirim.yanlis,
+  .secenek.yanlis {
+    border-color: LinkText;
+  }
+}

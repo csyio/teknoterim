@@ -1,0 +1,164 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / taban
+   --------------------------------------------------------------------------
+   Sıfırlama ve öğe varsayılanları. Buradan sonraki dosyalar yalnızca
+   bileşenleri tanımlar; öğe (h1, p, a...) davranışı burada bir kez karara
+   bağlanır ki her bileşen aynı varsayılanla başlasın.
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--zemin);
+  color: var(--metin);
+  font-family: var(--metin-font);
+  font-size: var(--yazi-base);
+  line-height: var(--satir-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Boşluk kimseye "hazır gelmez": her aralık açıkça yazılır. Tarayıcı
+   varsayılanlarına bırakılan boşluk, bileşenden bileşene tutarsız görünür. */
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd,
+pre {
+  margin: 0;
+}
+
+/* Başlıklar Geist, yarı kalın ve sıkı harf aralıklı. */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--baslik-font);
+  font-weight: 600;
+  color: var(--parlak);
+  line-height: var(--satir-sik);
+  letter-spacing: var(--harf-sik);
+  /* Başlıkta tek kelime sarkmasın; desteklemeyen tarayıcı yokmuş gibi davranır. */
+  text-wrap: balance;
+}
+
+p {
+  /* Uzun paragraflarda satır sonlarını dengeler (destekleyen tarayıcıda). */
+  text-wrap: pretty;
+}
+
+strong,
+b {
+  color: var(--parlak);
+  font-weight: 600;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+/* Form öğeleri ailenin rengini ve yazısını devralsın; tarayıcı varsayılanı
+   sistem yazı tipine düşer ve görünüm paketinden kopar. */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--soluk2);
+  opacity: 1;
+}
+
+/* Klavye kullanıcısı için tek odak dili: her etkileşimli öğe aynı halkayı
+   alır. `:focus-visible` sayesinde fareyle tıklamada halka çıkmaz. */
+:focus-visible {
+  outline: 2px solid var(--odak);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+::selection {
+  background: var(--vurgu-zemin);
+  color: var(--parlak);
+}
+
+/* ------------------------------------------------------------- yardımcılar */
+
+/* Yalnızca ekran okuyucuya görünür. */
+.gizli {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Teknik etiket: mono ve küçük. Büyük harfe çevrilmez; Türkçede İ/ı
+   dönüşümü İngilizce kelimeleri bozuyordu ("DOMAİN"). */
+.mono {
+  font-family: var(--mono);
+  font-size: var(--yazi-xs);
+  color: var(--soluk);
+  font-variant-numeric: tabular-nums;
+}
+
+/* "İçeriğe geç" bağlantısı: klavyeyle gelene kadar görünmez. */
+.atla {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: var(--kat-atla);
+  background: var(--vurgu);
+  color: var(--vurgu-metin);
+  padding: var(--b-3) var(--b-4);
+  border-radius: 0 0 var(--r) 0;
+  font-weight: 500;
+}
+
+.atla:focus {
+  left: 0;
+}

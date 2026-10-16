@@ -1,0 +1,105 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / etiketler, rozetler, çipler
+   --------------------------------------------------------------------------
+   Üç farklı iş, üç sınıf ailesi:
+     .kat      kategori künyesi (mor hap, tıklanmaz)
+     .rozet    iş etiketi ("Hangi işte karşınıza çıkar")
+     .etiket   durum ("hazır" / "hazırlanıyor")
+     .cip      süzgeç düğmesi (tıklanır, seçili durumu `aria-pressed`)
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ kategori */
+
+.kat {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: var(--r-tam);
+  background: var(--vurgu-zemin);
+  color: var(--vurgu-yazi);
+  font-size: var(--yazi-2xs);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------- rozetler */
+
+.rozetler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rozet {
+  padding: 4px 10px;
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r-sm);
+  background: var(--yuzey2);
+  color: var(--parlak);
+  font-size: var(--yazi-xs);
+}
+
+/* -------------------------------------------------------------------- etiket */
+
+.etiket {
+  padding: 2px 8px;
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r-tam);
+  color: var(--soluk);
+  font-size: var(--yazi-2xs);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.etiket.hazir {
+  border-color: var(--basari-kenar);
+  background: var(--basari-zemin);
+  color: var(--basari);
+}
+
+/* --------------------------------------------------------------------- çipler */
+
+.cipler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--b-2);
+  margin-bottom: var(--b-5);
+}
+
+.cip {
+  min-height: 34px;
+  padding: 0 var(--b-3);
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r-tam);
+  background: var(--yuzey);
+  color: var(--metin);
+  font-size: var(--yazi-sm);
+  font-weight: 500;
+  transition: color var(--hiz) var(--egri), border-color var(--hiz) var(--egri),
+    background var(--hiz) var(--egri);
+}
+
+.cip:hover {
+  color: var(--parlak);
+  border-color: var(--cizgi-guclu);
+}
+
+/* Seçili süzgeç ters renk alır: koyu dolgu, açık yazı. Durum `aria-pressed`
+   ile taşınır; ekran okuyucu da seçimi görür. */
+.cip[aria-pressed="true"] {
+  border-color: var(--parlak);
+  background: var(--parlak);
+  color: var(--zemin);
+}
+
+.cip-adet {
+  margin-left: 6px;
+  font-family: var(--mono);
+  font-size: var(--yazi-2xs);
+  color: var(--soluk);
+}
+
+/* Ters renkli seçili çipte sayı da zemin rengini alır. */
+.cip[aria-pressed="true"] .cip-adet {
+  color: inherit;
+}

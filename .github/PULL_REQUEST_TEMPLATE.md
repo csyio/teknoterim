@@ -1,12 +1,10 @@
 <!--
-  Bu depo rootline'ın KAYNAK KODUNU İÇERMEZ; uygulamanın kodu özel bir
-  depoda tutulur.
+  Hem kod hem içerik PR'ı açabilirsiniz. Küçük ve tek amaçlı değişiklikler
+  tercih edilir.
 
-  Burada kabul edilen pull request'ler belge (.md) düzeltmeleridir:
-  yazım hatası, bozuk bağlantı, yanlış anlaşılan anlatım.
-
-  Bir TERİMİN içeriği yanlışsa PR değil, issue açın — terim metinleri
-  bu depoda değil, uygulamanın veri kaynağında.
+  Bir TERİMİN içeriğini düzeltiyorsanız: doğrudan PR açabilirsiniz — değişen
+  tek bir dosya olur (`apps/web/content/terimler/<slug>.md`). Emin değilseniz
+  terim düzeltmesi issue'su da açabilirsiniz.
 -->
 
 ## Ne değişti?
@@ -17,13 +15,16 @@
 
 <!--
   Yazım hatası gibi apaçık düzeltmelerde "yazım hatası" demeniz yeterli.
+  Bir terimin içeriğini değiştiriyorsanız kaynağınızı da yazın.
 -->
 
 ## Kontrol listesi
 
-- [ ] Yalnızca belge (`.md`) veya görsel değişikliği içeriyor
+- [ ] Değişiklik tek amaçlı ve mümkün olduğunca küçük
+- [ ] Kod değiştiyse: `npm test`, `npm run lint` ve `npm run build` geçiyor
+- [ ] Yeni davranış eklediysem yanına testini de ekledim
+- [ ] Terim içeriği değiştiyse: dört katman (nedir → ne amaçla → hangi işte →
+      örnek) korunuyor ve `slug` dosya adıyla eşleşiyor
 - [ ] Bağlantıları kontrol ettim, kırık bağlantı bırakmadım
-- [ ] Bir terimin **içeriğini** değiştirmiyor
-      (değiştiriyorsa: [terim düzeltmesi issue'su](../../issues/new/choose) açın)
 - [ ] Bu PR bir güvenlik açığını ifşa etmiyor
-      (ediyorsa: [özel bildirim](https://github.com/csyio/rootline/security/advisories/new) kullanın)
+      (ediyorsa: [özel bildirim](https://github.com/csyio/teknoterim/security/advisories/new) kullanın)

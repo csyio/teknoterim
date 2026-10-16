@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / form
+   ========================================================================== */
+
+/* Sözlükteki arama alanı. Etiketi görünmez (`.gizli`), yer tutucusu örnek
+   verir; solunda büyüteç simgesi durur (`.arama-kutu` içinde).
+
+   Odakta dış halka yerine kenarlık vurguya döner ve yumuşak bir hale
+   çıkar; alan büyümediği için sayfa zıplamaz. */
+.arama-kutu {
+  position: relative;
+  margin-bottom: var(--b-4);
+}
+
+.arama-kutu svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  color: var(--soluk2);
+  pointer-events: none;
+}
+
+.arama {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 var(--b-4) 0 44px;
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r-lg);
+  background: var(--yuzey);
+  box-shadow: var(--golge);
+  color: var(--parlak);
+  font-size: var(--yazi-base);
+  transition: border-color var(--hiz) var(--egri), box-shadow var(--hiz) var(--egri);
+}
+
+.arama:hover {
+  border-color: var(--cizgi-guclu);
+}
+
+.arama:focus {
+  border-color: var(--vurgu);
+  box-shadow: 0 0 0 3px var(--vurgu-zemin);
+  /* Görünmez çerçeve: normalde hiçbir şey çizmez, yüksek kontrast modunda
+     sistem rengine boyanıp odak göstergesi olur (gölge orada silinir). */
+  outline: 2px solid transparent;
+}

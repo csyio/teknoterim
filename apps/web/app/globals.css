@@ -1,0 +1,8 @@
+/* ==========================================================================
+   Uygulamanın stil girişi.
+   --------------------------------------------------------------------------
+   Bu dosya bilinçli olarak boştur: görünüm paketinin tamamı `ds/` altında
+   yaşar. Burada stil yazmak, sistemi ikiye böler.
+   ========================================================================== */
+
+@import "../ds/index.css";

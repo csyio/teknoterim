@@ -1,0 +1,19 @@
+# İşletim sistemi / düzenleyici
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Node (uygulama altındaki .gitignore ayrıca kapsar)
+node_modules/
+
+# Sırlar ve yerel veri
+.env
+.env.*
+*.db
+*.db-wal
+*.db-shm
+
+# Ölçüm verisi ve tuzu (çalışma anında oluşur, depoya girmez)
+data/
+olcum-tuz

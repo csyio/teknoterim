@@ -1,0 +1,15 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / alt bar
+   ========================================================================== */
+
+.alt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--b-2) var(--b-6);
+  padding: var(--b-6) var(--b-6) var(--b-8);
+  border-top: 1px solid var(--cizgi);
+  font-size: var(--yazi-xs);
+  color: var(--soluk);
+}

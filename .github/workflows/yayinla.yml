@@ -1,0 +1,140 @@
+name: Yayınla
+
+# Derleme CI'da yapılır (sunucuda değil): VPS'te 2 GB RAM var ve orada iki
+# canlı proje çalışıyor. Ayrıca derleme çıktısı sunucunun mimarisiyle (linux x64)
+# ve Node sürümüyle uyumlu olmak zorunda — bu yüzden runner'ı da 22'ye sabitledik.
+#
+# Derleme her zaman çalışır (push eden her değişiklik doğrulanır). Dağıtım
+# adımları ise yalnızca SSH sırları tanımlıysa çalışır; aksi hâlde uyarı verip
+# atlanır. Sırların kurulumu: infra/README.md
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: yayin-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  derle-ve-yayinla:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: apps/web/.nvmrc
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Bağımlılıkları kur
+        run: npm ci
+
+      - name: Kod denetimi
+        run: npm run lint
+
+      - name: Testler
+        run: npm test
+
+      - name: Derle
+        run: npm run build
+
+      # Gündem toplayıcısı siteden ayrı bir süreçtir (systemd zamanlayıcısı);
+      # bağımlılıkları ve sözlük terimleriyle tek dosyaya paketlenir ve
+      # aşağıda araclar/ ile birlikte kopyalanır.
+      - name: Gündem toplayıcısını paketle
+        run: npm run gundem:paketle
+
+      # standalone çıktısı public/ ve .next/static'i kendiliğinden içermez.
+      # araclar/ da kopyalanır: sunucuda TypeScript kaynağı yok, ölçüm raporu
+      # bu yüzden kendi kendine yeten bir dosya olarak taşınır.
+      - name: Çıktıyı tamamla
+        run: |
+          cp -r public .next/standalone/public
+          cp -r araclar .next/standalone/araclar
+          mkdir -p .next/standalone/.next
+          cp -r .next/static .next/standalone/.next/static
+
+      # Dağıtım yalnızca main dalından yapılır: push ya da Actions sekmesinden
+      # elle başlatma (workflow_dispatch). Pull request'ler yalnızca derlenir.
+      # SSH_SUNUCU hiç tanımlı değilse dağıtım henüz kurulmamış demektir:
+      # uyarıyla atlanır. Tanımlıysa diğer üç sır da şarttır; eksikse iş
+      # belirsiz bir SSH hatası yerine açık bir mesajla durur.
+      #
+      # Sırlar kabuğa her zaman `env:` ile verilir, betiğin içine gömülmez:
+      # değerdeki özel bir karakter betiğin kendisini bozamaz.
+      - name: Dağıtım sırları tanımlı mı?
+        id: kontrol
+        env:
+          SSH_SUNUCU: ${{ secrets.SSH_SUNUCU }}
+          SSH_KULLANICI: ${{ secrets.SSH_KULLANICI }}
+          SSH_ANAHTAR: ${{ secrets.SSH_ANAHTAR }}
+          SSH_BILINEN_ANAHTAR: ${{ secrets.SSH_BILINEN_ANAHTAR }}
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ] || [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "hazir=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Pull request ya da main dışı bir dal: yalnızca derlendi, dağıtım yapılmadı."
+            exit 0
+          fi
+          if [ -z "$SSH_SUNUCU" ]; then
+            echo "hazir=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::SSH sırları tanımlı değil. Dağıtım atlandı — bkz. infra/README.md"
+            exit 0
+          fi
+          eksik=""
+          [ -n "$SSH_KULLANICI" ] || eksik="$eksik SSH_KULLANICI"
+          [ -n "$SSH_ANAHTAR" ] || eksik="$eksik SSH_ANAHTAR"
+          [ -n "$SSH_BILINEN_ANAHTAR" ] || eksik="$eksik SSH_BILINEN_ANAHTAR"
+          if [ -n "$eksik" ]; then
+            echo "::error::Eksik sır:$eksik. Sunucu kimliği ve erişimi doğrulanamadığı için dağıtım durduruldu — bkz. infra/README.md"
+            exit 1
+          fi
+          echo "hazir=true" >> "$GITHUB_OUTPUT"
+
+      # Sunucunun kimliği sabitlenmiş: her dağıtımda `ssh-keyscan` ile o an
+      # gelen anahtara körü körüne güvenmek, araya giren birine derleme
+      # çıktısını ve sunucu erişimini teslim etmek olurdu. Bilinen anahtar
+      # bir kez doğrulanıp sır olarak saklanır (bkz. infra/README.md).
+      - name: SSH anahtarını hazırla
+        if: steps.kontrol.outputs.hazir == 'true'
+        env:
+          SSH_ANAHTAR: ${{ secrets.SSH_ANAHTAR }}
+          SSH_BILINEN_ANAHTAR: ${{ secrets.SSH_BILINEN_ANAHTAR }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_ANAHTAR" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$SSH_BILINEN_ANAHTAR" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+          printf 'Host *\n  StrictHostKeyChecking yes\n' > ~/.ssh/config
+
+      # --delete kullanılıyor ama veri ve sır dosyaları korunuyor.
+      - name: Sunucuya kopyala
+        if: steps.kontrol.outputs.hazir == 'true'
+        env:
+          SSH_SUNUCU: ${{ secrets.SSH_SUNUCU }}
+          SSH_KULLANICI: ${{ secrets.SSH_KULLANICI }}
+        run: |
+          rsync -az --delete \
+            --exclude '.env*' \
+            --exclude 'data/' \
+            --exclude '*.db' --exclude '*.db-wal' --exclude '*.db-shm' \
+            --exclude '.git' \
+            .next/standalone/ \
+            "$SSH_KULLANICI@$SSH_SUNUCU:/opt/teknoterim/"
+
+      - name: Servisi yeniden başlat
+        if: steps.kontrol.outputs.hazir == 'true'
+        env:
+          SSH_SUNUCU: ${{ secrets.SSH_SUNUCU }}
+          SSH_KULLANICI: ${{ secrets.SSH_KULLANICI }}
+        run: |
+          ssh "$SSH_KULLANICI@$SSH_SUNUCU" 'sudo systemctl restart teknoterim.service'

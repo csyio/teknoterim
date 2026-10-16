@@ -1,0 +1,209 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / tokenlar
+   --------------------------------------------------------------------------
+   Tek karar kaynağı. Bileşenler ham değer yazmaz; yalnızca buradaki
+   değişkenleri kullanır.
+
+   DİL: "Grafit" (2026-10-16, Can'ın onayıyla):
+     · Nötr grafit yüzeyler, tek vurgu: mor (#5B47D6 / koyuda #8C7CFF).
+     · Yumuşak ama abartısız köşeler (6–12px), yapıyı 1px çizgiler ve
+       hafif yüzey farkları kurar; açık temada çok hafif gölge.
+     · Tek aile: Geist (metin ve başlık), Geist Mono (künye, sayılar).
+     · Büyük harfe çevirme yok: Türkçede "DOMAİN" gibi bozulmalar çıkıyordu.
+
+   Tema: varsayılan olarak sistem tercihine uyar. Kullanıcı düğmeyle seçerse
+   `<html data-tema="acik|koyu">` sistemi ezer (bkz. layout.tsx).
+
+   Adlandırma:
+     --zemin, --yuzey*   yüzeyler (katman sırası)
+     --parlak, --metin, --soluk*   metin tonları (güçlüden zayıfa)
+     --vurgu*            marka vurgusu
+     --basari*, --hata*  cevap durumları
+     --b-*               boşluk ölçeği (4px tabanı)
+     --yazi-*            yazı boyutu ölçeği
+     --r-*               yarıçaplar
+   ========================================================================== */
+
+/* -------------------------------------------- renk: açık tema (varsayılan) */
+
+:root {
+  color-scheme: light;
+
+  --zemin: #F9F9FB;
+  --yuzey: #FFFFFF;
+  --yuzey2: #F3F3F6;
+  --yuzey3: #EAEAEF;
+
+  --cizgi: #E4E4EA;
+  --cizgi-guclu: #CFCFD8;
+
+  --parlak: #16161A;
+  --metin: #3F4049;
+  --soluk: #5D5E69;
+  --soluk2: #6E6F7A;
+
+  --vurgu: #5B47D6;
+  --vurgu-parlak: #4A37C4;
+  --vurgu-metin: #FFFFFF;
+  --vurgu-yazi: #4935C0;
+  --vurgu-zemin: #EEEBFD;
+  --vurgu-kenar: #C9C1F7;
+
+  --basari: #127A45;
+  --basari-zemin: #E8F6EE;
+  --basari-kenar: #9FD8B8;
+
+  --hata: #B42318;
+  --hata-zemin: #FDECEA;
+  --hata-kenar: #F3B8B1;
+
+  --golge: 0 1px 2px rgba(22, 22, 26, .05);
+}
+
+/* ---------------------------------------------------------- renk: koyu tema */
+
+/* Aynı değerler iki kez yazılıyor: biri sistem tercihi (kullanıcı açık
+   seçmediyse), biri kullanıcının açık seçimi için. CSS'te ikisini tek
+   seçicide birleştirmenin yolu yok. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="acik"]) {
+    color-scheme: dark;
+
+    --zemin: #0C0C0F;
+    --yuzey: #141418;
+    --yuzey2: #1B1B20;
+    --yuzey3: #24242B;
+
+    --cizgi: #26262D;
+    --cizgi-guclu: #3A3A44;
+
+    --parlak: #EDEDF1;
+    --metin: #B6B7C0;
+    --soluk: #8F909A;
+    --soluk2: #868792;
+
+    --vurgu: #8C7CFF;
+    --vurgu-parlak: #A89CFF;
+    --vurgu-metin: #0C0C0F;
+    --vurgu-yazi: #B4A9FF;
+    --vurgu-zemin: #1F1B38;
+    --vurgu-kenar: #3D3570;
+
+    --basari: #5EE08F;
+    --basari-zemin: #0F2A1B;
+    --basari-kenar: #22663F;
+
+    --hata: #FF8A7A;
+    --hata-zemin: #33140F;
+    --hata-kenar: #6B2A20;
+
+    --golge: none;
+  }
+}
+
+:root[data-tema="koyu"] {
+  color-scheme: dark;
+
+  --zemin: #0C0C0F;
+  --yuzey: #141418;
+  --yuzey2: #1B1B20;
+  --yuzey3: #24242B;
+
+  --cizgi: #26262D;
+  --cizgi-guclu: #3A3A44;
+
+  --parlak: #EDEDF1;
+  --metin: #B6B7C0;
+  --soluk: #8F909A;
+  --soluk2: #868792;
+
+  --vurgu: #8C7CFF;
+  --vurgu-parlak: #A89CFF;
+  --vurgu-metin: #0C0C0F;
+  --vurgu-yazi: #B4A9FF;
+  --vurgu-zemin: #1F1B38;
+  --vurgu-kenar: #3D3570;
+
+  --basari: #5EE08F;
+  --basari-zemin: #0F2A1B;
+  --basari-kenar: #22663F;
+
+  --hata: #FF8A7A;
+  --hata-zemin: #33140F;
+  --hata-kenar: #6B2A20;
+
+  --golge: none;
+}
+
+/* ------------------------------------------------------------- temadan bağımsız */
+
+:root {
+  --odak: var(--vurgu);
+
+  /* ------------------------------------------------------------------ yazı */
+
+  --metin-font: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Arial, sans-serif;
+  --baslik-font: var(--metin-font);
+  --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --yazi-2xs: .75rem;
+  --yazi-xs: .8125rem;
+  --yazi-sm: .875rem;
+  --yazi-md: .9375rem;
+  --yazi-base: 1rem;
+  --yazi-lg: 1.0625rem;
+  --yazi-xl: 1.1875rem;
+  --yazi-2xl: clamp(1.375rem, 2.4vw, 1.625rem);
+  --yazi-3xl: clamp(2rem, 4.4vw, 2.75rem);
+  --yazi-4xl: clamp(2.4rem, 6.4vw, 3.75rem);
+
+  --satir-sik: 1.1;
+  --satir-normal: 1.6;
+  --satir-gevsek: 1.65;
+
+  --harf-sik: -.02em;
+  --harf-cok-sik: -.03em;
+
+  --olcu: 68ch;
+
+  /* --------------------------------------------------------------- boşluk */
+
+  --b-1: 4px;
+  --b-2: 8px;
+  --b-3: 12px;
+  --b-4: 16px;
+  --b-5: 20px;
+  --b-6: 24px;
+  --b-7: 32px;
+  --b-8: 40px;
+  --b-9: 56px;
+  --b-10: 72px;
+  --b-11: 96px;
+
+  /* -------------------------------------------------------------- ölçüler */
+
+  --genislik: 1160px;
+  --genislik-icerik: 720px;
+  --genislik-form: 640px;
+  --ust-yukseklik: 60px;
+  --denetim: 42px;
+
+  /* ------------------------------------------------------------- yarıçaplar */
+
+  --r-sm: 6px;
+  --r: 8px;
+  --r-lg: 12px;
+  --r-tam: 999px;
+
+  /* ---------------------------------------------------------------- hareket */
+
+  --hiz: .14s;
+  --hiz-yavas: .26s;
+  --egri: cubic-bezier(.2, .6, .3, 1);
+
+  /* ----------------------------------------------------------------- katman */
+
+  --kat-yapiskan: 20;
+  --kat-atla: 100;
+}

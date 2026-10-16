@@ -1,126 +1,140 @@
-<img src="assets/hero.svg" alt="rootline — MSP, hosting ve sunucu dünyasının terimleri" width="100%">
+# Tekno Terim
 
-<p align="center">
-  <img src="https://img.shields.io/badge/durum-canlı-4ADE80?style=flat-square&labelColor=161A18" alt="Canlı">
-  <img src="https://img.shields.io/badge/bağımlılık-sıfır-4ADE80?style=flat-square&labelColor=161A18" alt="Sıfır bağımlılık">
-  <img src="https://img.shields.io/badge/terim-49-5EC8D8?style=flat-square&labelColor=161A18" alt="49 terim">
-  <img src="https://img.shields.io/badge/dil-Türkçe-93A099?style=flat-square&labelColor=161A18" alt="Türkçe">
-</p>
+**Tekno Terim**, MSP/MSSP, sunucu/hosting, alan adı/DNS ve ağ güvenliği
+alanlarının terimlerini Türkçe öğreten bir uygulamadır.
 
-<p align="center">
-  <a href="https://rootline.cansoykanyilmaz.com"><b>rootline.cansoykanyilmaz.com &nbsp;→</b></a>
-</p>
+Bu sektörde çalışan biri için terimler, haberler ve araçlar dağınık kaynaklara
+yayılmıştır. Tekno Terim bunları sade, hızlı ve reklamsız tek bir yerde toplar
+— kurulum yok, hesap yok.
 
-<p align="center">
-  <b>Türkçe</b> · <a href="README.en.md">English</a>
-</p>
+> **Durum:** yeniden geliştirme sürecinde. Sözlük, alıştırma, döviz çevirici ve
+> gündem çalışıyor; görünüm paketi Grafit. Gündemin yapay zekâ adımı API anahtarı
+> gelene kadar sahte (stub) kipte. Eski sürüm
+> `rootline.cansoykanyilmaz.com` adresinde duruyor ve yeni sürüm hazır olunca
+> oraya yönlendirilecek.
 
-<br>
+## Terimler nasıl anlatılır
 
-## Nedir?
+Her terim dört katmanda yazılır. Bu, projenin en önemli kuralıdır:
 
-**rootline**, MSP/MSSP, hosting, alan adı/DNS ve ağ güvenliği alanlarının
-terimlerini öğreten, sektör gündemini takip eden ve günlük işte lazım olan
-araçları tek yerde toplayan Türkçe bir bilgi uygulamasıdır.
+| Katman | Soru |
+|---|---|
+| **Nedir** | Tek cümlelik, süslü olmayan tanım. |
+| **Ne amaçla kullanılır** | Sektörde hangi ihtiyacı karşılar. |
+| **Hangi işte karşınıza çıkar** | Günlük işte hangi durumlarda gerekir. |
+| **Örnek** | Somut, gerçekçi bir senaryo. |
 
-Bu sektörde çalışan biri için terimler, güncel haberler ve kur takibi dağınık
-kaynaklara yayılmıştır. rootline bunları sade, hızlı ve reklamsız tek bir
-arayüzde birleştirir — kurulum yok, hesap yok, dağınıklık yok.
+Yanlış öğretilen bir terim, hiç öğretilmemiş olmaktan kötüdür. Bir terim
+eksikse ya da hatalıysa bu bir **hata**, tercih değil.
 
-<br>
-
-## Ne var içinde?
+## Ne var içinde
 
 | | |
 | :-- | :-- |
-| **`terimler`** | 49 sektör terimi. Her terim dört katmanda anlatılır: *nedir* → *ne amaçla kullanılır* → *hangi işte karşına çıkar* → *somut örnek*. Arama, kategori filtresi ve "öğrendim" işaretlemesiyle kişisel ilerleme takibi. |
-| **`gündem`** | Yapay zekâ, güvenlik, hosting ve DNS dünyasından güncel haberler. 27 doğrulanmış kaynaktan günde iki kez taranır; her haber özgün Türkçe özet ve kaynak bağlantısıyla yayımlanır. İlgili terime tek dokunuşla geçiş. |
-| **`döviz`** | Hosting ve domain maliyetleri döviz cinsindendir. USD/EUR/GBP → TRY çevirici, geçmiş kur grafiği ve kur alarmı. |
+| **`/sozluk`** | 153 terim. Aksan duyarsız arama ve kategori süzgeci. Her terim dört katmanda anlatılır. |
+| **`/calis`** | Öğrendiklerini sınayan alıştırma. Sorular içerikten otomatik üretilir; yanlış cevap terimi geri getirir (aralıklı tekrar). İlerleme yalnızca tarayıcıda tutulur. |
+| **`/doviz`** | Döviz çevirici. Kurlar TCMB'nin günlük bülteninden kendi sunucumuz (`/api/kur`) üzerinden alınır; tarayıcı üçüncü tarafa bağlanmaz. |
+| **`/gundem`** | Az ama güvenilir haber akışı: güvenlik, hosting/bulut, alan adı/DNS, yapay zekâ. Yalnızca seçilmiş RSS kaynakları okunur, Claude önem puanı verip özgün Türkçe özet taslağı yazar, editör `/yonetim` sayfasından onaylamadan hiçbir şey yayına çıkmaz. Haber metni kopyalanmaz; her haberde kaynak bağlantısı var. |
 
-<br>
+Kategori dağılımı: Ağ/Güvenlik 42, Sunucu/Hosting 32, MSP/MSSP 29,
+Domain/DNS 29, Müşteri/İş 21.
 
-## Ekran görüntüleri
+## Depo yapısı
 
-<img src="assets/preview-terimler.svg" alt="rootline — terimler sekmesi" width="100%">
+```
+apps/web/               Next.js uygulaması
+  app/                  Sayfalar, API uçları, tasarım sistemi
+  content/terimler/     Terim içeriği (kaynağı budur) — 153 .md dosyası
+  lib/                  İçerik yükleyici, alıştırma, ilerleme, ölçüm, gündem
+  araclar/              Sunucuda çalışan yardımcı betikler (ölçüm raporu, gündem toplayıcısı)
+infra/                  Sunucu kurulumu, systemd, Caddy, dağıtım
+scripts/                İçerik göç araçları
+docs/                   İçerik planı ve marka çalışmaları
+```
 
-<br>
+İçerik **koddan ayrıdır**: terim eklemek için uygulama koduna dokunmak
+gerekmez. Her terim tek bir dosyadır, yani her terim ayrı bir değişiklik
+olarak gözden geçirilebilir.
 
-<img src="assets/preview-gundem.svg" alt="rootline — gündem sekmesi" width="100%">
+## Terim eklemek
 
-<br>
+`apps/web/content/terimler/` altına yeni bir `.md` dosyası ekleyin. Dosya adı
+terimin URL'sidir (ör. `dnssec.md` → `/sozluk/dnssec`).
 
-## Kullanım
+```md
+---
+slug: "ornek-terim"
+baslik: "Örnek Terim"
+kategori: "Domain/DNS"
+ozet: "Tek cümlelik tanım."
+isler:
+  - "Arıza teşhisi"
+  - "İlk kurulum"
+kaynaklar: []
+---
 
-Tarayıcıdan açılır. İndirme, kurulum veya kayıt gerekmez:
+## Ne amaçla kullanılır
 
-<p align="center">
-  <a href="https://rootline.cansoykanyilmaz.com"><b>rootline.cansoykanyilmaz.com</b></a>
-</p>
+Sektörde hangi ihtiyacı karşıladığını yazın.
 
-"Öğrenildi" işaretlerin yalnızca senin tarayıcında saklanır; hesap açılmaz,
-sunucu tarafında hiçbir kayıt tutulmaz.
+## Örnek
 
-<br>
+Somut bir senaryo yazın.
+```
 
-## Tasarım ve teknoloji yaklaşımı
+Kurallar:
 
-rootline sadeliği ve gizliliği bir ilke olarak benimser:
+- `slug` dosya adıyla **birebir** aynı olmalı; derleme aksi hâlde hata verir.
+- `kategori` mevcut kategorilerden biri olmalı: `MSP/MSSP`,
+  `Sunucu/Hosting`, `Domain/DNS`, `Ağ/Güvenlik`, `Müşteri/İş`.
+- Zorunlu alanlar boş bırakılırsa derleme, hangi dosyada neyin eksik olduğunu
+  söyleyerek durur. Sessizce bozuk sayfa üretilmez.
 
-- **Tek dosya, sıfır bağımlılık.** Arayüz hiçbir dış kütüphaneye bağlı değildir —
-  grafik kütüphanesi, framework, ikon paketi yok. Grafikler, ikonlar ve bayraklar
-  dahil her şey el yapımıdır.
-- **Kendi ikon paketi.** 30 ikon rootline için sıfırdan çizildi: 24×24 ızgara,
-  kare uçlar, köşeli birleşimler — şema/plotter dili.
-- **Kendi sunucumuzda barındırılan yazı tipleri.** Google Fonts gibi üçüncü
-  taraflara bağlanılmaz; ziyaretçinin verisi dışarı sızmaz.
-- **Dış istek yok.** Tek istisna, döviz kuru için kullanılan açık referans
-  API'sidir; bu da arayüzde açıkça belirtilir.
-- **Dürüst veri.** Kurlar "ECB günlük referans kuru" olarak etiketlenir;
-  "gerçek zamanlı" veya "banka kuru" gibi yanıltıcı ifadeler kullanılmaz.
-- **Telife saygı.** Haber özetleri kaynaktan kopyalanmaz, kendi cümlelerimizle
-  yazılır ve her kayıtta orijinal habere bağlantı verilir.
-- **Erişilebilirlik.** Klavyeyle tam gezinme, ekran okuyucu uyumu, WCAG AA
-  kontrast hedefleri ve `prefers-reduced-motion` desteği.
+## Geliştirme
 
-<br>
+Node 22 gerekir (`.nvmrc`); `npm install` başka sürümde hata verir
+(`apps/web/.npmrc` → `engine-strict`). Sunucu ve CI da Node 22 kullanır.
 
-## Kaynak kodu
+macOS'ta Homebrew ile, sistemdeki başka Node sürümüne dokunmadan:
 
-Bu depo yalnızca **tanıtım ve kullanım** amaçlıdır; uygulamanın kaynak kodunu
-içermez. Kaynak kod özeldir ve halka açık değildir.
+```bash
+brew install node@22
+export PATH="/opt/homebrew/opt/node@22/bin:$PATH"   # yalnızca bu terminal için
+node -v                                             # v22.x
+```
 
-<br>
+```bash
+cd apps/web
+npm install
+npm run dev      # http://localhost:3000
+npm test         # birim testleri
+npm run lint
+npm run build    # üretim derlemesi
+```
 
-## Katkı ve geri bildirim
+Ayrıntılar: [apps/web/README.md](apps/web/README.md).
 
-Kaynak kod burada olmadığı için kod pull request'i açılamaz. Ama rootline'ın
-değeri tam olarak içeriğinin doğruluğunda, ve orada yardıma ihtiyaç var:
+## Yayınlama
 
-| | |
-| :-- | :-- |
-| **Bir terim yanlış anlatılmış** | [Issue açın](../../issues/new/choose). Bu, alabileceğim en değerli geri bildirimdir — yanlış öğretilen bir terim, hiç öğretilmemiş olmaktan kötüdür. |
-| **Eksik bir terim var** | Terim önerisi şablonunu kullanın. Sahada karşınıza çıkıp da burada olmayan her terim bir eksiktir. |
-| **Bir haber özeti hatalı** | Issue açın; kaynak bağlantısını da ekleyin. |
-| **Arayüzde bir hata** | Issue açın: tarayıcı, cihaz ve ne yaptığınız yeterli. |
+Sunucu kurulumu ve dağıtım: [infra/README.md](infra/README.md).
 
-Erişilebilirlik sorunları öncelikli ele alınır — klavye tuzağı, ekran okuyucuda
-okunmayan bir alan veya yetersiz kontrast gördüyseniz lütfen bildirin.
+Derleme GitHub Actions'ta yapılır, çıktı sunucuya kopyalanır ve servis yeniden
+başlatılır. Sunucuda derleme yapılmaz.
 
-<br>
+## Katkı
+
+Hem kod hem içerik katkısına açıktır: [CONTRIBUTING.md](CONTRIBUTING.md).
+
+Sözlüğün değeri içeriğinin doğruluğundadır; en değerli katkı buradadır.
+
+- **Bir terim yanlış anlatılmış** → issue açın. Bu, alınabilecek en değerli
+  geri bildirimdir.
+- **Eksik bir terim var** → terim önerisi şablonunu kullanın.
+- **Kod katkısı** → pull request açabilirsiniz.
+
+Erişilebilirlik sorunları öncelikli ele alınır: klavye tuzağı, ekran
+okuyucuda okunmayan alan veya yetersiz kontrast gördüyseniz bildirin.
 
 ## Lisans
 
-Telif hakkı © 2026 Can Soykan Yılmaz. Tüm hakları saklıdır.
-
-rootline'ı tarayıcınızdan ücretsiz kullanabilirsiniz; terim açıklamalarını
-kendi öğrenme sürecinizde ve ekibinizi eğitirken kaynak göstererek
-kullanabilirsiniz. İçeriğin toplu kopyalanması, marka kullanımı ve yapay zekâ
-eğitimi için toplu çekim izne tabidir. Ayrıntılar: [LICENSE](LICENSE).
-
-<br>
-
----
-
-<p align="center">
-  <sub>Bir <a href="https://cansoykanyilmaz.com">cansoykanyilmaz.com</a> iştirakidir · © 2026</sub>
-</p>
+Telif hakkı © 2026 Can Soykan Yılmaz. Ayrıntılar: [LICENSE](LICENSE).

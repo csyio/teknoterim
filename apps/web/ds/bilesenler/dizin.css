@@ -1,0 +1,88 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / dizin (terim listesi)
+   --------------------------------------------------------------------------
+   Terimler tek bir panel içinde, çizgiyle ayrılmış satırlar hâlinde durur:
+   solda ad, ortada özet, sağda kategori. 153 terim böyle taranabilir kalır.
+
+   Kap `.dizin.panel` olarak kullanılır; satır bir bağlantıdır
+   (`.dizin-satir`), bu yüzden odak halkası satırın tamamını çevreler.
+   ========================================================================== */
+
+.dizin {
+  display: flex;
+  flex-direction: column;
+}
+
+.dizin-satir {
+  display: grid;
+  grid-template-columns: minmax(9rem, 14rem) minmax(0, 1fr) auto;
+  gap: var(--b-1) var(--b-5);
+  align-items: baseline;
+  padding: var(--b-4) var(--b-5);
+  border-top: 1px solid var(--cizgi);
+  transition: background var(--hiz) var(--egri);
+}
+
+.dizin-satir:first-child {
+  border-top: 0;
+}
+
+.dizin-satir:hover {
+  background: var(--yuzey2);
+}
+
+/* Odak halkası panelin taşma kırpmasına takılmasın: içeri çekilir. */
+.dizin-satir:focus-visible {
+  outline-offset: -2px;
+  border-radius: 0;
+}
+
+.dizin-ad {
+  font-size: var(--yazi-base);
+  font-weight: 600;
+  color: var(--parlak);
+}
+
+.dizin-ozet {
+  color: var(--soluk);
+  font-size: var(--yazi-sm);
+}
+
+/* İş etiketleri dizinde kutu değil, ince bir alt satır: liste yüksekliği
+   her terimde aynı kalsın. */
+.dizin-isler {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--yazi-2xs);
+  color: var(--soluk2);
+}
+
+.dizin-kat {
+  font-size: var(--yazi-2xs);
+  font-weight: 500;
+  color: var(--soluk2);
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  /* Dar ekranda üç kolon sığmaz: kategori üste künye olarak geçer. */
+  .dizin-satir {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding: var(--b-4);
+  }
+
+  .dizin-kat {
+    order: -1;
+  }
+}
+
+/* Süzgeç sonucu sayacı: "12 / 153 terim". `role="status"` ile ekran okuyucu
+   sonucu kendiliğinden duyurur. */
+.sayac {
+  margin-bottom: var(--b-3);
+  font-family: var(--mono);
+  font-size: var(--yazi-xs);
+  color: var(--soluk);
+  font-variant-numeric: tabular-nums;
+}

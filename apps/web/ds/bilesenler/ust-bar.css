@@ -1,0 +1,145 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / üst bar
+   --------------------------------------------------------------------------
+   Yapışkan, yüzey renginde bir şerit. Gezinme bağlantıları küçük yumuşak
+   kutular; bulunulan sayfa dolu zeminle işaretlenir.
+   ========================================================================== */
+
+.ust {
+  position: sticky;
+  top: 0;
+  z-index: var(--kat-yapiskan);
+  background: var(--yuzey);
+  border-bottom: 1px solid var(--cizgi);
+}
+
+.ust-ic {
+  display: flex;
+  align-items: center;
+  gap: var(--b-5);
+  min-height: var(--ust-yukseklik);
+}
+
+/* -------------------------------------------------------------------- marka */
+
+.marka {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.125rem;
+  font-weight: 400;
+  letter-spacing: -.02em;
+  color: var(--parlak);
+}
+
+.marka-yazi b {
+  font-weight: 700;
+}
+
+/* İşaret SVG'dir (MarkaIsareti.tsx); renkleri kendi içinde sabittir, temayla
+   değişmez — logo her zeminde aynı görünmeli. */
+.marka-isaret {
+  flex: none;
+  width: 24px;
+  height: 24px;
+}
+
+/* ----------------------------------------------------------------- gezinme */
+
+.gezinme {
+  display: flex;
+  align-items: center;
+  gap: var(--b-1);
+  margin-left: auto;
+}
+
+.gezinme a {
+  padding: 6px 10px;
+  border-radius: var(--r-sm);
+  font-size: var(--yazi-sm);
+  font-weight: 500;
+  color: var(--soluk);
+  transition: color var(--hiz) var(--egri), background var(--hiz) var(--egri);
+}
+
+.gezinme a:hover {
+  color: var(--parlak);
+  background: var(--yuzey2);
+}
+
+.gezinme a[aria-current="page"] {
+  color: var(--parlak);
+  background: var(--yuzey2);
+}
+
+/* --------------------------------------------------------------- tema düğmesi */
+
+.tema-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r);
+  background: transparent;
+  color: var(--soluk);
+  transition: color var(--hiz), border-color var(--hiz), background var(--hiz);
+}
+
+.tema-btn:hover {
+  color: var(--parlak);
+  border-color: var(--cizgi-guclu);
+  background: var(--yuzey2);
+}
+
+.tema-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Açık temada ay (koyuya geç), koyu temada güneş (açığa geç) görünür.
+   Kararı CSS verir; tema sistemden de gelebildiği için üç durum yazılır. */
+.tema-btn .tema-gunes {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="acik"]) .tema-btn .tema-gunes {
+    display: block;
+  }
+
+  :root:not([data-tema="acik"]) .tema-btn .tema-ay {
+    display: none;
+  }
+}
+
+:root[data-tema="koyu"] .tema-btn .tema-gunes {
+  display: block;
+}
+
+:root[data-tema="koyu"] .tema-btn .tema-ay {
+  display: none;
+}
+
+/* Dar telefonda (≈375px) marka yazısı + üç bağlantı + tema düğmesi sığmaz:
+   aralıklar daralır, yazı biçimi gizlenir, işaret kalır. Bağlantının adı
+   aria-label'dan geldiği için ekran okuyucu için bir şey değişmez. */
+@media (max-width: 480px) {
+  .ust-ic {
+    gap: var(--b-2);
+  }
+
+  .marka-yazi {
+    display: none;
+  }
+
+  .gezinme {
+    gap: 2px;
+  }
+
+  .gezinme a {
+    padding: 6px 8px;
+  }
+}

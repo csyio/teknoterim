@@ -1,0 +1,140 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / yazdırma
+   --------------------------------------------------------------------------
+   Sözlük maddesi yazdırılabilir olmalı: bir terimin dört katmanı, kâğıtta da
+   okunur çıkmalı. Ekranda tema açık ya da koyu olabilir; kâğıt beyazdır, bu yüzden burada
+   tokenların tamamı açık değerlere çevrilir ve geri kalan her şey aynı kalır.
+
+   Yazdırmada vurgu rengi koyu mora döner; koyu temadaki açık mor beyaz
+   kâğıtta okunmaz.
+   ========================================================================== */
+
+@page {
+  margin: 18mm 16mm;
+}
+
+@media print {
+  :root,
+  :root[data-tema="acik"],
+  :root[data-tema="koyu"],
+  :root:not([data-tema="acik"]) {
+    color-scheme: light only;
+
+    --zemin: #fff;
+    --yuzey: #fff;
+    --yuzey2: #F4F4F4;
+    --yuzey3: #EDEDED;
+
+    --cizgi: #D6D6D6;
+    --cizgi-guclu: #A8A8A8;
+
+    --parlak: #000;
+    --metin: #1A1A1A;
+    --soluk: #454545;
+    --soluk2: #6A6A6A;
+
+    --vurgu: #3A2A9E;
+    --vurgu-parlak: #3A2A9E;
+    --vurgu-metin: #fff;
+    --vurgu-yazi: #3A2A9E;
+    --vurgu-zemin: transparent;
+    --vurgu-kenar: #3A2A9E;
+
+    --basari: #0B5A32;
+    --basari-zemin: transparent;
+    --basari-kenar: #0B5A32;
+    --hata: #8A2A1A;
+    --hata-zemin: transparent;
+    --hata-kenar: #8A2A1A;
+
+    --golge: none;
+  }
+
+  /* Gezinme, tema düğmesi, süzgeç ve etkileşimli denetimler kâğıtta işe
+     yaramaz; yalnızca içerik kalır. */
+  .ust,
+  .alt,
+  .atla,
+  .ogrenme,
+  .dugme-sirasi,
+  .dugme,
+  .baglanti-dugme,
+  .tamami,
+  .cipler,
+  .arama-kutu,
+  .yol,
+  .ilerleme-cubuk,
+  .arama,
+  .sayac,
+  .secenekler,
+  .aciklama,
+  .tema-btn,
+  .bolum-sag,
+  .dizin-kat,
+  .dizin-isler {
+    display: none !important;
+  }
+
+  /* Yazı ölçeği rem ile kurulu: temel boyut kökte değişmeli, gövdede değil. */
+  html {
+    font-size: 11pt;
+  }
+
+  body {
+    display: block;
+    background: #fff;
+    color: var(--metin);
+  }
+
+  .kabuk {
+    max-width: none;
+    padding: 0;
+  }
+
+  .terim-detay,
+  .baslik-alani,
+  .giris {
+    max-width: none;
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  /* Panel kâğıtta çerçevesiz akar; katmanlar alt alta. */
+  .panel {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .katman,
+  .katman.isaret {
+    display: block;
+    margin-top: 12pt;
+    padding: 8pt 0 0;
+    background: none;
+  }
+
+  .katman-baslik {
+    display: block;
+    margin-bottom: 3pt;
+  }
+
+  /* Bir katman sayfa sonunda ortadan bölünmesin. */
+  .katman {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  /* Yazdırmada bağlantılar tıklanmaz; altı çizili kalmasın. */
+  a {
+    text-decoration: none;
+  }
+}

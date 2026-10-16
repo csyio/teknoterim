@@ -1,12 +1,12 @@
 name: ➕ Terim önerisi
-description: Sahada karşınıza çıkan ama rootline'da olmayan bir terim
+description: Sahada karşınıza çıkan ama Tekno Terim'de olmayan bir terim
 title: "[Yeni terim] "
 labels: ["terim", "öneri"]
 body:
   - type: markdown
     attributes:
       value: |
-        rootline'ın kapsamı: MSP/MSSP, hosting, alan adı/DNS ve ağ güvenliği.
+        Tekno Terim'in kapsamı: MSP/MSSP, hosting, alan adı/DNS ve ağ güvenliği.
         Bu alanlarda çalışan birinin karşısına çıkan her terim adaydır.
 
   - type: input
