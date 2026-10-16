@@ -73,6 +73,15 @@
   font-size: var(--yazi-sm);
 }
 
+.yonetim-tamam:empty {
+  display: none;
+}
+
+.yonetim-tamam {
+  color: var(--basari);
+  font-size: var(--yazi-sm);
+}
+
 /* ------------------------------------------------------------- üst bölüm */
 
 .yonetim-ust {

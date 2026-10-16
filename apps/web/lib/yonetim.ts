@@ -31,11 +31,12 @@ const CEREZ = "__Host-tt-yonetim";
 const SURE_SN = 7 * 24 * 60 * 60;
 
 /**
- * Giriş denemesi sınırı: IP başına 15 dakikada 5, toplamda 30. Şifre
- * denemesini yavaşlatır; toplam tavan scrypt'in işlemciyi meşgul etmesine
- * de üst sınır koyar.
+ * Giriş denemesi sınırı: IP başına 15 dakikada 5, toplamda 300. IP sınırı
+ * şifre denemesini yavaşlatır; toplam tavan scrypt'in işlemciyi meşgul
+ * etmesine üst sınır koyar. Toplam bilinçli olarak yüksek: düşük olursa
+ * birkaç IP'den gelen yanlış denemeler gerçek yöneticiyi de dışarıda bırakır.
  */
-const girisSiniri = hizSiniriKur({ pencereMs: 15 * 60_000, anahtarBasina: 5, toplam: 30 });
+const girisSiniri = hizSiniriKur({ pencereMs: 15 * 60_000, anahtarBasina: 5, toplam: 300 });
 
 export function yonetimAcikMi(): boolean {
   return !!process.env.YONETIM_SIFRE_OZETI?.trim();

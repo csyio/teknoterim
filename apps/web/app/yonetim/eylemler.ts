@@ -17,7 +17,7 @@ import { at, duzelt, yayinla } from "@/lib/gundem-db";
 import { terimSluglari } from "@/lib/terms";
 import { cikis, girisDene, yetkiIste } from "@/lib/yonetim";
 
-export type FormDurumu = { hata: string | null };
+export type FormDurumu = { hata: string | null; tamam?: string };
 
 const GIRIS_MESAJI: Record<string, string> = {
   yanlis: "Şifre yanlış.",
@@ -67,7 +67,9 @@ export async function duzeltEylem(_: FormDurumu, form: FormData): Promise<FormDu
   if (ozet.length < EN_KISA_OZET || ozet.length > EN_UZUN_OZET) {
     return { hata: `Özet ${EN_KISA_OZET}–${EN_UZUN_OZET} karakter olmalı.` };
   }
-  if (/\[SAHTE\]/.test(baslik + ozet)) return { hata: "Sahte taslak işaretini ([SAHTE]) metinden çıkarın." };
+  if (/\[sahte\]|claude tarafından yazılmadı/i.test(baslik + ozet)) {
+    return { hata: "Sahte taslağın metni duruyor; özeti kendiniz yazın." };
+  }
 
   // Sözlük bağlantısı biçiminde ama sözlükte olmayan terim: büyük olasılıkla
   // yazım hatası; sessizce düz metne çevirmek yerine editöre söylenir.
@@ -79,7 +81,7 @@ export async function duzeltEylem(_: FormDurumu, form: FormData): Promise<FormDu
   if (bilinmeyen.length) return { hata: `Sözlükte olmayan terim: ${[...new Set(bilinmeyen)].join(", ")}` };
 
   if (!duzelt(id, baslik, ozet)) return { hata: "Bu kayıt artık düzeltilemiyor (atılmış olabilir)." };
-  if (form.get("sonra") === "yayinla") yayinla(id);
+  const yayinlandi = form.get("sonra") === "yayinla" && yayinla(id);
   updateTag("gundem");
-  return { hata: null };
+  return { hata: null, tamam: yayinlandi ? "Kaydedildi ve yayınlandı." : "Kaydedildi." };
 }

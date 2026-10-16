@@ -12,9 +12,10 @@ import { GirisFormu } from "./GirisFormu";
 import { cikisYap, yayinlaEylem } from "./eylemler";
 
 /**
- * Gündem onayı: tek yöneticili, gizli sayfa. Gezinmede, site haritasında
- * yoktur ve arama motorlarına kapalıdır; ama gizlilik güvenlik değildir —
- * asıl koruma girişte ve her eylemin kendi yetki denetiminde.
+ * Gündem onayı: tek yöneticili, gizli sayfa. Gezinmede, site haritasında ve
+ * robots.txt'te yoktur (robots.txt herkese açıktır, adresi ilan ederdi);
+ * dizine eklenmeyi `noindex` engeller. Gizlilik güvenlik değildir — asıl
+ * koruma girişte ve her eylemin kendi yetki denetiminde.
  */
 export const metadata: Metadata = {
   title: "Yönetim",
@@ -37,6 +38,10 @@ const zamanBicimi = new Intl.DateTimeFormat("tr-TR", {
 function TaslakKarti({ h }: { h: Haber }) {
   const kaynak = KAYNAK_ADI.get(h.kaynak) ?? h.kaynak;
   const sahte = h.sahte === 1;
+  // Sahte taslağın şablon metni düzeltme alanına gelmez: editör boş alana
+  // kendi özetini yazar, şablon yanlışlıkla yayına çıkamaz.
+  const duzeltOzet = sahte ? "" : (h.taslakOzet ?? "");
+  const duzeltBaslik = sahte ? h.baslik : (h.taslakBaslik ?? "");
   return (
     <article className="yonetim-kart panel" aria-labelledby={`taslak-${h.id}`}>
       <p className="yonetim-kunye">
@@ -75,7 +80,7 @@ function TaslakKarti({ h }: { h: Haber }) {
             Yayınla
           </button>
         </form>
-        <DuzeltFormu id={h.id} baslik={h.taslakBaslik ?? ""} ozet={h.taslakOzet ?? ""} yayinda={false} />
+        <DuzeltFormu id={h.id} baslik={duzeltBaslik} ozet={duzeltOzet} yayinda={false} />
         <AtDugmesi id={h.id} etiket="At" soru="Bu taslak atılsın mı? Geri alınamaz." />
       </div>
     </article>

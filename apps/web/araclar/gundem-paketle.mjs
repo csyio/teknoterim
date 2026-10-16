@@ -4,12 +4,14 @@
  *   npm run gundem:paketle
  *
  * Neden paket: sunucuya yalnızca Next'in `standalone` çıktısı gider; orada
- * TypeScript kaynağı, sözlük içeriği (content/) ve toplayıcının kendi
- * bağımlılıkları (Anthropic SDK, XML ayrıştırıcı) yoktur. esbuild hepsini tek
- * dosyaya koyar. `better-sqlite3` yerel bir eklenti olduğu için pakete girmez;
- * standalone çıktısındaki node_modules'tan yüklenir (site de onu kullanıyor).
+ * TypeScript kaynağı ve toplayıcının kendi bağımlılıkları (Anthropic SDK, XML
+ * ayrıştırıcı) yoktur. esbuild hepsini tek dosyaya koyar. (Sözlük içeriği
+ * `content/terimler` standalone çıktısında var — site onu çalışırken okuyor —
+ * ama toplayıcının site koduna ve çalışma dizinine bağımlı olmaması için
+ * terim listesi pakete gömülür.)
  *
- * Sözlük terimleri (slug + başlık) paketleme anında okunup gömülür.
+ * `better-sqlite3` yerel bir eklenti olduğu için pakete girmez; standalone
+ * çıktısındaki node_modules'tan yüklenir (site de onu kullanıyor).
  */
 
 import path from "node:path";

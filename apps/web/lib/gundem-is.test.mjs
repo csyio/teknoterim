@@ -94,6 +94,7 @@ test("uçtan uca: topla → ayıkla → sahte taslak → düzelt → yayınla", 
   const [yayinda] = db.yayindakiler();
   assert.equal(yayinda.baslik, "DNS kesintisi");
   assert.equal(yayinda.ozet, "Editörün kendi metni.");
+  assert.equal(yayinda.editorYazisi, true, "sahte taslaktan editörün yazdığı metin yapay zekâ taslağı sayılmaz");
 
   assert.equal(db.at(taslak.id), true, "yayındaki haber kaldırılabilir");
   assert.equal(db.yayindakiler().length, 0);
@@ -116,6 +117,37 @@ test("günlük tavan aynı gün içinde aşılmaz", async () => {
 
   const s2 = await gundemCalistir({ kaynaklar: [kaynak], terimler: TERIMLER, yazar, getir, an: AN + 60_000, ayarlar });
   assert.equal(s2.taslak, 0, "tavan doldu");
+});
+
+test("ayıklamada reddedilen haber paketten ayıklanır, diğerleri puanlanır", async () => {
+  const { ReddedildiHatasi } = await import("./gundem-claude.ts");
+  const ogeler = ["Patch A", "Exploit details B", "Patch C", "Patch D"].map((baslik, i) => ({
+    baslik,
+    baglanti: `https://red.example/${i}`,
+  }));
+  const kaynak = { ...KAYNAK, kimlik: "red", besleme: "https://red.example/rss" };
+  const getir = sahteAg({ "https://red.example/rss": rss(ogeler) });
+  let cagri = 0;
+  const yazar = {
+    sahte: false,
+    async puanla(haberler) {
+      cagri++;
+      if (haberler.some((h) => h.baslik.startsWith("Exploit"))) throw new ReddedildiHatasi("red");
+      // Bir haberi yanıtta "unutur".
+      return haberler.filter((h) => h.baslik !== "Patch D").map((h) => ({ id: h.id, puan: 2, gerekce: "rutin" }));
+    },
+    async taslakYaz() {
+      return null;
+    },
+  };
+  const s = await gundemCalistir({
+    kaynaklar: [kaynak], terimler: TERIMLER, yazar, getir, an: AN,
+    ayarlar: { esik: 4, gunlukTavan: 0 },
+  });
+  assert.equal(s.puanlanan, 2, "A ve C puanlandı");
+  assert.equal(s.hata, 0);
+  assert.ok(cagri <= 5, "paket ikiye bölünerek aranır");
+  assert.equal(db.puanlanacaklar(100).filter((h) => h.kaynak === "red").length, 0, "hiçbiri bir sonraki saate kalmaz");
 });
 
 test("bir kaynağın hatası diğerlerini durdurmaz", async () => {

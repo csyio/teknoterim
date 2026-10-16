@@ -15,6 +15,7 @@ import {
   ayarlariOku,
   baglantiNormallestir,
   beslemeAyristir,
+  disAdresMi,
   haberKimligi,
   kalanTaslakHakki,
   kopyaParcasi,
@@ -78,6 +79,29 @@ test("bağlantı normalleştirme izleme parametrelerini ve çapayı atar, https'
   assert.equal(baglantiNormallestir("javascript:alert(1)"), null);
   assert.equal(baglantiNormallestir("ftp://ornek.com/x"), null);
   assert.equal(baglantiNormallestir("bozuk adres"), null);
+});
+
+test("iç ve şüpheli adresler dış adres sayılmaz", () => {
+  const dis = (a) => disAdresMi(new URL(a));
+  assert.equal(dis("https://www.bleepingcomputer.com/news/x"), true);
+  assert.equal(dis("https://ornek.com:443/x"), true);
+  for (const a of [
+    "http://ornek.com/",
+    "https://127.0.0.1/",
+    "https://2130706433/",
+    "https://0x7f000001/",
+    "https://[::1]/",
+    "https://localhost/",
+    "https://localhost./",
+    "https://meta.internal./",
+    "https://yazici.local/",
+    "https://intranet/",
+    "https://ornek.com:8767/",
+    "https://kullanici:parola@ornek.com/",
+  ]) {
+    assert.equal(dis(a), false, a);
+  }
+  assert.equal(baglantiNormallestir("http://127.0.0.1/haber"), null, "iç adres veritabanına girmez");
 });
 
 test("aynı haberin farklı adres biçimleri aynı kimliği alır", () => {

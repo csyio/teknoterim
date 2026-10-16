@@ -64,7 +64,9 @@ async function Akis() {
                 <a href={h.baglanti} rel="noopener noreferrer nofollow" className="tamami">
                   Kaynakta oku: {kaynak}
                 </a>
-                <span className="gundem-not">Yapay zekâ taslağı, editör onaylı</span>
+                <span className="gundem-not">
+                  {h.editorYazisi ? "Editör yazısı" : "Yapay zekâ taslağı, editör onaylı"}
+                </span>
               </p>
             </article>
           </li>

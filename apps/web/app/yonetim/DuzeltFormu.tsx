@@ -70,8 +70,8 @@ export function DuzeltFormu({
             </button>
           )}
         </div>
-        <p className="yonetim-hata" aria-live="polite">
-          {durum.hata}
+        <p className={durum.hata ? "yonetim-hata" : "yonetim-tamam"} aria-live="polite">
+          {durum.hata ?? durum.tamam}
         </p>
       </form>
     </details>

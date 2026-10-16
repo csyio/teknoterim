@@ -18,6 +18,7 @@ import {
   eskileriKapat,
   haberleriEkle,
   puanYaz,
+  puanlanamadi,
   puanlanacaklar,
   sonBasliklar,
   taslakKaydet,
@@ -28,6 +29,7 @@ import type { Kaynak } from "./gundem-kaynaklar.ts";
 import {
   baglantiNormallestir,
   beslemeAyristir,
+  disAdresMi,
   gunMetni,
   haberKimligi,
   kalanTaslakHakki,
@@ -76,16 +78,13 @@ export type CalismaSonucu = {
 };
 
 /**
- * Yalnızca https ve yalnızca ad (IP adresi ya da yerel ad değil). Düz http
- * adresi (bazı beslemeler hâlâ öyle bağlıyor) https'e yükseltilir; şifresiz
- * bağlantı hiç kurulmaz.
+ * Düz http adresi (bazı beslemeler hâlâ öyle bağlıyor) https'e yükseltilir;
+ * şifresiz bağlantı hiç kurulmaz. Geri kalan kurallar `disAdresMi` içinde.
  */
 function adresDenetle(url: URL): void {
   if (url.protocol === "http:") url.protocol = "https:";
   if (url.protocol !== "https:") throw new Error(`yalnızca https: ${url.href}`);
-  if (/^[\d.]+$|^\[|^localhost$|\.localhost$|\.local$|\.internal$/i.test(url.hostname)) {
-    throw new Error(`iç adres reddedildi: ${url.hostname}`);
-  }
+  if (!disAdresMi(url)) throw new Error(`iç adres reddedildi: ${url.host}`);
 }
 
 const EN_FAZLA_YONLENDIRME = 3;
@@ -93,9 +92,7 @@ const EN_FAZLA_YONLENDIRME = 3;
 /**
  * Adresi sınırlı boyut ve süreyle okur. Yönlendirmeler elle izlenir ve her
  * adımda adres yeniden denetlenir: bir besleme ya da haber bağlantısı bizi
- * sunucunun kendi ağındaki bir adrese yönlendiremez. (Bilinen sınır: iç IP'ye
- * çözülen bir alan adı bu denetimden geçer; kaynaklar elle seçildiği için
- * kabul edildi.)
+ * sunucunun kendi ağındaki bir adrese yönlendiremez.
  */
 export async function sinirliGetir(getir: Getir, adres: string, enFazla: number): Promise<string> {
   let url = new URL(adres);
@@ -196,22 +193,55 @@ export async function gundemCalistir(s: CalismaSecenekleri): Promise<CalismaSonu
 
   // 2. Ayıkla
   const bekleyen = puanlanacaklar(PUAN_TAVANI);
+  // Bu çalışmada aday seçilenler de eklenir: sonraki paket aynı olayı
+  // ikinci kez seçmesin.
   const secilenler = sonBasliklar(an - EN_ESKI_HABER);
-  for (let i = 0; i < bekleyen.length; i += PUAN_PAKETI) {
-    const paket = bekleyen.slice(i, i + PUAN_PAKETI);
+
+  async function paketPuanla(paket: typeof bekleyen): Promise<void> {
+    let puanlar;
     try {
-      const puanlar = await s.yazar.puanla(
+      puanlar = await s.yazar.puanla(
         paket.map((h) => ({ id: h.id, kaynak: kaynakAdi.get(h.kaynak) ?? h.kaynak, baslik: h.baslik, aciklama: h.aciklama })),
         secilenler
       );
-      for (const p of puanlar) {
-        puanYaz(p.id, p.puan, p.gerekce.slice(0, 300), p.puan >= s.ayarlar.esik ? "aday" : "elendi");
-        sonuc.puanlanan++;
-      }
     } catch (hata) {
+      // Tek bir haber (ör. istismar ayrıntısı) bütün paketi reddettirebilir:
+      // paket bölünerek reddedilen haber bulunur, diğerleri puanlanır.
+      if (hata instanceof ReddedildiHatasi) {
+        if (paket.length === 1) {
+          puanlanamadi(paket[0].id, "Model bu haberi değerlendirmeyi reddetti.");
+          gunluk(`#${paket[0].id} ayıklamada reddedildi`);
+          return;
+        }
+        const yari = Math.ceil(paket.length / 2);
+        await paketPuanla(paket.slice(0, yari));
+        await paketPuanla(paket.slice(yari));
+        return;
+      }
+      // Geçici hata (ağ, kota): haberler "yeni" kalır, sonraki saatte denenir.
       sonuc.hata++;
       gunluk(`ayıklama HATA: ${hata instanceof Error ? hata.message : String(hata)}`);
+      return;
     }
+
+    const donen = new Set<number>();
+    for (const p of puanlar) {
+      const aday = p.puan >= s.ayarlar.esik;
+      puanYaz(p.id, p.puan, p.gerekce.slice(0, 300), aday ? "aday" : "elendi");
+      donen.add(p.id);
+      sonuc.puanlanan++;
+      if (aday) {
+        const h = paket.find((x) => x.id === p.id);
+        if (h) secilenler.push(h.baslik);
+      }
+    }
+    for (const h of paket) {
+      if (!donen.has(h.id)) puanlanamadi(h.id, "Model yanıtında puan yoktu.");
+    }
+  }
+
+  for (let i = 0; i < bekleyen.length; i += PUAN_PAKETI) {
+    await paketPuanla(bekleyen.slice(i, i + PUAN_PAKETI));
   }
 
   // 3. Taslak — günlük tavan Türkiye gününe göre.

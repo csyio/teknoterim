@@ -53,9 +53,32 @@ export { gunMetni };
 const IZLEME = /^(utm_|fbclid$|gclid$|mc_cid$|mc_eid$|ref$|_hs)/i;
 
 /**
+ * Dışarıya açık bir https adresi mi? (Sunucunun kendi ağına istek atmasını
+ * ve okura iç adres gösterilmesini önler.)
+ *
+ * Reddedilenler: https dışı şema, kullanıcı adı/parola içeren adres,
+ * 443 dışı port, IP adresi, yerel adlar (`localhost`, `.local`,
+ * `.internal`, `.localhost`) ve noktasız tek etiketli adlar. Sondaki nokta
+ * (`localhost.`) atılarak denetlenir.
+ *
+ * Bilinen sınır: iç IP'ye çözülen gerçek bir alan adı bu denetimden geçer;
+ * kaynaklar elle seçildiği için kabul edildi.
+ */
+export function disAdresMi(url: URL): boolean {
+  if (url.protocol !== "https:") return false;
+  if (url.username || url.password) return false;
+  if (url.port !== "" && url.port !== "443") return false;
+  const ad = url.hostname.toLowerCase().replace(/\.+$/, "");
+  if (!ad.includes(".")) return false;
+  if (/^[\d.]+$|^\[|^0x/.test(ad)) return false;
+  if (/(^|\.)(localhost|local|internal|lan|home|arpa)$/.test(ad)) return false;
+  return true;
+}
+
+/**
  * Haber adresini karşılaştırılabilir biçime getirir. Yalnızca http(s)
  * kabul edilir ve http, https'e yükseltilir (okura şifresiz bağlantı
- * verilmez); geçersizse `null`.
+ * verilmez); geçersiz ya da dışarıya açık olmayan adres `null`.
  */
 export function baglantiNormallestir(adres: string): string | null {
   let url: URL;
@@ -66,6 +89,7 @@ export function baglantiNormallestir(adres: string): string | null {
   }
   if (url.protocol !== "https:" && url.protocol !== "http:") return null;
   url.protocol = "https:";
+  if (!disAdresMi(url)) return null;
   url.hash = "";
   for (const ad of [...url.searchParams.keys()]) {
     if (IZLEME.test(ad)) url.searchParams.delete(ad);

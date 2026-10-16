@@ -21,7 +21,7 @@ import { mkdirSync } from "node:fs";
 import path from "node:path";
 
 import Database from "better-sqlite3";
-import { and, desc, eq, gte, inArray, lt, sql } from "drizzle-orm";
+import { and, desc, eq, gte, inArray, lt, ne, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
@@ -50,7 +50,11 @@ export const gundemHaber = sqliteTable(
     taslakAni: integer("taslak_ani"),
     /** Taslağın yazıldığı gün (TR); günlük tavan buna göre sayılır. */
     taslakGun: text("taslak_gun"),
-    /** 1 = API anahtarı olmadan üretilmiş sahte taslak. Yayınlanamaz. */
+    /**
+     * 0 = Claude taslağı. 1 = API anahtarı olmadan üretilmiş sahte taslak;
+     * yayınlanamaz. 2 = sahte taslaktı, metni tamamen editör yazdı (sitede
+     * "yapay zekâ taslağı" değil "editör yazısı" notu çıkar).
+     */
     sahte: integer("sahte").notNull().default(0),
     /** Editöre gösterilecek uyarı (ör. kaynakla örtüşen ifade). */
     uyari: text("uyari"),
@@ -185,6 +189,18 @@ export function puanYaz(id: number, puan: number, gerekce: string, durum: "aday"
 }
 
 /**
+ * Puanlanamayan haber (model reddetti ya da yanıtta yoktu): her saat yeniden
+ * Claude'a gönderilip para harcatmasın diye bırakılır.
+ */
+export function puanlanamadi(id: number, gerekce: string): void {
+  baglan()
+    .update(gundemHaber)
+    .set({ durum: "elendi", puanGerekce: gerekce })
+    .where(and(eq(gundemHaber.id, id), eq(gundemHaber.durum, "yeni")))
+    .run();
+}
+
+/**
  * Uzun süre puanlanamayan ya da taslak sırası gelmeyen haberler artık
  * gündem değildir; bir daha denenmez.
  */
@@ -304,7 +320,7 @@ export function yayinla(id: number, an = Date.now()): boolean {
     baglan()
       .update(gundemHaber)
       .set({ durum: "yayinda", kararAni: an })
-      .where(and(eq(gundemHaber.id, id), eq(gundemHaber.durum, "taslak"), eq(gundemHaber.sahte, 0)))
+      .where(and(eq(gundemHaber.id, id), eq(gundemHaber.durum, "taslak"), ne(gundemHaber.sahte, 1)))
       .run().changes === 1
   );
 }
@@ -320,12 +336,21 @@ export function at(id: number, an = Date.now()): boolean {
   );
 }
 
-/** Düzelt: editörün metni taslağın yerine geçer; artık sahte sayılmaz. */
+/**
+ * Düzelt: editörün metni taslağın yerine geçer. Sahte taslak düzeltilince
+ * "editör yazısı" olur (2); Claude taslağı Claude taslağı olarak kalır.
+ */
 export function duzelt(id: number, baslik: string, ozet: string): boolean {
   return (
     baglan()
       .update(gundemHaber)
-      .set({ taslakBaslik: baslik, taslakOzet: ozet, sahte: 0, duzenlendi: 1, uyari: null })
+      .set({
+        taslakBaslik: baslik,
+        taslakOzet: ozet,
+        sahte: sql`case when ${gundemHaber.sahte} = 1 then 2 else ${gundemHaber.sahte} end`,
+        duzenlendi: 1,
+        uyari: null,
+      })
       .where(and(eq(gundemHaber.id, id), inArray(gundemHaber.durum, ["taslak", "yayinda"])))
       .run().changes === 1
   );
@@ -341,6 +366,8 @@ export type YayindakiHaber = {
   ozet: string;
   /** Kaynaktaki yayın anı; yoksa toplandığı an. */
   an: number;
+  /** Metni tamamen editör yazdı (sahte taslaktan). */
+  editorYazisi: boolean;
 };
 
 export function yayindakiler(enFazla = 60): YayindakiHaber[] {
@@ -353,12 +380,14 @@ export function yayindakiler(enFazla = 60): YayindakiHaber[] {
       baslik: sql<string>`${gundemHaber.taslakBaslik}`,
       ozet: sql<string>`${gundemHaber.taslakOzet}`,
       an: zaman,
+      editorYazisi: sql<boolean>`${gundemHaber.sahte} = 2`,
     })
     .from(gundemHaber)
     .where(eq(gundemHaber.durum, "yayinda"))
     .orderBy(desc(zaman), desc(gundemHaber.id))
     .limit(enFazla)
-    .all();
+    .all()
+    .map((h) => ({ ...h, editorYazisi: Boolean(h.editorYazisi) }));
 }
 
 // ------------------------------------------------------------------ oturum
