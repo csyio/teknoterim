@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { markdown } from "@/lib/md";
 import { SITE } from "@/lib/site";
@@ -41,8 +42,37 @@ export async function generateMetadata(
   };
 }
 
-export default async function TerimSayfasi(props: PageProps<"/sozluk/[slug]">) {
-  const { slug } = await props.params;
+/**
+ * Sayfa iki katmanlı: kabuk (`TerimSayfasi`) URL'ye bakmadan hemen çizilir,
+ * terim içeriği (`TerimIcerigi`) `params`'ı bekler ve `<Suspense>` içinde
+ * gelir. Böylece sözlükten bir terime geçiş anında başlar: önce iskelet,
+ * sonra içerik. 153 terimin hepsi derlemede zaten üretildiği için içerik
+ * gecikmesi fark edilmeyecek kadar kısadır.
+ */
+export default function TerimSayfasi(props: PageProps<"/sozluk/[slug]">) {
+  return (
+    <div className="kabuk">
+      <Suspense fallback={<TerimIskeleti />}>
+        <TerimIcerigi params={props.params} />
+      </Suspense>
+    </div>
+  );
+}
+
+function TerimIskeleti() {
+  return (
+    <div className="terim-detay" aria-busy="true" aria-label="Terim yükleniyor">
+      <div className="iskelet iskelet-yol" />
+      <div className="iskelet iskelet-baslik" />
+      <div className="iskelet iskelet-satir" />
+      <div className="iskelet iskelet-satir kisa" />
+      <div className="iskelet iskelet-panel" />
+    </div>
+  );
+}
+
+async function TerimIcerigi({ params }: { params: PageProps<"/sozluk/[slug]">["params"] }) {
+  const { slug } = await params;
   const terim = terimBul(slug);
   if (!terim) notFound();
 
@@ -60,7 +90,7 @@ export default async function TerimSayfasi(props: PageProps<"/sozluk/[slug]">) {
   };
 
   return (
-    <div className="kabuk">
+    <>
       <article className="terim-detay">
         <nav className="yol" aria-label="Konum">
           <Link href="/sozluk">Sözlük</Link>
@@ -120,6 +150,6 @@ export default async function TerimSayfasi(props: PageProps<"/sozluk/[slug]">) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(yapisalVeri) }}
       />
-    </div>
+    </>
   );
 }

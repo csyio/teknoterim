@@ -43,7 +43,9 @@ async function Yil() {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="tr" suppressHydrationWarning>
+    // data-scroll-behavior: taban.css'teki yumuşak kaydırma sayfa geçişlerinde
+    // kapatılsın diye Next'e bildirilir (yeni sayfa yukarıdan "kayarak" açılmaz).
+    <html lang="tr" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: TEMA_KOMUTU }} />
       </head>

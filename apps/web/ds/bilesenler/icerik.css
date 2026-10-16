@@ -162,3 +162,49 @@
 .ogrenme .mono {
   margin-left: var(--b-2);
 }
+
+/* ---------------------------------------------------- yükleniyor iskeleti */
+
+/* Terime geçerken içerik gelene kadar görünen yer tutucular. Ölçüleri
+   gerçek öğelere yakın: içerik gelince sayfa zıplamasın. Hareket tercihi
+   kapalıysa nabız animasyonu erisim.css'te fiilen durur. */
+.iskelet {
+  border-radius: var(--r-sm);
+  background: var(--yuzey3);
+  animation: iskelet-nabiz 1.4s ease-in-out infinite;
+}
+
+.iskelet-yol {
+  width: 9rem;
+  height: 14px;
+  margin: var(--b-8) 0 var(--b-4);
+}
+
+.iskelet-baslik {
+  width: min(22rem, 70%);
+  height: 2.75rem;
+  margin-bottom: var(--b-4);
+}
+
+.iskelet-satir {
+  width: 100%;
+  max-width: var(--olcu);
+  height: 1.2rem;
+  margin-bottom: var(--b-2);
+}
+
+.iskelet-satir.kisa {
+  width: 60%;
+}
+
+.iskelet-panel {
+  height: 14rem;
+  margin-top: var(--b-7);
+  border-radius: var(--r-lg);
+}
+
+@keyframes iskelet-nabiz {
+  50% {
+    opacity: .55;
+  }
+}

@@ -110,7 +110,7 @@ Doğrulama:
 curl -I https://teknoterim.com.tr                 # 200 ve geçerli sertifika
 ssh tigin-codex 'systemctl status teknoterim'     # aktif (running)
 ssh tigin-codex 'journalctl -u teknoterim -n 30'  # son kayıtlar
-curl -s https://teknoterim.com.tr/sitemap.xml | grep -c '<url>'   # 156 (/, /sozluk, /doviz + 153 terim)
+curl -s https://teknoterim.com.tr/sitemap.xml | grep -c '<url>'   # 157 (/, /sozluk, /calis, /doviz + 153 terim)
 ```
 
 ---
