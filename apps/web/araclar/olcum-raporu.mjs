@@ -20,6 +20,7 @@
  */
 
 import { existsSync } from "node:fs";
+import path from "node:path";
 
 import Database from "better-sqlite3";
 
@@ -33,8 +34,14 @@ function gunMetni(an) {
   return `${yil}-${ay}-${gun}`;
 }
 
-const dbYolu = process.argv[2] ?? process.env.TEKNOTERIM_OLCUM_DB ?? "data/analytics.db";
-const gunSayisi = Number.parseInt(process.argv[3] ?? "7", 10);
+// Argümanlar: [veritabanı yolu] [gün sayısı]. Tek argüman rakamsa gün
+// sayısıdır (`npm run olcum -- 30`). Varsayılan yol uygulamanınkiyle aynı
+// kuralı izler: TEKNOTERIM_VERI dizini, yoksa çalışma dizinindeki data/.
+const argumanlar = process.argv.slice(2);
+if (argumanlar.length === 1 && /^\d+$/.test(argumanlar[0])) argumanlar.unshift(undefined);
+const varsayilanYol = path.join(process.env.TEKNOTERIM_VERI ?? "data", "analytics.db");
+const dbYolu = argumanlar[0] ?? process.env.TEKNOTERIM_OLCUM_DB ?? varsayilanYol;
+const gunSayisi = Number.parseInt(argumanlar[1] ?? "7", 10);
 
 if (!Number.isFinite(gunSayisi) || gunSayisi < 1) {
   console.error("Gün sayısı pozitif bir tam sayı olmalı.");

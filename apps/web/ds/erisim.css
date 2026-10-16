@@ -35,6 +35,9 @@
   .secenek-harf,
   .dugme,
   .baglanti-dugme,
+  .doviz-girdi,
+  .doviz-secim,
+  .doviz-degistir,
   .tema-btn,
   .cip,
   .kat,
@@ -45,7 +48,8 @@
   }
 
   /* Hap ve kutular kenarlıksız kalınca sistem renginde kaybolur. */
-  .kat {
+  .kat,
+  .doviz-sonuc {
     border: 1px solid CanvasText;
   }
 

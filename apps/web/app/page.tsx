@@ -8,6 +8,7 @@ const SUTUNLAR = [
     aciklama:
       "Her terim dört katmanda anlatılır: nedir, ne amaçla kullanılır, hangi işte karşınıza çıkar ve somut bir örnek.",
     href: "/sozluk",
+    baglanti: null,
   },
   {
     ad: "Gündem",
@@ -15,13 +16,15 @@ const SUTUNLAR = [
     aciklama:
       "Yapay zekâ, güvenlik, hosting ve DNS dünyasından haberler; geçen terimler sözlüğe bağlanır.",
     href: null,
+    baglanti: null,
   },
   {
     ad: "Araçlar",
-    durum: "hazırlanıyor",
+    durum: "hazır",
     aciklama:
-      "Döviz çevirici ve hosting maliyetlerinde işe yarayan hesaplayıcılar.",
-    href: null,
+      "TCMB kurlarıyla döviz çevirici hazır; hosting maliyetlerinde işe yarayan hesaplayıcılar sırada.",
+    href: "/doviz",
+    baglanti: "Döviz çevirici →",
   },
 ] as const;
 
@@ -74,7 +77,7 @@ export default function AnaSayfa() {
               </span>
               {s.href && (
                 <Link className="tamami" href={s.href}>
-                  {terimler.length} terim →
+                  {s.baglanti ?? `${terimler.length} terim →`}
                 </Link>
               )}
             </div>

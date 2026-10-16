@@ -8,7 +8,7 @@ yayılmıştır. Tekno Terim bunları sade, hızlı ve reklamsız tek bir yerde 
 — kurulum yok, hesap yok.
 
 > **Durum:** yeniden geliştirme sürecinde. Sözlük ve alıştırma bölümü çalışıyor;
-> yeni görünüm paketi (Grafit) uygulandı; gündem ve döviz dönüştürücü sırada. Eski sürüm
+> yeni görünüm paketi (Grafit) ve döviz çevirici hazır; gündem sırada. Eski sürüm
 > `rootline.cansoykanyilmaz.com` adresinde duruyor ve yeni sürüm hazır olunca
 > oraya yönlendirilecek.
 
@@ -32,12 +32,12 @@ eksikse ya da hatalıysa bu bir **hata**, tercih değil.
 | :-- | :-- |
 | **`/sozluk`** | 153 terim. Aksan duyarsız arama ve kategori süzgeci. Her terim dört katmanda anlatılır. |
 | **`/calis`** | Öğrendiklerini sınayan alıştırma. Sorular içerikten otomatik üretilir; yanlış cevap terimi geri getirir (aralıklı tekrar). İlerleme yalnızca tarayıcıda tutulur. |
+| **`/doviz`** | Döviz çevirici. Kurlar TCMB'nin günlük bülteninden kendi sunucumuz (`/api/kur`) üzerinden alınır; tarayıcı üçüncü tarafa bağlanmaz. |
 
 Kategori dağılımı: Ağ/Güvenlik 42, Sunucu/Hosting 32, MSP/MSSP 29,
 Domain/DNS 29, Müşteri/İş 21.
 
-Planlanan: **gündem** (kaynaktan kopyalanmayan, özgün Türkçe özetli haber akışı)
-ve **döviz dönüştürücü** (kurlar kendi sunucumuz üzerinden TCMB'den alınır).
+Planlanan: **gündem** (kaynaktan kopyalanmayan, özgün Türkçe özetli haber akışı).
 
 ## Depo yapısı
 
@@ -92,7 +92,16 @@ Kurallar:
 
 ## Geliştirme
 
-Node 22 gerekir (`.nvmrc`).
+Node 22 gerekir (`.nvmrc`); `npm install` başka sürümde hata verir
+(`apps/web/.npmrc` → `engine-strict`). Sunucu ve CI da Node 22 kullanır.
+
+macOS'ta Homebrew ile, sistemdeki başka Node sürümüne dokunmadan:
+
+```bash
+brew install node@22
+export PATH="/opt/homebrew/opt/node@22/bin:$PATH"   # yalnızca bu terminal için
+node -v                                             # v22.x
+```
 
 ```bash
 cd apps/web

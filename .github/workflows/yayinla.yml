@@ -57,27 +57,65 @@ jobs:
           mkdir -p .next/standalone/.next
           cp -r .next/static .next/standalone/.next/static
 
+      # Dağıtım yalnızca main dalından yapılır: push ya da Actions sekmesinden
+      # elle başlatma (workflow_dispatch). Pull request'ler yalnızca derlenir.
+      # SSH_SUNUCU hiç tanımlı değilse dağıtım henüz kurulmamış demektir:
+      # uyarıyla atlanır. Tanımlıysa diğer üç sır da şarttır; eksikse iş
+      # belirsiz bir SSH hatası yerine açık bir mesajla durur.
+      #
+      # Sırlar kabuğa her zaman `env:` ile verilir, betiğin içine gömülmez:
+      # değerdeki özel bir karakter betiğin kendisini bozamaz.
       - name: Dağıtım sırları tanımlı mı?
         id: kontrol
+        env:
+          SSH_SUNUCU: ${{ secrets.SSH_SUNUCU }}
+          SSH_KULLANICI: ${{ secrets.SSH_KULLANICI }}
+          SSH_ANAHTAR: ${{ secrets.SSH_ANAHTAR }}
+          SSH_BILINEN_ANAHTAR: ${{ secrets.SSH_BILINEN_ANAHTAR }}
         run: |
-          if [ "${{ github.event_name }}" != "push" ] || [ -z "${{ secrets.SSH_SUNUCU }}" ]; then
+          if [ "${{ github.event_name }}" = "pull_request" ] || [ "${{ github.ref }}" != "refs/heads/main" ]; then
             echo "hazir=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::SSH sırları tanımlı değil ya da bu bir pull request. Dağıtım atlandı — bkz. infra/README.md"
-          else
-            echo "hazir=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::Pull request ya da main dışı bir dal: yalnızca derlendi, dağıtım yapılmadı."
+            exit 0
           fi
+          if [ -z "$SSH_SUNUCU" ]; then
+            echo "hazir=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::SSH sırları tanımlı değil. Dağıtım atlandı — bkz. infra/README.md"
+            exit 0
+          fi
+          eksik=""
+          [ -n "$SSH_KULLANICI" ] || eksik="$eksik SSH_KULLANICI"
+          [ -n "$SSH_ANAHTAR" ] || eksik="$eksik SSH_ANAHTAR"
+          [ -n "$SSH_BILINEN_ANAHTAR" ] || eksik="$eksik SSH_BILINEN_ANAHTAR"
+          if [ -n "$eksik" ]; then
+            echo "::error::Eksik sır:$eksik. Sunucu kimliği ve erişimi doğrulanamadığı için dağıtım durduruldu — bkz. infra/README.md"
+            exit 1
+          fi
+          echo "hazir=true" >> "$GITHUB_OUTPUT"
 
+      # Sunucunun kimliği sabitlenmiş: her dağıtımda `ssh-keyscan` ile o an
+      # gelen anahtara körü körüne güvenmek, araya giren birine derleme
+      # çıktısını ve sunucu erişimini teslim etmek olurdu. Bilinen anahtar
+      # bir kez doğrulanıp sır olarak saklanır (bkz. infra/README.md).
       - name: SSH anahtarını hazırla
         if: steps.kontrol.outputs.hazir == 'true'
+        env:
+          SSH_ANAHTAR: ${{ secrets.SSH_ANAHTAR }}
+          SSH_BILINEN_ANAHTAR: ${{ secrets.SSH_BILINEN_ANAHTAR }}
         run: |
           mkdir -p ~/.ssh
-          printf '%s\n' "${{ secrets.SSH_ANAHTAR }}" > ~/.ssh/id_ed25519
+          printf '%s\n' "$SSH_ANAHTAR" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H "${{ secrets.SSH_SUNUCU }}" >> ~/.ssh/known_hosts 2>/dev/null
+          printf '%s\n' "$SSH_BILINEN_ANAHTAR" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+          printf 'Host *\n  StrictHostKeyChecking yes\n' > ~/.ssh/config
 
       # --delete kullanılıyor ama veri ve sır dosyaları korunuyor.
       - name: Sunucuya kopyala
         if: steps.kontrol.outputs.hazir == 'true'
+        env:
+          SSH_SUNUCU: ${{ secrets.SSH_SUNUCU }}
+          SSH_KULLANICI: ${{ secrets.SSH_KULLANICI }}
         run: |
           rsync -az --delete \
             --exclude '.env*' \
@@ -85,10 +123,12 @@ jobs:
             --exclude '*.db' --exclude '*.db-wal' --exclude '*.db-shm' \
             --exclude '.git' \
             .next/standalone/ \
-            "${{ secrets.SSH_KULLANICI }}@${{ secrets.SSH_SUNUCU }}:/opt/teknoterim/"
+            "$SSH_KULLANICI@$SSH_SUNUCU:/opt/teknoterim/"
 
       - name: Servisi yeniden başlat
         if: steps.kontrol.outputs.hazir == 'true'
+        env:
+          SSH_SUNUCU: ${{ secrets.SSH_SUNUCU }}
+          SSH_KULLANICI: ${{ secrets.SSH_KULLANICI }}
         run: |
-          ssh "${{ secrets.SSH_KULLANICI }}@${{ secrets.SSH_SUNUCU }}" \
-            'sudo systemctl restart teknoterim.service'
+          ssh "$SSH_KULLANICI@$SSH_SUNUCU" 'sudo systemctl restart teknoterim.service'

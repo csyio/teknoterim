@@ -14,6 +14,14 @@
 # teknoterim — Türkçe MSP/hosting/DNS sözlüğü (127.0.0.1:8767)
 teknoterim.com.tr {
 	encode zstd gzip
+
+	# Ölçüm ucu en fazla 2 KB'lık gövde kabul eder (lib/olcum.ts); büyük
+	# gövdeler uygulamaya hiç ulaşmasın. Diğer yollar yalnızca GET alır.
+	@olcum path /api/olcum
+	request_body @olcum {
+		max_size 4KB
+	}
+
 	reverse_proxy 127.0.0.1:8767
 	header -Server
 }

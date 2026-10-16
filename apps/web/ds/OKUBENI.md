@@ -41,6 +41,7 @@ ds/
     dizin.css               terim dizini (satırlar) ve süzgeç sayacı
     icerik.css              terim sayfası ve Markdown gövdesi
     oturum.css              çalışma oturumu
+    doviz.css               döviz çevirici
     durum.css               boş durumlar ve 404
     alt-bar.css             alt bilgi
   yazdirma.css              kâğıt için son söz

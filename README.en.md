@@ -26,9 +26,9 @@ For someone working in this field, terminology, current news, and exchange-rate
 tracking are scattered across separate sources. Tekno Terim brings them together
 in one plain, fast, ad-free interface — no installation, no account, no clutter.
 
-> **Status:** under redevelopment. The glossary and the practice mode work and
-> the new visual package (Grafit) is in; the news feed and the currency
-> converter are next. The old
+> **Status:** under redevelopment. The glossary, the practice mode and the
+> currency converter work and the new visual package (Grafit) is in; the news
+> feed is next. The old
 > version is still served at `rootline.cansoykanyilmaz.com` and will redirect
 > here once the new one is ready.
 
@@ -40,10 +40,10 @@ in one plain, fast, ad-free interface — no installation, no account, no clutte
 | :-- | :-- |
 | **`/sozluk`** (glossary) | 153 terms. Accent-insensitive search and category filters. Each term is explained in four layers: *what it is* → *what it is used for* → *where you'll run into it* → *a concrete example*. |
 | **`/calis`** (practice) | Questions generated from the content itself; a wrong answer brings the term back (spaced repetition). Progress is kept in your browser only. |
+| **`/doviz`** (currency) | Currency converter. Rates come from the daily bulletin of TCMB (the Central Bank of the Republic of Türkiye), fetched server-side via `/api/kur`; the browser never contacts a third party. |
 
 Planned: **`gündem`** (a news feed with original Turkish summaries — never
-copied from the source) and a **currency converter** (rates fetched server-side
-from TCMB, the Central Bank of the Republic of Türkiye).
+copied from the source).
 
 <br>
 

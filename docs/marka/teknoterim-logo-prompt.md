@@ -1,41 +1,58 @@
-# teknoterim — logo prompt
+# Tekno Terim — logo
 
-Üretici: Midjourney / ChatGPT görsel / Higgsfield. İngilizce prompt, modeller İngilizcede daha iyi sonuç verir.
-Kimlik: koyu zemin, fosfor yeşili vurgu (#86C58E / #4ADE80), mono yazı, teknik ama sıcak.
+Logo 2026-10-16'da altı öneri arasından seçildi: **"Küçük t"**. Asıl çizim
+SVG olarak koddadır; bu belge onu tarif eder ve görsel üreticilerle (Midjourney,
+ChatGPT görsel, Higgsfield) sosyal medya kapağı gibi türev işler üretirken
+kullanılacak promptları içerir. Üreticinin çizdiği logo **asıl logo değildir**;
+logo her zaman SVG'den alınır.
 
-## 1. Ana logo (işaret + yazı)
+## Asıl dosyalar
 
-Minimalist logo for "teknoterim", a Turkish tech glossary website. Wordmark in lowercase
-monospace typeface, letters "tekno" in off-white (#F0EBDC) and "terim" in phosphor green
-(#86C58E), tight letter-spacing. Left of the wordmark a simple geometric mark: a bold
-letter "T" formed by a terminal cursor block and a horizontal bar, or a "T" drawn as an
-open square bracket "[" with a small filled square — evoking code and dictionary entries.
-Flat vector, 2 colors only, no gradients, no shadows, no 3D, no mascots. Dark warm
-charcoal background (#16140E). Generous negative space, scalable to favicon size.
-Style reference: Linear, Vercel, Raycast logos. Centered, horizontal lockup.
+| Ne | Nerede |
+|---|---|
+| İşaret (bileşen) | `apps/web/app/MarkaIsareti.tsx` |
+| Favicon | `apps/web/app/icon.svg` |
+| Arşiv kopyası | `~/Desktop/Images/Tekno Terim - Logo Küçük t - 2026-10-16.svg` |
 
-## 2. Sadece işaret (favicon, uygulama simgesi)
+İşareti değiştirirken ilk ikisi birlikte güncellenir.
 
-Single flat icon for a tech glossary brand "teknoterim": a bold geometric "T" built from
-two blocks — a vertical bar with a square terminal-cursor cap on top, phosphor green
-(#86C58E) on dark warm charcoal (#16140E). Optional thin off-white underline like a
-definition line. Pixel-aligned, 1:1 aspect ratio, works at 16px. Flat vector, no
-gradients, no text, no shadows. Style reference: GitHub, Raycast, Warp app icons.
+## Tarif
 
-## 3. Alternatif (tanım işareti fikri)
+- **İşaret:** mor (`#5B47D6`) tam yuvarlak rozet; içinde beyaz, yuvarlak uçlu
+  kalın çizgilerle küçük harf **t** ve sağ altında beyaz bir **nokta**.
+  32×32 ızgarada: çizgi kalınlığı 3,6; nokta yarıçapı 2,2.
+- **Yazı:** küçük harf, tek kelime gibi bitişik: **tekno** normal (400),
+  **terim** kalın (700). Yazı tipi Geist, harf aralığı −0,02em.
+- **Renk:** işaret her zeminde aynı mor kalır; yazı açık temada `#16161A`,
+  koyu temada `#EDEDF1`.
+- **Ad:** yazıda tek kelime görünür ("teknoterim"), metinde iki kelime ve
+  büyük harfle yazılır ("Tekno Terim"). Alan adı: teknoterim.com.tr.
+- **Yapma:** gradient, gölge, 3B, maskot, dünya/dişli simgesi; mordan başka
+  vurgu rengi.
 
-Logo for "teknoterim": lowercase monospace wordmark, followed by a blinking terminal
-cursor block in phosphor green (#86C58E) as the only graphic element, like a dictionary
-entry waiting to be typed. Off-white text (#F0EBDC) on dark charcoal (#16140E). Ultra
-minimal, flat vector, 2 colors, no icon, no gradient. Also render a light version:
-dark text (#221F18) and green cursor on warm paper (#F9F6EF).
+Tasarım dili ve renk tokenları: `apps/web/ds/OKUBENI.md` (Grafit).
 
-## Negatif / istenmeyenler
+## Prompt 1 — sosyal medya kapağı
 
---no gradient, 3D, glossy, mascot, robot, globe, lightbulb, gear, circuit board, stock icon, photo
+Flat minimal banner for "teknoterim", a Turkish technical glossary. On the left
+a solid violet (#5B47D6) circle containing a bold white lowercase "t" drawn with
+thick rounded strokes and a small white dot at its lower right. Next to it the
+wordmark "teknoterim" in a geometric sans-serif (Geist-like), lowercase, "tekno"
+regular weight and "terim" bold, near-black (#16161A) on a very light neutral
+background (#F9F9FB). Generous negative space, flat vector, no gradients, no
+shadows, no 3D, no extra icons. 1500×500.
 
-## Üreticiye ek notlar
+## Prompt 2 — koyu zemin varyantı
 
-- Midjourney: sonuna `--v 7 --style raw --ar 3:1` (yatay) ya da `--ar 1:1` (simge).
-- Üretilen görsel yalnız taslak; son logo SVG olarak elle çizilmeli (vektör gerekir).
-- Açık tema versiyonu da iste: koyu metin (#221F18), yeşil (#2F6B3F), zemin (#F9F6EF).
+Same mark and wordmark as above on a deep graphite background (#0C0C0F): violet
+(#5B47D6) circle with the white lowercase "t" and dot unchanged, wordmark in
+near-white (#EDEDF1). Flat vector, calm, modern product feel (Linear, Vercel).
+Nothing else in the frame.
+
+## Prompt 3 — uygulama simgesi sunumu
+
+A single app icon mockup: violet (#5B47D6) circle badge with a bold white
+lowercase "t" made of thick rounded strokes and a small white dot at lower
+right, shown at large size on a light neutral surface with a soft, subtle
+contact shadow only under the icon. Flat, crisp, no text, no gradients on the
+icon itself.

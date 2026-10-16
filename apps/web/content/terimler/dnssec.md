@@ -16,4 +16,4 @@ Saldırganın DNS cevabını değiştirip ziyaretçiyi sahte bir sunucuya yönle
 
 ## Örnek
 
-DNSSEC açık bir alan adında sahte DNS cevabı üretilse bile tarayıcı kabul etmez.
+Bir bankanın alan adında DNSSEC açık. Saldırgan, şirket ağındaki DNS çözümleyiciye bankanın adresi yerine kendi sunucusunun IP'sini gönderen sahte bir cevap sokmaya çalışıyor (DNS zehirleme). Cevap bankanın imzasını taşımadığı için doğrulama yapan çözümleyici onu reddeder; kullanıcı sahte siteye değil, bir bağlantı hatasına düşer. Doğrulamayı tarayıcı değil, çözümleyici yapar: şirketin DNS sunucusunda DNSSEC doğrulaması kapalıysa bu koruma çalışmaz.

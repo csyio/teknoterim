@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const BAGLANTILAR = [
   { yol: "/sozluk", ad: "Sözlük" },
   { yol: "/calis", ad: "Çalış" },
+  { yol: "/doviz", ad: "Döviz" },
 ] as const;
 
 /**

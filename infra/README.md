@@ -71,6 +71,34 @@ Depo → Settings → Secrets and variables → Actions:
 | `SSH_SUNUCU` | `89.252.132.96` |
 | `SSH_KULLANICI` | `codex` |
 | `SSH_ANAHTAR` | `~/.ssh/teknoterim_dagitim` **özel** anahtarının tamamı |
+| `SSH_BILINEN_ANAHTAR` | Sunucunun doğrulanmış SSH kimliği (`known_hosts` satırı, aşağıda) |
+
+### Sunucu kimliği (`SSH_BILINEN_ANAHTAR`)
+
+İş akışı sunucuya yalnızca bu anahtarı gösteren makineyle konuşur
+(`StrictHostKeyChecking yes`). Sır tanımlı değilse dağıtım hata verip durur;
+körü körüne bağlanmaz.
+
+1. Sunucuda, kendi oturumunuzla parmak izini okuyun:
+
+   ```bash
+   ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub
+   ```
+
+2. Kendi bilgisayarınızda satırı alın ve parmak izinin 1. adımla **aynı**
+   olduğunu kontrol edin:
+
+   ```bash
+   ssh-keyscan -t ed25519 89.252.132.96 > bilinen.txt
+   ssh-keygen -lf bilinen.txt
+   ```
+
+3. Parmak izleri aynıysa `bilinen.txt` içeriğinin tamamını
+   `SSH_BILINEN_ANAHTAR` sırrına yapıştırın.
+
+Sunucu yeniden kurulur ya da SSH anahtarı değişirse bu sırrı da güncelleyin;
+aksi hâlde dağıtım "Host key verification failed" ile durur (beklenen
+davranış).
 
 ## 5. İlk yayın
 
@@ -82,7 +110,7 @@ Doğrulama:
 curl -I https://teknoterim.com.tr                 # 200 ve geçerli sertifika
 ssh tigin-codex 'systemctl status teknoterim'     # aktif (running)
 ssh tigin-codex 'journalctl -u teknoterim -n 30'  # son kayıtlar
-curl -s https://teknoterim.com.tr/sitemap.xml | grep -c '<url>'   # 51
+curl -s https://teknoterim.com.tr/sitemap.xml | grep -c '<url>'   # 156 (/, /sozluk, /doviz + 153 terim)
 ```
 
 ---

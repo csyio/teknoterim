@@ -122,3 +122,24 @@
 :root[data-tema="koyu"] .tema-btn .tema-ay {
   display: none;
 }
+
+/* Dar telefonda (≈375px) marka yazısı + üç bağlantı + tema düğmesi sığmaz:
+   aralıklar daralır, yazı biçimi gizlenir, işaret kalır. Bağlantının adı
+   aria-label'dan geldiği için ekran okuyucu için bir şey değişmez. */
+@media (max-width: 480px) {
+  .ust-ic {
+    gap: var(--b-2);
+  }
+
+  .marka-yazi {
+    display: none;
+  }
+
+  .gezinme {
+    gap: 2px;
+  }
+
+  .gezinme a {
+    padding: 6px 8px;
+  }
+}

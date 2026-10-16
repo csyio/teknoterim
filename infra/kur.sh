@@ -34,7 +34,9 @@ adim "Uygulama kullanıcısı ve dizini"
 if getent passwd "$UYGULAMA_KULLANICI" >/dev/null; then
   echo "  $UYGULAMA_KULLANICI zaten var, atlanıyor."
 else
-  useradd --system --create-home --home-dir "$UYGULAMA_KULLANICI" \
+  # Ev dizini uygulama dizinidir; içi aşağıda ayrıca kurulur, iskelet
+  # dosyaları (.bashrc vb.) gerekmez.
+  useradd --system --no-create-home --home-dir "$UYGULAMA_DIZIN" \
     --shell /usr/sbin/nologin "$UYGULAMA_KULLANICI"
   echo "  $UYGULAMA_KULLANICI oluşturuldu."
 fi
