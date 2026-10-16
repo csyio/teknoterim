@@ -23,26 +23,30 @@
    bizim yapmamız gereken, anlamı yalnızca renkle taşımamak ve kenarlıkları
    sistem rengine bırakmak.
 
-   Dizinde satırın solundaki vurgu şeridi tek başına anlam taşımasın diye
-   hover'da zemin de değişir (yukarıda); burada yalnızca çizgiler sabitlenir. */
+   Hover'da zemin değişimi sistem renklerinde görünmez; yerine ince bir
+   çerçeve çıkar. */
 @media (forced-colors: active) {
-  .dizin,
+  .panel,
   .dizin-satir,
-  .bolumler,
   .bolum,
-  .sayac-kutusu,
   .sayac-oge,
   .arama,
   .secenek,
+  .secenek-harf,
+  .dugme,
   .baglanti-dugme,
   .tema-btn,
   .cip,
+  .kat,
   .etiket,
   .rozet,
-  .aciklama,
-  .katman,
-  .katman.isaret .katman-govde {
+  .katman {
     border-color: CanvasText;
+  }
+
+  /* Hap ve kutular kenarlıksız kalınca sistem renginde kaybolur. */
+  .kat {
+    border: 1px solid CanvasText;
   }
 
   :focus-visible {
@@ -50,13 +54,26 @@
   }
 
   .cip[aria-pressed="true"],
+  .dugme[aria-pressed="true"],
   .secenek.dogru {
     border-color: Highlight;
   }
 
+  /* Bulunulan sayfa yalnızca zeminle ayrılıyordu; sistem renklerinde zemin
+     kaybolur, bu yüzden altı çizilir. */
+  .gezinme a[aria-current="page"] {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .arama:focus {
+    outline-color: Highlight;
+  }
+
   .dizin-satir:hover,
   .bolum:hover {
-    border-left-color: Highlight;
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
   }
 
   .secenek.solgun {

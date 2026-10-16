@@ -58,7 +58,7 @@ export default function AnaSayfa() {
         </div>
       </section>
 
-      <section className="bolumler" aria-label="Bölümler">
+      <section className="bolumler panel" aria-label="Bölümler">
         {SUTUNLAR.map((s, i) => (
           <article className="bolum" key={s.ad}>
             <span className="bolum-no" aria-hidden="true">
@@ -85,8 +85,11 @@ export default function AnaSayfa() {
       <section className="one-cikanlar" aria-labelledby="nereden-baslamali">
         <div className="bolum-baslik">
           <h2 id="nereden-baslamali">Nereden başlamalı</h2>
+          <Link className="tamami" href="/sozluk">
+            Tüm terimler →
+          </Link>
         </div>
-        <div className="dizin">
+        <div className="dizin panel">
           {oneCikan.map((t) => (
             <Link key={t.slug} className="dizin-satir" href={`/sozluk/${t.slug}`}>
               <span className="dizin-ad">{t.baslik}</span>

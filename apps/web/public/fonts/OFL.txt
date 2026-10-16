@@ -1,27 +1,24 @@
 Bu dizindeki yazı tipleri SIL Open Font License 1.1 ile dağıtılır.
-Aşağıda, kullanılan üç ailenin telif bildirimleri ve lisans metni yer alır.
+Aşağıda kullanılan iki ailenin telif bildirimleri ve lisans metni yer alır.
 
 ---------------------------------------------------------------------------
 Telif bildirimleri / Copyright notices
 ---------------------------------------------------------------------------
 
-Gazete (Newsreader)
-  Copyright 2020 The Newsreader Project Authors
-  (http://github.com/productiontype/Newsreader)
-
-Inter
-  Copyright 2016 The Inter Project Authors
-  (https://github.com/rsms/inter)
-
-Mono (JetBrains Mono)
-  Copyright 2020 The JetBrains Mono Project Authors
-  (https://github.com/JetBrains/JetBrainsMono)
+Geist ve Geist Mono
+Copyright 2024 The Geist Project Authors (https://github.com/vercel/geist-font)
+Kaynak: Fontsource @fontsource-variable/geist ve @fontsource-variable/geist-mono 5.3.0
 
 ---------------------------------------------------------------------------
-Lisans metni / License text
----------------------------------------------------------------------------
 
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
 SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
 
 PREAMBLE
 The goals of the Open Font License (OFL) are to stimulate worldwide

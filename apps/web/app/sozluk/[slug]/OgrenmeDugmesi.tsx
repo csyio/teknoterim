@@ -20,23 +20,34 @@ export function OgrenmeDugmesi({ slug }: { slug: string }) {
   return (
     <div className="ogrenme">
       <button
-        className="cip"
+        className="dugme"
         type="button"
         aria-pressed={durum.ogrenildi}
         onClick={() => durumYaz(slug, ogrenildiAyarla(durum, !durum.ogrenildi))}
       >
-        {durum.ogrenildi ? "✓ Öğrendim" : "Öğrendim olarak işaretle"}
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+        {durum.ogrenildi ? "Öğrenildi" : "Öğrendim"}
       </button>
+
+      <Link className="baglanti-dugme" href="/calis">
+        Çalış
+      </Link>
 
       {calisildi && (
         <span className="mono">
           {durum.dogru} doğru · {durum.yanlis} yanlış
         </span>
       )}
-
-      <Link className="tamami" href="/calis">
-        Çalış →
-      </Link>
     </div>
   );
 }

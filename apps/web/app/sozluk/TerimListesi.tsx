@@ -41,17 +41,30 @@ export function TerimListesi({
       <label className="gizli" htmlFor="terim-arama">
         Terim ara
       </label>
-      <input
-        id="terim-arama"
-        className="arama"
-        type="search"
-        value={arama}
-        onChange={(e) => setArama(e.target.value)}
-        placeholder="Terim, tanım veya iş ara — ör. “DNS”, “yedek”, “arıza”"
-        autoComplete="off"
-      />
+      <div className="arama-kutu">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.5-3.5" />
+        </svg>
+        <input
+          id="terim-arama"
+          className="arama"
+          type="search"
+          value={arama}
+          onChange={(e) => setArama(e.target.value)}
+          placeholder="Terim, tanım veya iş ara — ör. “DNS”, “yedek”, “arıza”"
+          autoComplete="off"
+        />
+      </div>
 
-      <div className="cipher" role="group" aria-label="Kategori filtresi">
+      <div className="cipler" role="group" aria-label="Kategori filtresi">
         <button
           className="cip"
           type="button"
@@ -59,6 +72,7 @@ export function TerimListesi({
           onClick={() => setKategori(null)}
         >
           Tümü
+          <span className="cip-adet">{terimler.length}</span>
         </button>
         {kategoriler.map((k) => (
           <button
@@ -69,6 +83,7 @@ export function TerimListesi({
             onClick={() => setKategori(kategori === k.ad ? null : k.ad)}
           >
             {k.ad}
+            <span className="cip-adet">{k.adet}</span>
           </button>
         ))}
       </div>
@@ -83,7 +98,7 @@ export function TerimListesi({
           kaldırın.
         </p>
       ) : (
-        <div className="dizin">
+        <div className="dizin panel">
           {sonuclar.map((t) => (
             <Link key={t.slug} className="dizin-satir" href={`/sozluk/${t.slug}`}>
               <span className="dizin-ad">{t.baslik}</span>

@@ -6,18 +6,23 @@ boştur, stil içermez.
 
 ## Dil
 
-Tek cümleyle: **çizgilerle bölünmüş teknik belge.**
+Adı **Grafit** (2026-10-16'da üç yön arasından seçildi). Tek cümleyle:
+**sakin, modern bir ürün arayüzü; nötr grafit yüzeyler ve tek bir mor vurgu.**
 
-- **Biçim keskin.** Yarıçaplar 2–4px, gölge yok. Yapıyı kenarlıklar ve yatay
-  çizgiler kurar; "yüzen kart" estetiği bilinçli olarak bırakıldı.
-- **Tek vurgu rengi** (iyon mavisi) ve onu seyrek kullanma disiplini. Yeşil
-  "fosfor" kimliği terk edildi, tokenlar `--vurgu*` adını taşıyor.
-- **Yazı rolleri:** başlıklar sans (Inter), künye ve etiketler mono (JetBrains
-  Mono), serif (Newsreader) yalnızca **örnek** katmanında ve büyük sayılarda
-  kalır — kitaptan alınmış bir alıntı gibi okunsun diye.
-- **Dizin, kart değil.** Terimler çizgiyle ayrılmış satırlar hâlinde tek bir
-  listede durur (`.dizin` → `.dizin-satir`); 153 terim böyle taranabilir kalır.
-- **Terim sayfası bir belge sayfası:** solda mono katman etiketi, sağda gövde.
+- **Biçim yumuşak ama abartısız.** Yarıçaplar 6/8/12px, hap biçimi yalnızca
+  etiket ve süzgeçte. Yapıyı 1px çizgiler ve hafif yüzey farkları kurar; açık
+  temada çok hafif bir gölge vardır, koyu temada yoktur.
+- **Panel:** dizin, ana sayfa bölümleri, terim katmanları ve alıştırma kartı
+  aynı kabı paylaşır (`.panel`). Satırlar panel içinde çizgiyle ayrılır.
+- **Tek vurgu rengi** (mor) ve onu seyrek kullanma disiplini. Doğru/yanlış için
+  ayrı `--basari*` ve `--hata*` tokenları var; mor bu işlere karışmaz.
+- **Yazı:** tek aile Geist (metin ve başlık), künye ve sayılar Geist Mono.
+  Serif yok.
+- **Büyük harfe çevirme yok.** `text-transform: uppercase` Türkçede İngilizce
+  kelimeleri bozuyordu ("DOMAİN"); etiketler olduğu gibi yazılır.
+- **Terim sayfası:** başlık ve kategori → "Nedir" büyük giriş paragrafı →
+  Öğrendim/Çalış → tek panelde "Ne amaçla", "Hangi işte", "Örnek" (ayrı
+  zeminde).
 
 ## Dosya haritası
 
@@ -27,7 +32,7 @@ ds/
   tokenlar.css              renk, boşluk, yazı ölçeği, yarıçap, hareket, katman
   yazitipi.css              @font-face bildirimleri
   taban.css                 sıfırlama, öğe varsayılanları, odak, yardımcılar
-  duzen.css                 kabuk, giriş, bölüm listesi, bölüm başlığı
+  duzen.css                 kabuk, panel, giriş, bölüm listesi, bölüm başlığı
   bilesenler/
     ust-bar.css             başlık, marka, gezinme, tema düğmesi
     dugme.css               birincil ve ikincil düğme
@@ -36,7 +41,7 @@ ds/
     dizin.css               terim dizini (satırlar) ve süzgeç sayacı
     icerik.css              terim sayfası ve Markdown gövdesi
     oturum.css              çalışma oturumu
-    durum.css               boş durumlar
+    durum.css               boş durumlar ve 404
     alt-bar.css             alt bilgi
   yazdirma.css              kâğıt için son söz
   erisim.css                hareket ve kontrast tercihleri (en son okunur)
@@ -55,27 +60,29 @@ kullanır. Bir rengi değiştirmek için gereken tek yer orasıdır.
 | Aile | Örnek | İş |
 |---|---|---|
 | Yüzey | `--zemin`, `--yuzey`, `--yuzey2`, `--yuzey3` | katmanlı zeminler |
-| Metin | `--parlak`, `--metin`, `--soluk`, `--soluk2` | parlaklık sırası |
-| Vurgu | `--vurgu`, `--vurgu-parlak`, `--vurgu-metin`, `--vurgu-zemin`, `--vurgu-kenar` | marka rengi; `--vurgu-metin` dolu düğmenin yazı rengi |
-| Durum | `--kehribar`, `--mercan`, `--gok` | uyarı / hata / bilgi |
-| Yazı ailesi | `--baslik-font`, `--metin-font`, `--mono`, `--serif` | rol başına bir aile |
+| Metin | `--parlak`, `--metin`, `--soluk`, `--soluk2` | parlaklık sırası; hepsi 4.5:1 kontrastı geçer |
+| Vurgu | `--vurgu`, `--vurgu-parlak`, `--vurgu-metin`, `--vurgu-yazi`, `--vurgu-zemin`, `--vurgu-kenar` | marka rengi; `--vurgu-metin` dolu düğmenin yazısı, `--vurgu-yazi` zemin üstündeki mor yazı |
+| Durum | `--basari*`, `--hata*` | doğru / yanlış cevap |
+| Yazı ailesi | `--metin-font`, `--baslik-font`, `--mono` | Geist ve Geist Mono |
 | Boşluk | `--b-1` … `--b-11` | 4px tabanlı ölçek |
 | Yazı boyutu | `--yazi-2xs` … `--yazi-4xl` | başlıklar `clamp()` ile akışkan |
-| Yarıçap | `--r-sm`, `--r`, `--r-lg` | keskin: 2 / 3 / 4px |
-| Ölçü | `--genislik`, `--genislik-metin`, `--olcu` | okunabilir satır uzunluğu |
+| Yarıçap | `--r-sm`, `--r`, `--r-lg`, `--r-tam` | 6 / 8 / 12px, hap |
+| Ölçü | `--genislik`, `--genislik-icerik`, `--genislik-form`, `--olcu` | okunabilir satır uzunluğu |
 
 **Boşluk ara değer uydurulmaz.** `13px` gibi bir değer gerekiyorsa ölçekten en
 yakını seçilir; ölçeğe değer eklemek gerekirse gerekçesi yazılır.
 
 ## Tema
 
-Varsayılan tema koyudur. Açık tema `:root[data-tema="acik"]` ile açılır; karar
-JavaScript'te tutulmaz, `layout.tsx` içindeki küçük bir betik tercihi ilk
-boyamadan önce uygular. Tema anahtarı: `teknoterim-tema`.
+Varsayılan olarak **sistem tercihine uyar** (`prefers-color-scheme`). Kullanıcı
+düğmeyle seçim yaparsa `<html data-tema="acik|koyu">` sistemi ezer; seçim
+`teknoterim-tema` anahtarıyla saklanır ve `layout.tsx` içindeki küçük betik
+onu ilk boyamadan önce uygular.
 
-Bir rengi iki temada da çalışacak şekilde tanımlamak için `tokenlar.css` içinde
-hem `:root` hem `:root[data-tema="acik"]` bloğuna yazılır; başka hiçbir dosyada
-tema koşulu bulunmaz.
+Bir rengi iki temada da tanımlamak için `tokenlar.css` içinde üç yere yazılır:
+`:root` (açık), `@media (prefers-color-scheme: dark)` içindeki
+`:root:not([data-tema="acik"])` ve `:root[data-tema="koyu"]`. Başka hiçbir
+dosyada renk için tema koşulu bulunmaz (tema düğmesinin simgesi tek istisna).
 
 ## Bileşen yazma kuralları
 
@@ -93,8 +100,8 @@ tema koşulu bulunmaz.
 ## Erişilebilirlik sözleşmesi
 
 - **Odak:** tek bir `:focus-visible` halkası tüm etkileşimli öğeleri kapsar.
-  Halka `--odak` renginden gelir. Arama alanı tek istisnadır: odakta dış halka
-  çıkmaz, alanın kendi kenarlığı vurguya döner (sayfa zıplamasın diye).
+  Halka `--odak` renginden gelir. Arama alanı tek istisnadır: odakta kenarlığı
+  vurguya döner ve yumuşak bir hale çıkar.
 - **Hareket:** `prefers-reduced-motion: reduce` altında geçişler ve animasyonlar
   fiilen kapanır.
 - **Kontrast:** `forced-colors: active` altında kenarlıklar sistem rengine
@@ -104,7 +111,7 @@ tema koşulu bulunmaz.
 ## Yazdırma
 
 Bir sözlük maddesi kâğıtta okunabilir olmalı. `yazdirma.css` tokenların tamamını
-açık değerlere çevirir (kâğıt beyazdır, ekran koyu), gezinme ve etkileşimli
+açık değerlere çevirir (kâğıt her zaman beyazdır), gezinme ve etkileşimli
 denetimleri gizler, katmanları tek kolona indirir ve sayfa ortasında
 bölünmelerini engeller.
 

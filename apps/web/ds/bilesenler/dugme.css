@@ -2,64 +2,73 @@
    Tekno Terim — görünüm paketi / düğmeler
    --------------------------------------------------------------------------
    İki ağırlık var:
-     .dugme           belirgin eylem — dolu, keskin köşeli
-     .baglanti-dugme  ikincil eylem — yalnızca çizgi
-   Dolu düğme artık vurgu rengini kullanır (eskiden yalnızca kenarlıktı):
-   sayfada tek bir "ağır" öğe olsun, göz nereye gideceğini bilsin.
+     .dugme           belirgin eylem — mor dolgu
+     .baglanti-dugme  ikincil eylem — yüzey rengi, ince kenarlık
+   Sayfada tek bir "ağır" öğe olsun, göz nereye gideceğini bilsin.
    ========================================================================== */
 
-.dugme {
+.dugme,
+.baglanti-dugme {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--b-2);
-  padding: var(--b-3) var(--b-5);
+  min-height: var(--denetim);
+  padding: 0 var(--b-4);
+  border-radius: var(--r);
+  font-size: var(--yazi-md);
+  font-weight: 500;
+  line-height: 1.2;
+  transition: background var(--hiz) var(--egri), border-color var(--hiz) var(--egri),
+    color var(--hiz) var(--egri);
+}
+
+.dugme svg,
+.baglanti-dugme svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.dugme {
   border: 1px solid var(--vurgu);
-  border-radius: var(--r-sm);
   background: var(--vurgu);
   color: var(--vurgu-metin);
-  font-size: var(--yazi-md);
-  font-weight: 600;
-  /* `gap` de geçişe dâhil: içindeki ok, düğme büyümeden yer değiştirir. */
-  transition: gap var(--hiz) var(--egri), background var(--hiz) var(--egri),
-    border-color var(--hiz) var(--egri);
 }
 
 .dugme:hover {
-  gap: var(--b-3);
   background: var(--vurgu-parlak);
   border-color: var(--vurgu-parlak);
 }
 
-.dugme:disabled,
-.dugme[aria-disabled="true"] {
-  opacity: .5;
-  cursor: not-allowed;
-}
-
-/* ------------------------------------------------------------------ ikincil */
-
 .baglanti-dugme {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--b-2);
-  padding: var(--b-3) var(--b-5);
-  border: 1px solid var(--cizgi-guclu);
-  border-radius: var(--r-sm);
-  background: transparent;
-  color: var(--soluk);
-  font-size: var(--yazi-md);
-  transition: color var(--hiz), border-color var(--hiz), background var(--hiz);
+  border: 1px solid var(--cizgi);
+  background: var(--yuzey);
+  color: var(--parlak);
 }
 
 .baglanti-dugme:hover {
-  color: var(--parlak);
-  border-color: var(--vurgu-kenar);
-  background: var(--vurgu-zemin);
+  background: var(--yuzey2);
+  border-color: var(--cizgi-guclu);
 }
 
+.dugme:disabled,
+.dugme[aria-disabled="true"],
 .baglanti-dugme:disabled {
   opacity: .5;
   cursor: not-allowed;
+}
+
+/* "Öğrendim" düğmesi basılıyken başarı rengine döner; durum `aria-pressed`
+   ile taşınır, metin de değişir (renk tek başına anlam taşımaz). */
+.dugme[aria-pressed="true"] {
+  border-color: var(--basari-kenar);
+  background: var(--basari-zemin);
+  color: var(--basari);
+}
+
+.dugme[aria-pressed="true"]:hover {
+  border-color: var(--basari);
 }
 
 /* ------------------------------------------------------- düğme dizisi ve bağı */
@@ -68,20 +77,19 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--b-3);
+  gap: var(--b-2);
   margin-top: var(--b-6);
 }
 
-/* Mono bağlantı: "Terimin tamamını gör →" gibi metin içi yönlendirmeler. */
+/* Metin içi yönlendirme: "Terimin tamamını gör →". */
 .tamami {
-  font-family: var(--mono);
-  font-size: var(--yazi-xs);
-  letter-spacing: var(--harf-genis);
-  text-transform: uppercase;
-  color: var(--vurgu);
+  font-size: var(--yazi-sm);
+  font-weight: 500;
+  color: var(--vurgu-yazi);
   white-space: nowrap;
 }
 
 .tamami:hover {
-  color: var(--vurgu-parlak);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }

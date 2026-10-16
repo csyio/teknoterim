@@ -8,7 +8,7 @@ yayılmıştır. Tekno Terim bunları sade, hızlı ve reklamsız tek bir yerde 
 — kurulum yok, hesap yok.
 
 > **Durum:** yeniden geliştirme sürecinde. Sözlük ve alıştırma bölümü çalışıyor;
-> gündem, döviz dönüştürücü ve yeni görünüm paketi sırada. Eski sürüm
+> yeni görünüm paketi (Grafit) uygulandı; gündem ve döviz dönüştürücü sırada. Eski sürüm
 > `rootline.cansoykanyilmaz.com` adresinde duruyor ve yeni sürüm hazır olunca
 > oraya yönlendirilecek.
 

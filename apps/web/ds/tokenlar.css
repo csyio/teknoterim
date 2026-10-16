@@ -4,83 +4,135 @@
    Tek karar kaynağı. Bileşenler ham değer yazmaz; yalnızca buradaki
    değişkenleri kullanır.
 
-   YENİ DİL (sıfırdan):
-     · Soğuk, nötr koyu zemin — sıcak kâğıt tonları bırakıldı.
-     · Tek vurgu: iyon mavisi. Yeşil "fosfor" kimliği terk edildi; tokenlar
-       artık `--vurgu*` adını taşıyor.
-     · Biçim dili keskin: yarıçaplar 2-4px, gölge yok, yapıyı 1px çizgiler
-       kurar. Yumuşak kart estetiği yerine "künye/teknik belge" düzeni.
-     · Yazı rolleri tersine çevrildi: başlıklar sans (Inter), serif yalnızca
-       örnek metinlerinde kalır.
+   DİL: "Grafit" (2026-10-16, Can'ın onayıyla):
+     · Nötr grafit yüzeyler, tek vurgu: mor (#5B47D6 / koyuda #8C7CFF).
+     · Yumuşak ama abartısız köşeler (6–12px), yapıyı 1px çizgiler ve
+       hafif yüzey farkları kurar; açık temada çok hafif gölge.
+     · Tek aile: Geist (metin ve başlık), Geist Mono (künye, sayılar).
+     · Büyük harfe çevirme yok: Türkçede "DOMAİN" gibi bozulmalar çıkıyordu.
+
+   Tema: varsayılan olarak sistem tercihine uyar. Kullanıcı düğmeyle seçerse
+   `<html data-tema="acik|koyu">` sistemi ezer (bkz. layout.tsx).
 
    Adlandırma:
      --zemin, --yuzey*   yüzeyler (katman sırası)
-     --metin*            metin tonları
+     --parlak, --metin, --soluk*   metin tonları (güçlüden zayıfa)
      --vurgu*            marka vurgusu
+     --basari*, --hata*  cevap durumları
      --b-*               boşluk ölçeği (4px tabanı)
      --yazi-*            yazı boyutu ölçeği
      --r-*               yarıçaplar
    ========================================================================== */
 
-/* --------------------------------------------- renk: koyu tema (varsayılan) */
+/* -------------------------------------------- renk: açık tema (varsayılan) */
 
 :root {
-  color-scheme: dark;
-
-  --zemin: #0C0E11;
-  --yuzey: #13161A;
-  --yuzey2: #191D22;
-  --yuzey3: #22272E;
-
-  --cizgi: rgba(255, 255, 255, .09);
-  --cizgi-guclu: rgba(255, 255, 255, .20);
-
-  --parlak: #F2F5F8;
-  --metin: #B8C0CA;
-  --soluk: #868F9B;
-  --soluk2: #757E8A;
-
-  --vurgu: #4D8DF7;
-  --vurgu-parlak: #7FAFFA;
-  --vurgu-metin: #06101E;
-  --vurgu-zemin: rgba(77, 141, 247, .12);
-  --vurgu-kenar: rgba(77, 141, 247, .34);
-
-  --kehribar: #E0A43C;
-  --mercan: #E8735F;
-  --gok: #56B6CE;
-
-  /* Biçim dili gölge kullanmaz; yapıyı çizgiler kurar. */
-  --golge: none;
-}
-
-/* ------------------------------------------------------------- renk: açık tema */
-
-:root[data-tema="acik"] {
   color-scheme: light;
 
-  --zemin: #FBFBFD;
-  --yuzey: #F4F5F8;
-  --yuzey2: #ECEEF3;
-  --yuzey3: #E1E4EB;
+  --zemin: #F9F9FB;
+  --yuzey: #FFFFFF;
+  --yuzey2: #F3F3F6;
+  --yuzey3: #EAEAEF;
 
-  --cizgi: rgba(12, 14, 17, .12);
-  --cizgi-guclu: rgba(12, 14, 17, .26);
+  --cizgi: #E4E4EA;
+  --cizgi-guclu: #CFCFD8;
 
-  --parlak: #0C0E11;
-  --metin: #333A44;
-  --soluk: #4E5560;
-  --soluk2: #6B737E;
+  --parlak: #16161A;
+  --metin: #3F4049;
+  --soluk: #5D5E69;
+  --soluk2: #6E6F7A;
 
-  --vurgu: #1B4FD8;
-  --vurgu-parlak: #12379B;
+  --vurgu: #5B47D6;
+  --vurgu-parlak: #4A37C4;
   --vurgu-metin: #FFFFFF;
-  --vurgu-zemin: rgba(27, 79, 216, .08);
-  --vurgu-kenar: rgba(27, 79, 216, .28);
+  --vurgu-yazi: #4935C0;
+  --vurgu-zemin: #EEEBFD;
+  --vurgu-kenar: #C9C1F7;
 
-  --kehribar: #8A5A00;
-  --mercan: #B33524;
-  --gok: #0F6383;
+  --basari: #127A45;
+  --basari-zemin: #E8F6EE;
+  --basari-kenar: #9FD8B8;
+
+  --hata: #B42318;
+  --hata-zemin: #FDECEA;
+  --hata-kenar: #F3B8B1;
+
+  --golge: 0 1px 2px rgba(22, 22, 26, .05);
+}
+
+/* ---------------------------------------------------------- renk: koyu tema */
+
+/* Aynı değerler iki kez yazılıyor: biri sistem tercihi (kullanıcı açık
+   seçmediyse), biri kullanıcının açık seçimi için. CSS'te ikisini tek
+   seçicide birleştirmenin yolu yok. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="acik"]) {
+    color-scheme: dark;
+
+    --zemin: #0C0C0F;
+    --yuzey: #141418;
+    --yuzey2: #1B1B20;
+    --yuzey3: #24242B;
+
+    --cizgi: #26262D;
+    --cizgi-guclu: #3A3A44;
+
+    --parlak: #EDEDF1;
+    --metin: #B6B7C0;
+    --soluk: #8F909A;
+    --soluk2: #868792;
+
+    --vurgu: #8C7CFF;
+    --vurgu-parlak: #A89CFF;
+    --vurgu-metin: #0C0C0F;
+    --vurgu-yazi: #B4A9FF;
+    --vurgu-zemin: #1F1B38;
+    --vurgu-kenar: #3D3570;
+
+    --basari: #5EE08F;
+    --basari-zemin: #0F2A1B;
+    --basari-kenar: #22663F;
+
+    --hata: #FF8A7A;
+    --hata-zemin: #33140F;
+    --hata-kenar: #6B2A20;
+
+    --golge: none;
+  }
+}
+
+:root[data-tema="koyu"] {
+  color-scheme: dark;
+
+  --zemin: #0C0C0F;
+  --yuzey: #141418;
+  --yuzey2: #1B1B20;
+  --yuzey3: #24242B;
+
+  --cizgi: #26262D;
+  --cizgi-guclu: #3A3A44;
+
+  --parlak: #EDEDF1;
+  --metin: #B6B7C0;
+  --soluk: #8F909A;
+  --soluk2: #868792;
+
+  --vurgu: #8C7CFF;
+  --vurgu-parlak: #A89CFF;
+  --vurgu-metin: #0C0C0F;
+  --vurgu-yazi: #B4A9FF;
+  --vurgu-zemin: #1F1B38;
+  --vurgu-kenar: #3D3570;
+
+  --basari: #5EE08F;
+  --basari-zemin: #0F2A1B;
+  --basari-kenar: #22663F;
+
+  --hata: #FF8A7A;
+  --hata-zemin: #33140F;
+  --hata-kenar: #6B2A20;
+
+  --golge: none;
 }
 
 /* ------------------------------------------------------------- temadan bağımsız */
@@ -90,35 +142,30 @@
 
   /* ------------------------------------------------------------------ yazı */
 
-  --mono: "Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --metin-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  --metin-font: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Arial, sans-serif;
-
-  /* Başlıklar artık sans. Serif yalnızca örnek metinlerinde ve büyük
-     sayılarda kalıyor: sözlük maddesinin "alıntı" hissi oradan geliyor. */
   --baslik-font: var(--metin-font);
-  --serif: "Gazete", Georgia, "Times New Roman", serif;
+  --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --yazi-2xs: .64rem;
-  --yazi-xs: .72rem;
-  --yazi-sm: .82rem;
-  --yazi-md: .92rem;
+  --yazi-2xs: .75rem;
+  --yazi-xs: .8125rem;
+  --yazi-sm: .875rem;
+  --yazi-md: .9375rem;
   --yazi-base: 1rem;
-  --yazi-lg: 1.06rem;
-  --yazi-xl: 1.28rem;
-  --yazi-2xl: clamp(1.5rem, 2.6vw, 1.85rem);
-  --yazi-3xl: clamp(2rem, 4.4vw, 2.85rem);
-  --yazi-4xl: clamp(2.4rem, 6.4vw, 4rem);
+  --yazi-lg: 1.0625rem;
+  --yazi-xl: 1.1875rem;
+  --yazi-2xl: clamp(1.375rem, 2.4vw, 1.625rem);
+  --yazi-3xl: clamp(2rem, 4.4vw, 2.75rem);
+  --yazi-4xl: clamp(2.4rem, 6.4vw, 3.75rem);
 
-  --satir-sik: 1.2;
+  --satir-sik: 1.1;
   --satir-normal: 1.6;
-  --satir-gevsek: 1.75;
+  --satir-gevsek: 1.65;
 
   --harf-sik: -.02em;
-  --harf-genis: .06em;
-  --harf-cok-genis: .11em;
+  --harf-cok-sik: -.03em;
 
-  --olcu: 70ch;
+  --olcu: 68ch;
 
   /* --------------------------------------------------------------- boşluk */
 
@@ -137,18 +184,17 @@
   /* -------------------------------------------------------------- ölçüler */
 
   --genislik: 1160px;
-  --genislik-metin: 44rem;
-  --genislik-icerik: 760px;
+  --genislik-icerik: 720px;
   --genislik-form: 640px;
-  --ust-yukseklik: 58px;
+  --ust-yukseklik: 60px;
+  --denetim: 42px;
 
   /* ------------------------------------------------------------- yarıçaplar */
 
-  /* Keskin biçim dili: hap (pill) yok, yumuşak köşe yok. */
-  --r-sm: 2px;
-  --r: 3px;
-  --r-lg: 4px;
-  --r-tam: 2px;
+  --r-sm: 6px;
+  --r: 8px;
+  --r-lg: 12px;
+  --r-tam: 999px;
 
   /* ---------------------------------------------------------------- hareket */
 

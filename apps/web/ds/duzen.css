@@ -4,9 +4,8 @@
    Kabuk, bölüm ritmi ve ızgaralar. Bileşenler kendi iç boşluklarını bilir;
    sayfada nasıl aralandıkları burada karara bağlanır.
 
-   Yeni dilin taşıyıcısı burada: sayfa "yüzen kartlar" değil, çizgilerle
-   bölünmüş bir teknik belge. Her bölümü yatay bir çizgi ayırır, başlıklar
-   sola yaslanır, künye mono etiketlerle taşınır.
+   Grafit dili: içerik, ince çizgili ve hafif yüzeyli "paneller" içinde
+   durur. Sayfa başlıkları sola yaslanır, açıklama sağda okunur.
    ========================================================================== */
 
 /* Alt bar kısa sayfalarda yukarı kaymasın: gövde bir sütun, `main` kalan
@@ -30,24 +29,37 @@ main {
   padding: 0 var(--b-6);
 }
 
+@media (max-width: 560px) {
+  .kabuk {
+    padding: 0 var(--b-4);
+  }
+}
+
+/* Panel: çizgili, hafif yüzeyli kap. Dizin, bölüm listesi ve terim
+   katmanları aynı kabı paylaşır; satırlar içeride çizgiyle ayrılır. */
+.panel {
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r-lg);
+  background: var(--yuzey);
+  box-shadow: var(--golge);
+  overflow: hidden;
+}
+
 /* ---------------------------------------------------------------- giriş sayfası */
 
-/* İki kolonlu künye: solda başlık, sağda açıklama ve eylemler. Tek kolonlu
-   "ortada kahraman" düzeninden bilinçli olarak ayrılıyor. */
 .giris {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
   gap: var(--b-6) var(--b-9);
   align-items: end;
-  padding: var(--b-11) 0 var(--b-8);
-  border-bottom: 1px solid var(--cizgi-guclu);
-  margin-bottom: var(--b-8);
+  padding: var(--b-11) 0 var(--b-9);
 }
 
 .giris h1 {
-  max-width: 15ch;
+  max-width: 14ch;
   margin-top: var(--b-4);
   font-size: var(--yazi-4xl);
+  letter-spacing: var(--harf-cok-sik);
 }
 
 /* Izgara öğeleri: uzun tek bir kelime kolonu şişirmesin. */
@@ -58,19 +70,15 @@ main {
 
 .giris-aciklama {
   max-width: var(--olcu);
-  color: var(--soluk);
+  color: var(--metin);
   font-size: var(--yazi-lg);
-}
-
-.giris .dugme-sirasi {
-  margin-top: var(--b-6);
 }
 
 @media (max-width: 860px) {
   .giris {
     grid-template-columns: 1fr;
-    gap: var(--b-6);
-    padding: var(--b-9) 0 var(--b-7);
+    gap: var(--b-5);
+    padding: var(--b-9) 0 var(--b-8);
   }
 }
 
@@ -78,15 +86,14 @@ main {
 .baslik-alani {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--b-5) var(--b-9);
+  gap: var(--b-4) var(--b-9);
   align-items: end;
   padding: var(--b-10) 0 var(--b-7);
-  border-bottom: 1px solid var(--cizgi-guclu);
-  margin-bottom: var(--b-7);
 }
 
 .baslik-alani h1 {
   font-size: var(--yazi-3xl);
+  letter-spacing: var(--harf-cok-sik);
 }
 
 .baslik-alani p {
@@ -97,43 +104,43 @@ main {
 @media (max-width: 860px) {
   .baslik-alani {
     grid-template-columns: 1fr;
-    gap: var(--b-4);
+    gap: var(--b-3);
     padding: var(--b-8) 0 var(--b-6);
   }
 }
 
 /* --------------------------------------------------------------- bölüm listesi */
 
-/* Ana sayfadaki üç bölüm: kart değil, numaralanmış çizgili satırlar. */
+/* Ana sayfadaki üç bölüm: tek panel içinde numaralı satırlar. */
 .bolumler {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid var(--cizgi);
   margin-bottom: var(--b-9);
 }
 
 .bolum {
   display: grid;
   grid-template-columns: 2.5rem minmax(0, 1fr) auto;
-  gap: var(--b-3) var(--b-6);
+  gap: var(--b-3) var(--b-5);
   align-items: start;
-  padding: var(--b-6) var(--b-3) var(--b-6) var(--b-4);
-  border-bottom: 1px solid var(--cizgi);
-  border-left: 2px solid transparent;
-  transition: background var(--hiz) var(--egri), border-left-color var(--hiz) var(--egri);
+  padding: var(--b-5) var(--b-5);
+  border-top: 1px solid var(--cizgi);
+  transition: background var(--hiz) var(--egri);
+}
+
+.bolum:first-child {
+  border-top: 0;
 }
 
 .bolum:hover {
-  background: var(--yuzey);
-  border-left-color: var(--vurgu);
+  background: var(--yuzey2);
 }
 
 .bolum-no {
-  padding-top: .22em;
+  padding-top: .2em;
   font-family: var(--mono);
   font-size: var(--yazi-xs);
-  letter-spacing: var(--harf-genis);
-  color: var(--vurgu);
+  color: var(--soluk2);
   font-variant-numeric: tabular-nums;
 }
 
@@ -143,7 +150,7 @@ main {
 
 .bolum-govde p {
   max-width: var(--olcu);
-  margin-top: var(--b-2);
+  margin-top: var(--b-1);
   color: var(--soluk);
   font-size: var(--yazi-md);
 }
@@ -157,7 +164,8 @@ main {
 
 @media (max-width: 720px) {
   .bolum {
-    grid-template-columns: 2.5rem minmax(0, 1fr);
+    grid-template-columns: 2rem minmax(0, 1fr);
+    padding: var(--b-4);
   }
 
   .bolum-sag {
@@ -169,23 +177,16 @@ main {
 
 /* --------------------------------------------------------------- bölüm başlığı */
 
-/* Başlık + sağına uzayan çizgi: bölümleri kâğıt üstünde ayırır. */
 .bolum-baslik {
   display: flex;
   align-items: baseline;
+  justify-content: space-between;
   gap: var(--b-5);
-  margin-bottom: var(--b-5);
+  margin-bottom: var(--b-4);
 }
 
 .bolum-baslik h2 {
   font-size: var(--yazi-xl);
-}
-
-.bolum-baslik::after {
-  content: "";
-  flex: 1 1 auto;
-  height: 1px;
-  background: var(--cizgi);
 }
 
 .one-cikanlar {

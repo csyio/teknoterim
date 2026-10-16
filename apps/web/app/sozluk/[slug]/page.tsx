@@ -62,35 +62,40 @@ export default async function TerimSayfasi(props: PageProps<"/sozluk/[slug]">) {
   return (
     <div className="kabuk">
       <article className="terim-detay">
-        <Link className="geri" href="/sozluk">
-          ← Sözlük
-        </Link>
+        <nav className="yol" aria-label="Konum">
+          <Link href="/sozluk">Sözlük</Link>
+          <span aria-hidden="true">/</span>
+          <span>{terim.kategori}</span>
+        </nav>
 
         <header className="terim-ust">
           <h1>{terim.baslik}</h1>
           <span className="kat">{terim.kategori}</span>
         </header>
 
+        {/* "Nedir" katmanı: sayfanın girişi. Başlığı yalnızca ekran okuyucuya
+            görünür; görsel olarak tanımın kendisi yeterince belirgin. */}
+        <section className="terim-tanim" aria-labelledby="nedir">
+          <h2 id="nedir" className="gizli">
+            Nedir
+          </h2>
+          <p>{terim.ozet}</p>
+        </section>
+
         <OgrenmeDugmesi slug={terim.slug} />
 
-        <div className="katman">
-          <span className="katman-baslik">Nedir</span>
-          <div className="katman-govde">
-            <p>{terim.ozet}</p>
-          </div>
-        </div>
+        <div className="katmanlar panel">
+          <section className="katman">
+            <h2 className="katman-baslik">Ne amaçla kullanılır</h2>
+            <div
+              className="katman-govde"
+              dangerouslySetInnerHTML={{ __html: markdown(terim.amac) }}
+            />
+          </section>
 
-        <div
-          className="katman"
-          dangerouslySetInnerHTML={{
-            __html: `<span class="katman-baslik">Ne amaçla kullanılır</span><div class="katman-govde">${markdown(terim.amac)}</div>`,
-          }}
-        />
-
-        {terim.isler.length > 0 && (
-          <div className="katman">
-            <span className="katman-baslik">Hangi işte karşınıza çıkar</span>
-            <div className="katman-govde">
+          {terim.isler.length > 0 && (
+            <section className="katman">
+              <h2 className="katman-baslik">Hangi işte karşınıza çıkar</h2>
               <div className="rozetler">
                 {terim.isler.map((i) => (
                   <span key={i} className="rozet">
@@ -98,16 +103,17 @@ export default async function TerimSayfasi(props: PageProps<"/sozluk/[slug]">) {
                   </span>
                 ))}
               </div>
-            </div>
-          </div>
-        )}
+            </section>
+          )}
 
-        <div
-          className="katman isaret"
-          dangerouslySetInnerHTML={{
-            __html: `<span class="katman-baslik">Örnek</span><div class="katman-govde">${markdown(terim.ornek)}</div>`,
-          }}
-        />
+          <section className="katman isaret">
+            <h2 className="katman-baslik">Örnek</h2>
+            <div
+              className="katman-govde"
+              dangerouslySetInnerHTML={{ __html: markdown(terim.ornek) }}
+            />
+          </section>
+        </div>
       </article>
 
       <script

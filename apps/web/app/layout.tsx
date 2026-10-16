@@ -5,6 +5,7 @@ import { SITE } from "@/lib/site";
 import { Gezinme } from "./Gezinme";
 import { TemaDugmesi } from "./TemaDugmesi";
 import { Olcum } from "./Olcum";
+import { MarkaIsareti } from "./MarkaIsareti";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -24,8 +25,9 @@ export const metadata: Metadata = {
 };
 
 /**
- * Tema tercihini ilk boyamadan önce uygular. Aksi halde koyu tema seçmiş
- * kullanıcı bir an aydınlık sayfa görür ("tema sıçraması").
+ * Kullanıcının elle seçtiği temayı ilk boyamadan önce uygular. Seçim yoksa
+ * hiçbir şey yapılmaz ve tema CSS'teki `prefers-color-scheme` ile sistemden
+ * gelir. Böylece "tema sıçraması" olmaz.
  */
 const TEMA_KOMUTU = `(function(){try{var t=localStorage.getItem('teknoterim-tema');if(t==='acik'||t==='koyu'){document.documentElement.setAttribute('data-tema',t)}}catch(e){}})();`;
 
@@ -53,8 +55,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <header className="ust">
           <div className="kabuk ust-ic">
             <Link className="marka" href="/" aria-label={`${SITE.ad} ana sayfa`}>
-              <span className="marka-isaret" aria-hidden="true" />
-              {SITE.ad}
+              <MarkaIsareti />
+              {/* Yazı biçimi logonun parçası: "tekno" ince, "terim" kalın, küçük
+                  harf. Bağlantının erişilebilir adı aria-label'dan gelir. */}
+              <span className="marka-yazi" aria-hidden="true">
+                tekno<b>terim</b>
+              </span>
             </Link>
             <Gezinme />
             <TemaDugmesi />

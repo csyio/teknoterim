@@ -1,39 +1,44 @@
 /* ==========================================================================
    Tekno Terim — görünüm paketi / dizin (terim listesi)
    --------------------------------------------------------------------------
-   Terimler artık kart değil, çizgiyle ayrılmış dizin satırları. 153 terim
-   yan yana kartlar hâlinde dağılmak yerine tek bir okunur liste oluşturur:
-   solda ad, ortada özet, sağda kategori.
+   Terimler tek bir panel içinde, çizgiyle ayrılmış satırlar hâlinde durur:
+   solda ad, ortada özet, sağda kategori. 153 terim böyle taranabilir kalır.
 
-   Satır bir bağlantıdır (`.dizin-satir`), bu yüzden odak halkası da
-   öğenin tamamını çevreler.
+   Kap `.dizin.panel` olarak kullanılır; satır bir bağlantıdır
+   (`.dizin-satir`), bu yüzden odak halkası satırın tamamını çevreler.
    ========================================================================== */
 
 .dizin {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid var(--cizgi-guclu);
 }
 
 .dizin-satir {
   display: grid;
-  grid-template-columns: minmax(9rem, 15rem) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(9rem, 14rem) minmax(0, 1fr) auto;
   gap: var(--b-1) var(--b-5);
   align-items: baseline;
-  padding: var(--b-4) var(--b-3) var(--b-4) var(--b-4);
-  border-bottom: 1px solid var(--cizgi);
-  /* Sol kenardaki şerit her zaman durur; hover'da yalnızca rengi değişir. */
-  border-left: 2px solid transparent;
-  transition: background var(--hiz) var(--egri), border-left-color var(--hiz) var(--egri);
+  padding: var(--b-4) var(--b-5);
+  border-top: 1px solid var(--cizgi);
+  transition: background var(--hiz) var(--egri);
+}
+
+.dizin-satir:first-child {
+  border-top: 0;
 }
 
 .dizin-satir:hover {
-  background: var(--yuzey);
-  border-left-color: var(--vurgu);
+  background: var(--yuzey2);
+}
+
+/* Odak halkası panelin taşma kırpmasına takılmasın: içeri çekilir. */
+.dizin-satir:focus-visible {
+  outline-offset: -2px;
+  border-radius: 0;
 }
 
 .dizin-ad {
-  font-size: var(--yazi-lg);
+  font-size: var(--yazi-base);
   font-weight: 600;
   color: var(--parlak);
 }
@@ -47,19 +52,14 @@
    her terimde aynı kalsın. */
 .dizin-isler {
   display: block;
-  margin-top: var(--b-1);
-  font-family: var(--mono);
+  margin-top: 2px;
   font-size: var(--yazi-2xs);
-  letter-spacing: var(--harf-genis);
-  text-transform: uppercase;
   color: var(--soluk2);
 }
 
 .dizin-kat {
-  font-family: var(--mono);
   font-size: var(--yazi-2xs);
-  letter-spacing: var(--harf-genis);
-  text-transform: uppercase;
+  font-weight: 500;
   color: var(--soluk2);
   white-space: nowrap;
 }
@@ -68,8 +68,8 @@
   /* Dar ekranda üç kolon sığmaz: kategori üste künye olarak geçer. */
   .dizin-satir {
     grid-template-columns: 1fr;
-    gap: var(--b-1);
-    padding: var(--b-4) var(--b-3) var(--b-4) var(--b-4);
+    gap: 2px;
+    padding: var(--b-4);
   }
 
   .dizin-kat {
@@ -80,11 +80,9 @@
 /* Süzgeç sonucu sayacı: "12 / 153 terim". `role="status"` ile ekran okuyucu
    sonucu kendiliğinden duyurur. */
 .sayac {
-  margin-bottom: var(--b-4);
+  margin-bottom: var(--b-3);
   font-family: var(--mono);
   font-size: var(--yazi-xs);
-  letter-spacing: var(--harf-genis);
-  text-transform: uppercase;
   color: var(--soluk);
   font-variant-numeric: tabular-nums;
 }

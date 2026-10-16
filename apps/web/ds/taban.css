@@ -49,8 +49,7 @@ pre {
   margin: 0;
 }
 
-/* Yeni dilde başlıklar sans ve yarı kalın: teknik belge hissi seriften değil,
-   sıkı harf aralığından ve dikey ritimden geliyor. */
+/* Başlıklar Geist, yarı kalın ve sıkı harf aralıklı. */
 h1,
 h2,
 h3,
@@ -119,7 +118,7 @@ textarea::placeholder {
 }
 
 ::selection {
-  background: var(--vurgu-kenar);
+  background: var(--vurgu-zemin);
   color: var(--parlak);
 }
 
@@ -138,13 +137,11 @@ textarea::placeholder {
   border: 0;
 }
 
-/* Teknik etiket: mono, büyük harf, aralıklı. Türkçe büyütmede İ/ı doğru
-   çıkar çünkü belge `lang="tr"` ile işaretli. */
+/* Teknik etiket: mono ve küçük. Büyük harfe çevrilmez; Türkçede İ/ı
+   dönüşümü İngilizce kelimeleri bozuyordu ("DOMAİN"). */
 .mono {
   font-family: var(--mono);
   font-size: var(--yazi-xs);
-  letter-spacing: var(--harf-genis);
-  text-transform: uppercase;
   color: var(--soluk);
   font-variant-numeric: tabular-nums;
 }
@@ -158,7 +155,8 @@ textarea::placeholder {
   background: var(--vurgu);
   color: var(--vurgu-metin);
   padding: var(--b-3) var(--b-4);
-  font-weight: 600;
+  border-radius: 0 0 var(--r) 0;
+  font-weight: 500;
 }
 
 .atla:focus {

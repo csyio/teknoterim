@@ -12,7 +12,7 @@ const BAGLANTILAR = [
  * Ana gezinme.
  *
  * Bulunulan sayfa `aria-current="page"` ile işaretlenir: hem ekran okuyucu
- * hem de görünüm (alt çizgi + vurgu rengi) aynı öznitelikten okur, ikinci
+ * hem de görünüm (dolu zemin + parlak yazı) aynı öznitelikten okur, ikinci
  * bir "seçili" durumu tutulmaz.
  */
 export function Gezinme() {

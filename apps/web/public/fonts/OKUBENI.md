@@ -6,22 +6,24 @@ bağlanmaz.
 
 | Takma ad | Gerçek ad | İş | Lisans |
 |---|---|---|---|
-| `Gazete` | Newsreader (16pt) | Başlıklar | OFL 1.1 |
-| `Inter` | Inter | Gövde metni | OFL 1.1 |
-| `Mono` | JetBrains Mono | Etiket ve sayılar | OFL 1.1 |
+| `Geist` | Geist | Metin ve başlıklar | OFL 1.1 |
+| `Geist Mono` | Geist Mono | Etiket ve sayılar | OFL 1.1 |
+
+Kaynak: Fontsource `@fontsource-variable/geist` ve `@fontsource-variable/geist-mono`
+5.3.0 paketlerindeki `latin` ve `latin-ext` dosyaları (normal stil, değişken
+ağırlık).
 
 Lisans ve telif metni: [OFL.txt](OFL.txt).
 
 ## Dosya adları
 
-`<aile>-<altküme>[-<ağırlık>].woff2`
+`<aile>-<altküme>.woff2`
 
-- `latin` ve `latin-ext`, Google Fonts'un alt küme bölünmesidir. Türkçeye özel
-  harfler (ç, ğ, ı, İ, ö, ş, ü) `latin-ext` içindedir; ekranda Türkçe metin
+- `latin` ve `latin-ext`, Google Fonts'un alt küme bölünmesidir. ç, ö, ü ve ı
+  `latin` içinde; ğ, İ, ş `latin-ext` içindedir; ekranda Türkçe metin
   ikisini birlikte kullanır. Hangi harfin hangi dosyadan geldiğini `unicode-range`
   bildirimi belirler, bu yüzden iki dosya da gereklidir.
-- `Gazete` üç ağırlığın sabit kırpımlarıdır (400/600/700); `Inter` ve `Mono`
-  değişken (variable) fontlardır ve ağırlık ekseni dosyanın içindedir.
+- İki aile de değişken (variable) fonttur; ağırlık ekseni dosyanın içindedir.
 
 ## Kural
 

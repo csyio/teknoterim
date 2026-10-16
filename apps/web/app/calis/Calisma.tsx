@@ -20,6 +20,41 @@ const TUR_ETIKETI = {
 
 const OTURUM_UZUNLUGU = 10;
 
+const HARFLER = ["A", "B", "C", "D", "E", "F"];
+
+function DogruSimgesi() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="m8 12 3 3 5-6" />
+    </svg>
+  );
+}
+
+function YanlisSimgesi() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="m9 9 6 6M15 9l-6 6" />
+    </svg>
+  );
+}
+
 export function Calisma({ terimler }: { terimler: TerimOzeti[] }) {
   const ilerleme = useIlerleme();
   const bugunMetni = bugun();
@@ -55,6 +90,13 @@ export function Calisma({ terimler }: { terimler: TerimOzeti[] }) {
     const tekrar = bekleyenler.filter((t) => ilerleme[t.slug]);
     const secili = [...yeni, ...tekrar].slice(0, OTURUM_UZUNLUGU).map((t) => t.slug);
 
+    // Sırada terim yoksa boş oturum açılmaz; başlangıç ekranı "tekrar edilecek
+    // terim yok" der. Aksi hâlde 0/0'lık bir "oturum tamam" ekranına kilitlenir.
+    if (secili.length === 0) {
+      setKuyruk(null);
+      return;
+    }
+
     setKuyruk(secili);
     setSira(0);
     setSecilen(null);
@@ -67,10 +109,16 @@ export function Calisma({ terimler }: { terimler: TerimOzeti[] }) {
     const dogruMu = secenek === soru.dogru;
     if (dogruMu) setDogruSayisi((s) => s + 1);
     durumYaz(aktifTerim.slug, cevapla(durumGetir(ilerleme, aktifTerim.slug), dogruMu));
-    setDenemeler((d) => ({ ...d, [aktifTerim.slug]: (d[aktifTerim.slug] ?? 0) + 1 }));
   }
 
   function ilerle() {
+    // Deneme sayacı soru geçilirken artar, cevap anında değil: soru bu
+    // sayaçtan üretildiği için cevapta artarsa şıklar seçimin altında
+    // yeniden karışır ve seçilen yanlış şık işaretlenemez.
+    if (aktifTerim) {
+      const slug = aktifTerim.slug;
+      setDenemeler((d) => ({ ...d, [slug]: (d[slug] ?? 0) + 1 }));
+    }
     setSecilen(null);
     setSira((s) => s + 1);
   }
@@ -96,9 +144,11 @@ export function Calisma({ terimler }: { terimler: TerimOzeti[] }) {
           çıkar.
         </p>
         <div className="dugme-sirasi">
-          <button className="dugme" type="button" onClick={basla}>
-            Yeni oturum
-          </button>
+          {bekleyenler.length > 0 && (
+            <button className="dugme" type="button" onClick={basla}>
+              Yeni oturum
+            </button>
+          )}
           <Link className="baglanti-dugme" href="/sozluk">
             Sözlüğe dön
           </Link>
@@ -113,47 +163,67 @@ export function Calisma({ terimler }: { terimler: TerimOzeti[] }) {
     const durum = durumGetir(ilerleme, aktifTerim.slug);
     return (
       <div className="oturum">
+        {/* Ekran okuyucu bildirimi: canlı bölge baştan DOM'da durur, yalnızca
+            içeriği değişir. Sonradan eklenen bir canlı bölgeyi bazı ekran
+            okuyucular hiç okumaz. */}
+        <p className="gizli" aria-live="polite">
+          {secilen === null
+            ? ""
+            : secilen === soru.dogru
+              ? "Doğru."
+              : `Yanlış. Doğru cevap: ${soru.dogru}`}
+        </p>
+
         <div className="oturum-ust">
           <span className="mono">
             {sira + 1} / {kuyruk.length}
           </span>
           <span className="mono">
-            Kutu {Math.min(durum.kutu + 1, EN_BUYUK_KUTU + 1)}/{EN_BUYUK_KUTU + 1}
+            kutu {Math.min(durum.kutu + 1, EN_BUYUK_KUTU + 1)}/{EN_BUYUK_KUTU + 1}
           </span>
         </div>
+        <div className="ilerleme-cubuk" aria-hidden="true">
+          <span style={{ width: `${((sira + (secilen !== null ? 1 : 0)) / kuyruk.length) * 100}%` }} />
+        </div>
 
-        <p className="soru-tur">{TUR_ETIKETI[soru.tur]}</p>
-        <h2 className="soru-metni">{soru.soru}</h2>
-        <span className="kat">{aktifTerim.kategori}</span>
+        <div className="soru-kart panel">
+          <p className="soru-tur">{TUR_ETIKETI[soru.tur]}</p>
+          <h2 className="soru-metni">{soru.soru}</h2>
+          <span className="kat">{aktifTerim.kategori}</span>
 
-        <div className="secenekler">
-          {soru.secenekler.map((s) => {
-            const durumSinif =
-              secilen === null
-                ? ""
-                : s === soru.dogru
-                  ? " dogru"
-                  : s === secilen
-                    ? " yanlis"
-                    : " solgun";
-            return (
-              <button
-                key={s}
-                className={`secenek${durumSinif}`}
-                type="button"
-                disabled={secilen !== null}
-                onClick={() => sec(s)}
-              >
-                {s}
-              </button>
-            );
-          })}
+          <div className="secenekler">
+            {soru.secenekler.map((s, i) => {
+              const durumSinif =
+                secilen === null
+                  ? ""
+                  : s === soru.dogru
+                    ? " dogru"
+                    : s === secilen
+                      ? " yanlis"
+                      : " solgun";
+              return (
+                <button
+                  key={s}
+                  className={`secenek${durumSinif}`}
+                  type="button"
+                  disabled={secilen !== null}
+                  onClick={() => sec(s)}
+                >
+                  <span className="secenek-harf" aria-hidden="true">
+                    {HARFLER[i]}
+                  </span>
+                  <span>{s}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {secilen !== null && (
-          <div className="aciklama" aria-live="polite">
+          <div className="aciklama panel">
             <p className={secilen === soru.dogru ? "geri-bildirim dogru" : "geri-bildirim yanlis"}>
-              {secilen === soru.dogru ? "Doğru." : `Yanlış — doğru cevap: ${soru.dogru}`}
+              {secilen === soru.dogru ? <DogruSimgesi /> : <YanlisSimgesi />}
+              {secilen === soru.dogru ? "Doğru." : `Yanlış. Doğru cevap: ${soru.dogru}`}
             </p>
             <h3>
               <Link href={`/sozluk/${aktifTerim.slug}`}>{aktifTerim.baslik}</Link>
@@ -190,7 +260,7 @@ export function Calisma({ terimler }: { terimler: TerimOzeti[] }) {
 
   return (
     <div className="calisma-giris">
-      <div className="sayac-kutusu">
+      <div className="sayac-kutusu panel">
         <div className="sayac-oge">
           <span className="sayac-sayi">{ozet.yeni}</span>
           <span className="mono">yeni</span>

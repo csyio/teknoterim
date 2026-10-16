@@ -26,8 +26,9 @@ For someone working in this field, terminology, current news, and exchange-rate
 tracking are scattered across separate sources. Tekno Terim brings them together
 in one plain, fast, ad-free interface — no installation, no account, no clutter.
 
-> **Status:** under redevelopment. The glossary and the practice mode work; the
-> news feed, the currency converter, and a new visual package are next. The old
+> **Status:** under redevelopment. The glossary and the practice mode work and
+> the new visual package (Grafit) is in; the news feed and the currency
+> converter are next. The old
 > version is still served at `rootline.cansoykanyilmaz.com` and will redirect
 > here once the new one is ready.
 
