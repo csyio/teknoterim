@@ -1,0 +1,104 @@
+/* ==========================================================================
+   Tekno Terim — görünüm paketi / gündem akışı
+   --------------------------------------------------------------------------
+   /gundem: en yeni en üstte tek sütun. Her haber bir panel; künye (tarih ·
+   kaynak) mono ve soluk, başlık parlak, özet okunur ölçüde, altta kaynak
+   bağlantısı ve "yapay zekâ taslağı, editör onaylı" notu.
+
+   `.gundem-ozet` yönetim sayfasında da kullanılır (taslak önizlemesi).
+   ========================================================================== */
+
+.gundem-sayfa {
+  padding-bottom: var(--b-10);
+}
+
+.gundem-akis {
+  display: flex;
+  flex-direction: column;
+  gap: var(--b-4);
+  max-width: var(--genislik-icerik);
+  padding: 0;
+  list-style: none;
+}
+
+.gundem-oge {
+  padding: var(--b-5) var(--b-6);
+  border: 1px solid var(--cizgi);
+  border-radius: var(--r-lg);
+  background: var(--yuzey);
+  box-shadow: var(--golge);
+}
+
+.gundem-oge h2 {
+  margin-top: var(--b-2);
+  font-size: var(--yazi-xl);
+  letter-spacing: var(--harf-sik);
+  line-height: 1.3;
+}
+
+.gundem-kunye {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--b-2);
+  font-family: var(--mono);
+  font-size: var(--yazi-xs);
+  color: var(--soluk);
+}
+
+/* ------------------------------------------------------------------- özet */
+
+.gundem-ozet {
+  max-width: var(--olcu);
+  margin-top: var(--b-3);
+  color: var(--metin);
+  font-size: var(--yazi-md);
+  line-height: var(--satir-gevsek);
+}
+
+.gundem-ozet p + p {
+  margin-top: var(--b-3);
+}
+
+/* Sözlük bağlantısı: metnin içinde sakin dursun, mor alt çizgiyle belli olsun. */
+.gundem-ozet a {
+  color: var(--vurgu-yazi);
+  text-decoration: underline;
+  text-decoration-color: var(--vurgu-kenar);
+  text-underline-offset: 3px;
+}
+
+.gundem-ozet a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* --------------------------------------------------------------- alt satır */
+
+.gundem-alt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--b-2) var(--b-4);
+  margin-top: var(--b-4);
+  padding-top: var(--b-3);
+  border-top: 1px solid var(--cizgi);
+}
+
+.gundem-not {
+  font-size: var(--yazi-2xs);
+  color: var(--soluk);
+}
+
+/* ---------------------------------------------------------------- iskelet */
+
+.gundem-iskelet {
+  height: 180px;
+  background: var(--yuzey2);
+  box-shadow: none;
+}
+
+@media (max-width: 560px) {
+  .gundem-oge {
+    padding: var(--b-4);
+  }
+}

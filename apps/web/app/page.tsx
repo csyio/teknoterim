@@ -12,11 +12,11 @@ const SUTUNLAR = [
   },
   {
     ad: "Gündem",
-    durum: "hazırlanıyor",
+    durum: "hazır",
     aciklama:
-      "Yapay zekâ, güvenlik, hosting ve DNS dünyasından haberler; geçen terimler sözlüğe bağlanır.",
-    href: null,
-    baglanti: null,
+      "Yapay zekâ, güvenlik, hosting ve DNS dünyasından az ama güvenilir haberler; geçen terimler sözlüğe bağlanır.",
+    href: "/gundem",
+    baglanti: "Son haberler →",
   },
   {
     ad: "Araçlar",

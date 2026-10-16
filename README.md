@@ -7,8 +7,9 @@ Bu sektörde çalışan biri için terimler, haberler ve araçlar dağınık kay
 yayılmıştır. Tekno Terim bunları sade, hızlı ve reklamsız tek bir yerde toplar
 — kurulum yok, hesap yok.
 
-> **Durum:** yeniden geliştirme sürecinde. Sözlük ve alıştırma bölümü çalışıyor;
-> yeni görünüm paketi (Grafit) ve döviz çevirici hazır; gündem sırada. Eski sürüm
+> **Durum:** yeniden geliştirme sürecinde. Sözlük, alıştırma, döviz çevirici ve
+> gündem çalışıyor; görünüm paketi Grafit. Gündemin yapay zekâ adımı API anahtarı
+> gelene kadar sahte (stub) kipte. Eski sürüm
 > `rootline.cansoykanyilmaz.com` adresinde duruyor ve yeni sürüm hazır olunca
 > oraya yönlendirilecek.
 
@@ -33,11 +34,10 @@ eksikse ya da hatalıysa bu bir **hata**, tercih değil.
 | **`/sozluk`** | 153 terim. Aksan duyarsız arama ve kategori süzgeci. Her terim dört katmanda anlatılır. |
 | **`/calis`** | Öğrendiklerini sınayan alıştırma. Sorular içerikten otomatik üretilir; yanlış cevap terimi geri getirir (aralıklı tekrar). İlerleme yalnızca tarayıcıda tutulur. |
 | **`/doviz`** | Döviz çevirici. Kurlar TCMB'nin günlük bülteninden kendi sunucumuz (`/api/kur`) üzerinden alınır; tarayıcı üçüncü tarafa bağlanmaz. |
+| **`/gundem`** | Az ama güvenilir haber akışı: güvenlik, hosting/bulut, alan adı/DNS, yapay zekâ. Yalnızca seçilmiş RSS kaynakları okunur, Claude önem puanı verip özgün Türkçe özet taslağı yazar, editör `/yonetim` sayfasından onaylamadan hiçbir şey yayına çıkmaz. Haber metni kopyalanmaz; her haberde kaynak bağlantısı var. |
 
 Kategori dağılımı: Ağ/Güvenlik 42, Sunucu/Hosting 32, MSP/MSSP 29,
 Domain/DNS 29, Müşteri/İş 21.
-
-Planlanan: **gündem** (kaynaktan kopyalanmayan, özgün Türkçe özetli haber akışı).
 
 ## Depo yapısı
 
@@ -45,8 +45,8 @@ Planlanan: **gündem** (kaynaktan kopyalanmayan, özgün Türkçe özetli haber 
 apps/web/               Next.js uygulaması
   app/                  Sayfalar, API uçları, tasarım sistemi
   content/terimler/     Terim içeriği (kaynağı budur) — 153 .md dosyası
-  lib/                  İçerik yükleyici, alıştırma, ilerleme, ölçüm
-  araclar/              Sunucuda çalışan yardımcı betikler
+  lib/                  İçerik yükleyici, alıştırma, ilerleme, ölçüm, gündem
+  araclar/              Sunucuda çalışan yardımcı betikler (ölçüm raporu, gündem toplayıcısı)
 infra/                  Sunucu kurulumu, systemd, Caddy, dağıtım
 scripts/                İçerik göç araçları
 docs/                   İçerik planı ve marka çalışmaları

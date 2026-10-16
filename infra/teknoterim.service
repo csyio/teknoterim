@@ -26,6 +26,9 @@ Environment=NODE_ENV=production
 Environment=PORT=8767
 # Yalnızca yerel arayüzü dinle: trafik mutlaka Caddy üzerinden geçsin.
 Environment=HOSTNAME=127.0.0.1
+# Yönetim sayfasının şifre özeti (YONETIM_SIFRE_OZETI). Depoda değil, sunucuda
+# elle oluşturulur (bkz. infra/README.md → Gündem). Yoksa /yonetim kapalıdır.
+EnvironmentFile=-/etc/teknoterim/web.env
 
 Restart=on-failure
 RestartSec=5

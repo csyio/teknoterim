@@ -6,7 +6,8 @@
 #
 # Yaptıkları:
 #   1. "teknoterim" sistem kullanıcısı + /opt/teknoterim dizini
-#   2. systemd birimi (teknoterim.service)
+#   2. systemd birimleri (teknoterim.service, gündem toplayıcısı ve zamanlayıcısı)
+#      ve /etc/teknoterim altında boş sır dosyaları
 #   3. codex kullanıcısına sınırlı dağıtım yetkisi (rsync için grup, restart için sudo)
 #   4. Caddy'ye teknoterim.com.tr bloğu (doğrulayıp yeniden yükler)
 #
@@ -19,6 +20,9 @@ UYGULAMA_KULLANICI=teknoterim
 UYGULAMA_DIZIN=/opt/teknoterim
 DAGITIM_KULLANICI=codex
 BIRIM=teknoterim.service
+GUNDEM_BIRIM=teknoterim-gundem.service
+GUNDEM_ZAMANLAYICI=teknoterim-gundem.timer
+SIR_DIZIN=/etc/teknoterim
 CADDYFILE=/etc/caddy/Caddyfile
 BETIK_DIZINI="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -40,7 +44,7 @@ else
     --shell /usr/sbin/nologin "$UYGULAMA_KULLANICI"
   echo "  $UYGULAMA_KULLANICI oluşturuldu."
 fi
-mkdir -p "$UYGULAMA_DIZIN"
+mkdir -p "$UYGULAMA_DIZIN" "$UYGULAMA_DIZIN/data"
 
 # Dağıtım kullanıcısı bu dizine yazabilsin (setgid: yeni dosyalar da gruba ait olsun).
 if getent passwd "$DAGITIM_KULLANICI" >/dev/null; then
@@ -54,11 +58,30 @@ chmod 2775 "$UYGULAMA_DIZIN"
 echo "  $UYGULAMA_DIZIN hazır (2775)."
 
 # ----------------------------------------------------------------- 2. systemd
-adim "systemd birimi"
+adim "Sır dosyaları"
+# Dizin root'a ait, grup yalnızca okur: uygulama sırları okuyabilir ama
+# değiştiremez. Dosyalar boş şablon olarak oluşturulur; değerleri elle
+# yazılır (bkz. infra/README.md → Gündem). Var olan dosyaya dokunulmaz.
+install -d -m 0750 -o root -g "$UYGULAMA_KULLANICI" "$SIR_DIZIN"
+for dosya in web.env gundem.env; do
+  if [[ -f "$SIR_DIZIN/$dosya" ]]; then
+    echo "  $SIR_DIZIN/$dosya zaten var, dokunulmadı."
+  else
+    install -m 0640 -o root -g "$UYGULAMA_KULLANICI" /dev/null "$SIR_DIZIN/$dosya"
+    echo "  $SIR_DIZIN/$dosya oluşturuldu (boş)."
+  fi
+done
+
+adim "systemd birimleri"
 install -m 0644 "$BETIK_DIZINI/$BIRIM" "/etc/systemd/system/$BIRIM"
+install -m 0644 "$BETIK_DIZINI/$GUNDEM_BIRIM" "/etc/systemd/system/$GUNDEM_BIRIM"
+install -m 0644 "$BETIK_DIZINI/$GUNDEM_ZAMANLAYICI" "/etc/systemd/system/$GUNDEM_ZAMANLAYICI"
 systemctl daemon-reload
 systemctl enable "$BIRIM" >/dev/null
+# Toplayıcının kendisi etkinleştirilmez; onu zamanlayıcı çalıştırır.
+systemctl enable --now "$GUNDEM_ZAMANLAYICI" >/dev/null
 echo "  $BIRIM kuruldu ve etkinleştirildi."
+echo "  $GUNDEM_ZAMANLAYICI kuruldu ve başlatıldı (saatte bir)."
 
 # --------------------------------------------------- 3. dağıtım yetkisi (sudo)
 adim "Dağıtım için sınırlı sudo yetkisi"

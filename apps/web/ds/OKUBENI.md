@@ -42,6 +42,8 @@ ds/
     icerik.css              terim sayfası ve Markdown gövdesi
     oturum.css              çalışma oturumu
     doviz.css               döviz çevirici
+    gundem.css              gündem akışı ve haber özeti (/gundem)
+    yonetim.css             gündem onay sayfası (/yonetim), telefona öncelikli
     durum.css               boş durumlar ve 404
     alt-bar.css             alt bilgi
   yazdirma.css              kâğıt için son söz

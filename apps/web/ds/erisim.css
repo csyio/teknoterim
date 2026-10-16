@@ -43,8 +43,15 @@
   .kat,
   .etiket,
   .rozet,
-  .katman {
+  .katman,
+  .gundem-oge,
+  .yonetim-girdi,
+  .yonetim-uyari {
     border-color: CanvasText;
+  }
+
+  .yonetim-girdi:focus {
+    outline-color: Highlight;
   }
 
   /* Hap ve kutular kenarlıksız kalınca sistem renginde kaybolur. */

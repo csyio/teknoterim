@@ -47,6 +47,12 @@ jobs:
       - name: Derle
         run: npm run build
 
+      # Gündem toplayıcısı siteden ayrı bir süreçtir (systemd zamanlayıcısı);
+      # bağımlılıkları ve sözlük terimleriyle tek dosyaya paketlenir ve
+      # aşağıda araclar/ ile birlikte kopyalanır.
+      - name: Gündem toplayıcısını paketle
+        run: npm run gundem:paketle
+
       # standalone çıktısı public/ ve .next/static'i kendiliğinden içermez.
       # araclar/ da kopyalanır: sunucuda TypeScript kaynağı yok, ölçüm raporu
       # bu yüzden kendi kendine yeten bir dosya olarak taşınır.

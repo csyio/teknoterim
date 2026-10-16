@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# gündem toplayıcısının paketi (npm run gundem:paketle üretir)
+/araclar/gundem.mjs

@@ -8,22 +8,29 @@
     "start": "next start",
     "lint": "eslint",
     "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test \"lib/**/*.test.mjs\"",
-    "olcum": "node araclar/olcum-raporu.mjs"
+    "olcum": "node araclar/olcum-raporu.mjs",
+    "gundem:paketle": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON araclar/gundem-paketle.mjs",
+    "gundem": "npm run gundem:paketle && node araclar/gundem.mjs",
+    "sifre-ozeti": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON araclar/sifre-ozeti.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0",
     "better-sqlite3": "^13.0.3",
     "drizzle-orm": "^0.45.4",
+    "fast-xml-parser": "^5.11.2",
     "gray-matter": "^4.0.3",
     "marked": "^18.1.1",
     "next": "16.4.1",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "esbuild": "^0.28.2",
     "eslint": "^9",
     "eslint-config-next": "16.4.1",
     "typescript": "^5"

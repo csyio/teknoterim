@@ -30,6 +30,8 @@
 @import "./bilesenler/icerik.css";
 @import "./bilesenler/oturum.css";
 @import "./bilesenler/doviz.css";
+@import "./bilesenler/gundem.css";
+@import "./bilesenler/yonetim.css";
 @import "./bilesenler/durum.css";
 @import "./bilesenler/alt-bar.css";
 
